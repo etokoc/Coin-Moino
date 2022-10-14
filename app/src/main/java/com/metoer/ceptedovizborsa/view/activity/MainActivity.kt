@@ -1,15 +1,12 @@
 package com.metoer.ceptedovizborsa.view.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.ApiNetworkAdapter
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,12 +17,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        GlobalScope.launch(Dispatchers.IO) {
-            val data =
-                ApiNetworkAdapter.appApi().getData("1665690501196").body()!!.Currency?.get(0)
-            Log.i("MYCAT", "onCreate: " + data!!.Isim + " " + data.ForexBuying)
-        }
+        val data =
+            ApiNetworkAdapter.appApi().getData("1665690501196").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    Toast.makeText(applicationContext, "" + it.Tarih, Toast.LENGTH_SHORT).show()
+                }, {
 
+                }).let {
+
+                }
     }
 
     override fun onResume() {
