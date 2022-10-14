@@ -22,7 +22,7 @@ class CurrencyAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItems = items[position]
         holder.itemView.apply {
-            moneyNameTextView.text = currentItems.CurrencyName
+            moneyNameTextView.text = currentItems.Isim
             moneyCodeTextView.text = currentItems.CurrencyCode
             moneyValueTextView.text = currentItems.BanknoteBuying.toString()
         }
