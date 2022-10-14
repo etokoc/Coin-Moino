@@ -1,7 +1,5 @@
 package com.metoer.ceptedovizborsa.data
 
-import com.metoer.ceptedovizborsa.data.Response.ApiResponse
-import com.metoer.ceptedovizborsa.data.Response.Currency
 import com.metoer.ceptedovizborsa.data.Response.TarihDate
 import com.metoer.ceptedovizborsa.util.Constants
 import retrofit2.Response

@@ -6,14 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/clockMenuBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/my_navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/clockMenuBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        app:elevation="0dp"
+        app:itemRippleColor="@color/white"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:menu="@menu/currency_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

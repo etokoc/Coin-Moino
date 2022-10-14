@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/alarmFragment"
+        android:icon="@drawable/ic_money_off"
+        android:title="Kur" />
+    <item
+        android:id="@+id/counterFragment"
+        android:title="Zıkkım" />
+
+</menu>
