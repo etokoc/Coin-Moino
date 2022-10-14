@@ -23,18 +23,17 @@ class CurrencyAdapter(
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItems = items[position]
-        if (currentItems.CurrencyCode != "XDR") {
-            holder.itemView.apply {
-                moneyNameTextView.text = currentItems.Isim
-                moneyCodeTextView.text = currentItems.CurrencyCode
-                moneyValueTextView.text = currentItems.ForexBuying.toString()
-                Glide.with(this).load(Constants.IMAGE_URL + "${currentItems.CurrencyCode}.gif")
-                    .into(moneyImage)
-            }
+        holder.itemView.apply {
+            moneyNameTextView.text = currentItems.Isim
+            moneyCodeTextView.text = currentItems.CurrencyCode
+            moneyValueTextView.text = currentItems.ForexBuying.toString()
+            Glide.with(this).load(Constants.IMAGE_URL + "${currentItems.CurrencyCode}.gif")
+                .into(moneyImage)
         }
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        //XDR para birimini almamak için yaptık
+        return items.size-1
     }
 }
