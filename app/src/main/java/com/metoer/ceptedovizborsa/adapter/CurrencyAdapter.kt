@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.util.Constants
 import kotlinx.android.synthetic.main.currency_item_list.view.*
 
 class CurrencyAdapter(
@@ -21,10 +23,14 @@ class CurrencyAdapter(
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItems = items[position]
-        holder.itemView.apply {
-            moneyNameTextView.text = currentItems.Isim
-            moneyCodeTextView.text = currentItems.CurrencyCode
-            moneyValueTextView.text = currentItems.BanknoteBuying.toString()
+        if (currentItems.CurrencyCode != "XDR") {
+            holder.itemView.apply {
+                moneyNameTextView.text = currentItems.Isim
+                moneyCodeTextView.text = currentItems.CurrencyCode
+                moneyValueTextView.text = currentItems.ForexBuying.toString()
+                Glide.with(this).load(Constants.IMAGE_URL + "${currentItems.CurrencyCode}.gif")
+                    .into(moneyImage)
+            }
         }
     }
 
