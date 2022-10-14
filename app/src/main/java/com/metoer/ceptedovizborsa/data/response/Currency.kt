@@ -1,4 +1,4 @@
-package com.metoer.ceptedovizborsa.data.Response
+package com.metoer.ceptedovizborsa.data.response
 
 import org.simpleframework.xml.Attribute
 import org.simpleframework.xml.Element

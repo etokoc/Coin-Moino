@@ -1,10 +1,11 @@
-package com.metoer.ceptedovizborsa
+package com.metoer.ceptedovizborsa.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.metoer.ceptedovizborsa.data.Response.Currency
+import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.data.response.Currency
 import kotlinx.android.synthetic.main.currency_item_list.view.*
 
 class CurrencyAdapter(

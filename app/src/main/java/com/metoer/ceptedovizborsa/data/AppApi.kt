@@ -1,6 +1,6 @@
 package com.metoer.ceptedovizborsa.data
 
-import com.metoer.ceptedovizborsa.data.Response.TarihDate
+import com.metoer.ceptedovizborsa.data.response.TarihDate
 import com.metoer.ceptedovizborsa.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
