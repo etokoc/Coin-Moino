@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCurrencyBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
@@ -15,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CurrencyFragment : Fragment() {
 
-    private val viewModel: CurrencyViewModel by viewModels()
+    private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
     private val binding
         get() = _binding!!
