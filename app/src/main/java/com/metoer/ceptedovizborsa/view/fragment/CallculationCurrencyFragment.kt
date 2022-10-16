@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 
 
 @AndroidEntryPoint
@@ -35,7 +37,32 @@ class CallculationCurrencyFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         currencyList = CurrencyListSingleton.getList()
+        initListener()
         initSpinners(currencyList)
+    }
+
+
+    private fun initListener() {
+        var money = 0.0
+        binding.apply {
+            monayValueEditText1.addTextChangedListener {
+//                money = if (it!!.isEmpty()) 0.0 else
+//                    it.toString().toDouble()
+//                val result =
+//                    ((currencyList[moneyValueSpinner1.selectedItemPosition].ForexBuying!!) * money) / currencyList[moneyValueSpinner2.selectedItemPosition].ForexBuying!!
+//                monayValueEditText2.setText(result.toString())
+            }
+            monayValueEditText2.addTextChangedListener {
+                money = if (it!!.isEmpty()) 0.0 else
+                    it.toString().toDouble()
+                val money1position = moneyValueSpinner1.selectedItemPosition
+                val money2position = moneyValueSpinner2.selectedItemPosition
+                val result =
+                    ((currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!.toDouble()) * money) / currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!.toDouble()
+                monayValueEditText1.setText(DecimalFormat("##.####").format(result).toString())
+            }
+        }
+
     }
 
     private fun initSpinners(currencyList: ArrayList<Currency>) {
@@ -48,7 +75,6 @@ class CallculationCurrencyFragment : Fragment() {
         binding.moneyValueSpinner2.adapter = arrayAdapter
 
         binding.apply {
-
             moneyValueSpinner1.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -57,7 +83,6 @@ class CallculationCurrencyFragment : Fragment() {
                         i: Int,
                         l: Long
                     ) {
-                        binding.monayValueEditText1.setText(currencyList[i].ForexBuying.toString())
                     }
 
                     override fun onNothingSelected(adapterView: AdapterView<*>?) {
@@ -72,7 +97,6 @@ class CallculationCurrencyFragment : Fragment() {
                         i: Int,
                         l: Long
                     ) {
-                        binding.monayValueEditText2.setText(currencyList[i].ForexBuying.toString())
                     }
 
                     override fun onNothingSelected(adapterView: AdapterView<*>?) {
