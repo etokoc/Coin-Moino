@@ -14,6 +14,7 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/clockMenuBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/my_navigation" />
@@ -26,9 +27,11 @@
         android:paddingEnd="30dp"
         app:elevation="0dp"
         app:itemRippleColor="@color/white"
+        app:itemIconTint="@drawable/bottom_navigation_selector"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/currency_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

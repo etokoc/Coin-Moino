@@ -10,4 +10,9 @@
         android:name="com.metoer.ceptedovizborsa.view.fragment.CurrencyFragment"
         android:label="fragment_currency"
         tools:layout="@layout/fragment_currency" />
+    <fragment
+        android:id="@+id/callculationCurrencyFragment"
+        android:name="com.metoer.ceptedovizborsa.view.fragment.CallculationCurrencyFragment"
+        android:label="fragment_callculation_currency"
+        tools:layout="@layout/fragment_callculation_currency" />
 </navigation>
