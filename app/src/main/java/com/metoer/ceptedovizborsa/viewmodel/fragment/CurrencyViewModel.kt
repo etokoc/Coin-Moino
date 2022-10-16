@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.viewmodel.fragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 currencyMutableList.postValue(it.Currency)
+                it.Currency?.let { currencyList -> CurrencyListSingleton.setList(currencyList) }
             }, {
 
             }, {

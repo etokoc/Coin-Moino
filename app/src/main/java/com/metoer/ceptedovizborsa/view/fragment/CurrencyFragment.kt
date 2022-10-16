@@ -10,10 +10,12 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
+import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCurrencyBinding
 import com.metoer.ceptedovizborsa.util.hide
 import com.metoer.ceptedovizborsa.util.show
+import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
