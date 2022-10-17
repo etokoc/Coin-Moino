@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
@@ -116,7 +115,6 @@ class CallculationCurrencyFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        CurrencyListSingleton.clearMemory()
     }
 
 }

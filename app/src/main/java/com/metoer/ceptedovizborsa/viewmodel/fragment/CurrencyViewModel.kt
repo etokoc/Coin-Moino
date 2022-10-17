@@ -21,7 +21,7 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 currencyMutableList.postValue(it.Currency)
-                it.Currency?.let { currencyList -> CurrencyListSingleton.setList(currencyList) }
+                it.Currency?.let { currencyList -> CurrencyListSingleton.setList(currencyList as ArrayList<Currency>) }
             }, {
 
             }, {

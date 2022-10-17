@@ -5,13 +5,16 @@ import javax.inject.Singleton
 
 @Singleton
 object CurrencyListSingleton {
-    private  var currencyList =  ArrayList<Currency>()
-
-    fun setList(currencyList: List<Currency>) {
-        this.currencyList.addAll(currencyList)
+        private var currencyList: ArrayList<Currency>? = null
+    init {
+        currencyList = ArrayList()
     }
+        fun setList(currencyList: ArrayList<Currency>) {
+            this.currencyList!!.addAll(currencyList)
+        }
 
-    fun getList() = currencyList
+        fun getList() = currencyList
+        fun clearMemory() = currencyList!!.clear()
 
-    fun clearMemory() = currencyList.clear()
 }
+
