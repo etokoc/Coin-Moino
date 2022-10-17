@@ -23,7 +23,7 @@ import java.util.*
 @AndroidEntryPoint
 class CurrencyFragment : Fragment() {
 
-    private lateinit var adapter: CurrencyAdapter
+    private  var adapter = CurrencyAdapter(arrayListOf())
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
     private var currencyList = ArrayList<Currency>()
