@@ -5,7 +5,7 @@ import javax.inject.Singleton
 
 @Singleton
 object CurrencyListSingleton {
-    private var currencyList = ArrayList<Currency>()
+    private  var currencyList =  ArrayList<Currency>()
 
     fun setList(currencyList: List<Currency>) {
         this.currencyList.addAll(currencyList)

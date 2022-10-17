@@ -8,15 +8,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
 
 @AndroidEntryPoint
 class CallculationCurrencyFragment : Fragment() {
+    private val viewmodel: CallculationCurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private val binding
         get() = _binding!!
@@ -36,13 +39,17 @@ class CallculationCurrencyFragment : Fragment() {
     private var currencyList = ArrayList<Currency>()
     override fun onResume() {
         super.onResume()
-        currencyList = CurrencyListSingleton.getList()
+        viewmodel.getSpinnerList()
         initListener()
-        initSpinners(currencyList)
     }
 
 
     private fun initListener() {
+        viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
+            currencyList.addAll(it)
+            initSpinners(currencyList)
+        }
+
         var money = 0.0
         binding.apply {
             monayValueEditText1.addTextChangedListener {
