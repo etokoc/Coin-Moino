@@ -69,6 +69,7 @@ class CurrencyFragment : Fragment() {
 
     private fun initListeners() {
         viewModel.currencyMutableList.observe(viewLifecycleOwner) {
+            currencyList.clear()
             adapter = CurrencyAdapter(it)
             currencyList.addAll(it)
             binding.currencyRecyclerView.adapter = adapter
