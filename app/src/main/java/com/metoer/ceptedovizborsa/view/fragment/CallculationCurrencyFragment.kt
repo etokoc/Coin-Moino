@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -161,37 +160,6 @@ class CallculationCurrencyFragment : Fragment() {
                 currencyList.map { currency -> currency.Isim })
         binding.moneyValueSpinner1.adapter = arrayAdapter
         binding.moneyValueSpinner2.adapter = arrayAdapter
-
-        binding.apply {
-            moneyValueSpinner1.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        adapterView: AdapterView<*>?,
-                        view: View,
-                        i: Int,
-                        l: Long
-                    ) {
-                    }
-
-                    override fun onNothingSelected(adapterView: AdapterView<*>?) {
-                        return
-                    }
-                }
-            moneyValueSpinner2.onItemSelectedListener
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View,
-                    i: Int,
-                    l: Long
-                ) {
-                }
-
-                override fun onNothingSelected(adapterView: AdapterView<*>?) {
-                    return
-                }
-            }
-        }
     }
 
     override fun onDestroy() {
