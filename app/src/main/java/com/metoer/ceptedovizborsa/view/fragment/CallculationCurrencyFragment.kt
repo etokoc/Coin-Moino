@@ -122,10 +122,10 @@ class CallculationCurrencyFragment : Fragment() {
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
                                 currencyList,
                                 money,
-                                moneyValueSpinner1.selectedItemPosition,
-                                moneyValueSpinner2.selectedItemPosition
+                                moneyValueSpinner2.selectedItemPosition,
+                                moneyValueSpinner1.selectedItemPosition
                             )
-                            binding.monayValueEditText2.setText(moneyCalculate)
+                            binding.monayValueEditText1.setText(moneyCalculate)
                         }
                     } else {
                         monayValueEditText1.text.clear()
