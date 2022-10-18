@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
+import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.util.*
 
@@ -54,12 +56,15 @@ class CallculationCurrencyFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
+        val format = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+        val symbols: DecimalFormatSymbols = format.decimalFormatSymbols
+        val defaultSeperator = symbols.decimalSeparator.toString()
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
             currencyList.addAll(it)
             initSpinners(currencyList)
         }
 
-        var money = 0.0
+        var money: Double
         binding.apply {
             var editControl = false
             var editControl2 = false
@@ -75,7 +80,7 @@ class CallculationCurrencyFragment : Fragment() {
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
-                        if (editControl && editControl2 == false) {
+                        if (editControl && !editControl2) {
                             money = doubleConverter(p0)
                             moneyConverter(money, binding.monayValueEditText2, 1)
                         }
@@ -85,6 +90,11 @@ class CallculationCurrencyFragment : Fragment() {
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
+                    if (p0.toString().contains(defaultSeperator)) {
+                        monayValueEditText1.setDefaultKeyListener("0123456789")
+                    } else {
+                        monayValueEditText1.setDefaultKeyListener("0123456789" + defaultSeperator)
+                    }
                     editControl = false
                 }
 
@@ -102,7 +112,7 @@ class CallculationCurrencyFragment : Fragment() {
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
-                        if (editControl2 == true && editControl == false) {
+                        if (editControl2 && !editControl) {
                             money = doubleConverter(p0)
                             moneyConverter(money, binding.monayValueEditText1, 2)
                         }
@@ -112,8 +122,13 @@ class CallculationCurrencyFragment : Fragment() {
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    editControl2 = false
+                    if (p0.toString().contains(defaultSeperator)) {
+                        monayValueEditText2.setDefaultKeyListener("0123456789")
+                    } else {
+                        monayValueEditText2.setDefaultKeyListener("0123456789" + defaultSeperator)
+                    }
 
+                    editControl2 = false
                 }
 
             })
@@ -130,14 +145,14 @@ class CallculationCurrencyFragment : Fragment() {
         return arrayOf(inputFilter)
     }
 
-    fun doubleConverter(p0: CharSequence): Double {
+    private fun doubleConverter(p0: CharSequence): Double {
         val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
         val number: Number = format.parse(p0.toString()) as Number
         val d = number.toDouble()
         return d
     }
 
-    fun moneyConverter(money: Double, editText: EditText, firstVote: Int) {
+    private fun moneyConverter(money: Double, editText: EditText, firstVote: Int) {
         val money1position = moneyValueSpinner1.selectedItemPosition
         val money2position = moneyValueSpinner2.selectedItemPosition
         if (firstVote == 1) {
@@ -196,7 +211,6 @@ class CallculationCurrencyFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

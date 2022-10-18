@@ -1,7 +1,9 @@
 package com.metoer.ceptedovizborsa.util
 
 import android.content.Context
+import android.text.method.DigitsKeyListener
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -16,6 +18,10 @@ fun View.show() {
 
 fun View.invs() {
     this.visibility = View.INVISIBLE
+}
+
+fun EditText.setDefaultKeyListener(format: String) {
+    this.keyListener = DigitsKeyListener.getInstance(format)
 }
 
 fun TextView.textColors(colorId: Int) {
