@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.view.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.data.response.Currency
@@ -46,6 +46,8 @@ class CallculationCurrencyFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewmodel.getSpinnerList()
+        binding.monayValueEditText1.filters = editTextFilter()
+        binding.monayValueEditText2.filters = editTextFilter()
         initListener()
     }
 
@@ -118,6 +120,14 @@ class CallculationCurrencyFragment : Fragment() {
 
         }
 
+    }
+
+    private fun editTextFilter(): Array<out InputFilter> {
+        val inputFilter = InputFilter { source, start, end, dest, dstart, dend ->
+            source.toString().replace('.', ',')
+            return@InputFilter source
+        }
+        return arrayOf(inputFilter)
     }
 
     fun doubleConverter(p0: CharSequence): Double {
