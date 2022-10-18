@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.util
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.method.DigitsKeyListener
 import android.view.View
 import android.widget.EditText
@@ -35,3 +36,4 @@ fun Context.showToastLong(text: String) {
 fun Context.showToastShort(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
+

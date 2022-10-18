@@ -3,25 +3,24 @@ package com.metoer.ceptedovizborsa.view.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
+import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
+import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
 import java.util.*
 
 
@@ -81,8 +80,14 @@ class CallculationCurrencyFragment : Fragment() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
                         if (editControl && !editControl2) {
-                            money = doubleConverter(p0)
-                            moneyConverter(money, binding.monayValueEditText2, 1)
+                            money = MoneyCalculateUtil.doubleConverter(p0)
+                            val moneyCalculate = MoneyCalculateUtil.moneyConverter(
+                                currencyList,
+                                money,
+                                moneyValueSpinner1.selectedItemPosition,
+                                moneyValueSpinner2.selectedItemPosition
+                            )
+                            binding.monayValueEditText2.setText(moneyCalculate)
                         }
                     } else {
                         monayValueEditText2.text.clear()
@@ -113,8 +118,14 @@ class CallculationCurrencyFragment : Fragment() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
                         if (editControl2 && !editControl) {
-                            money = doubleConverter(p0)
-                            moneyConverter(money, binding.monayValueEditText1, 2)
+                            money = MoneyCalculateUtil.doubleConverter(p0)
+                            val moneyCalculate = MoneyCalculateUtil.moneyConverter(
+                                currencyList,
+                                money,
+                                moneyValueSpinner1.selectedItemPosition,
+                                moneyValueSpinner2.selectedItemPosition
+                            )
+                            binding.monayValueEditText2.setText(moneyCalculate)
                         }
                     } else {
                         monayValueEditText1.text.clear()
@@ -127,7 +138,6 @@ class CallculationCurrencyFragment : Fragment() {
                     } else {
                         monayValueEditText2.setDefaultKeyListener("0123456789" + defaultSeperator)
                     }
-
                     editControl2 = false
                 }
 
@@ -135,40 +145,6 @@ class CallculationCurrencyFragment : Fragment() {
 
         }
 
-    }
-
-    private fun editTextFilter(): Array<out InputFilter> {
-        val inputFilter = InputFilter { source, start, end, dest, dstart, dend ->
-            source.toString().replace('.', ',')
-            return@InputFilter source
-        }
-        return arrayOf(inputFilter)
-    }
-
-    private fun doubleConverter(p0: CharSequence): Double {
-        val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
-        val number: Number = format.parse(p0.toString()) as Number
-        val d = number.toDouble()
-        return d
-    }
-
-    private fun moneyConverter(money: Double, editText: EditText, firstVote: Int) {
-        val money1position = moneyValueSpinner1.selectedItemPosition
-        val money2position = moneyValueSpinner2.selectedItemPosition
-        if (firstVote == 1) {
-            val result =
-                ((currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!) * money) / (currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!)
-            editText.setText(
-                DecimalFormat("##.####").format(result).toString()
-            )
-        }
-        if (firstVote == 2) {
-            val result =
-                ((currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!) * money) / (currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!)
-            editText.setText(
-                DecimalFormat("##.####").format(result).toString()
-            )
-        }
     }
 
     private fun initSpinners(currencyList: ArrayList<Currency>) {
