@@ -78,7 +78,7 @@ class CallculationCurrencyFragment : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty() && !binding.monayValueEditText1.text.toString()
+                    if (p0 != null && p0.isNotEmpty() && !monayValueEditText1.text.toString()
                             .startsWith(',')
                     ) {
                         if (editControl && !editControl2) {
@@ -120,7 +120,7 @@ class CallculationCurrencyFragment : Fragment() {
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
-                        if (editControl2 && !editControl && !binding.monayValueEditText1.text.toString()
+                        if (editControl2 && !editControl && !monayValueEditText2.text.toString()
                                 .startsWith(',')
                         ) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
