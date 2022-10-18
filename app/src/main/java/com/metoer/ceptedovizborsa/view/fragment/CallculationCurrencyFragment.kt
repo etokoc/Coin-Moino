@@ -4,25 +4,23 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.data.response.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
-import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -79,8 +77,7 @@ class CallculationCurrencyFragment : Fragment() {
                             money = doubleConverter(p0)
                             moneyConverter(money, binding.monayValueEditText2, 1)
                         }
-                    }
-                    else{
+                    } else {
                         monayValueEditText2.text.clear()
                     }
                 }
@@ -107,8 +104,7 @@ class CallculationCurrencyFragment : Fragment() {
                             money = doubleConverter(p0)
                             moneyConverter(money, binding.monayValueEditText1, 2)
                         }
-                    }
-                    else {
+                    } else {
                         monayValueEditText1.text.clear()
                     }
                 }
@@ -136,13 +132,14 @@ class CallculationCurrencyFragment : Fragment() {
         val money2position = moneyValueSpinner2.selectedItemPosition
         if (firstVote == 1) {
             val result =
-                ((currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!.toDouble()) * money) / currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!.toDouble()
+                ((currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!) * money) / (currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!)
             editText.setText(
-                DecimalFormat("##.####").format(result).toString())
+                DecimalFormat("##.####").format(result).toString()
+            )
         }
         if (firstVote == 2) {
             val result =
-                ((currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!.toDouble()) * money) / currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!.toDouble()
+                ((currencyList[money2position].ForexBuying!! / currencyList[money2position].Unit!!) * money) / (currencyList[money1position].ForexBuying!! / currencyList[money1position].Unit!!)
             editText.setText(
                 DecimalFormat("##.####").format(result).toString()
             )
