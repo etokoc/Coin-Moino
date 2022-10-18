@@ -78,7 +78,9 @@ class CallculationCurrencyFragment : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty()) {
+                    if (p0 != null && p0.isNotEmpty() && !binding.monayValueEditText1.text.toString()
+                            .startsWith(',')
+                    ) {
                         if (editControl && !editControl2) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
@@ -90,6 +92,7 @@ class CallculationCurrencyFragment : Fragment() {
                             binding.monayValueEditText2.setText(moneyCalculate)
                         }
                     } else {
+                        monayValueEditText1.text.clear()
                         monayValueEditText2.text.clear()
                     }
                 }
@@ -117,7 +120,9 @@ class CallculationCurrencyFragment : Fragment() {
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (p0 != null && p0.isNotEmpty()) {
-                        if (editControl2 && !editControl) {
+                        if (editControl2 && !editControl && !binding.monayValueEditText1.text.toString()
+                                .startsWith(',')
+                        ) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
                                 currencyList,
@@ -128,6 +133,7 @@ class CallculationCurrencyFragment : Fragment() {
                             binding.monayValueEditText1.setText(moneyCalculate)
                         }
                     } else {
+                        monayValueEditText2.text.clear()
                         monayValueEditText1.text.clear()
                     }
                 }
