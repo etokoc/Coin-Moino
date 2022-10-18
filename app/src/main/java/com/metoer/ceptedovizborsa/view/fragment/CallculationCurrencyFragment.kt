@@ -119,10 +119,10 @@ class CallculationCurrencyFragment : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty()) {
-                        if (editControl2 && !editControl && !monayValueEditText2.text.toString()
-                                .startsWith(',')
-                        ) {
+                    if (p0 != null && p0.isNotEmpty() && !monayValueEditText2.text.toString()
+                            .startsWith(',')
+                    ) {
+                        if (editControl2 && !editControl) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
                                 currencyList,
