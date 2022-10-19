@@ -26,7 +26,7 @@
         app:startIconTint="@color/black">
 
         <EditText
-            android:id="@+id/monayValueEditText1"
+            android:id="@+id/money_value_edit_text_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -68,7 +68,7 @@
         app:startIconTint="@color/black">
 
         <EditText
-            android:id="@+id/monayValueEditText2"
+            android:id="@+id/money_value_edit_text_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
