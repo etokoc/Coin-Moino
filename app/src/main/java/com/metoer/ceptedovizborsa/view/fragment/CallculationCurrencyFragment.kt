@@ -63,10 +63,8 @@ class CallculationCurrencyFragment : Fragment() {
         val symbols: DecimalFormatSymbols = format.decimalFormatSymbols
         val defaultSeperator = symbols.decimalSeparator.toString()
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
-            if (currencyList.size < it.size) {
-                currencyList.addAll(it)
-                initSpinners(currencyList)
-            }
+            currencyList=it
+            initSpinners(currencyList)
         }
 
         var money: Double
