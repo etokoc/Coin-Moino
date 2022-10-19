@@ -15,6 +15,7 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBindin
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
+import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
@@ -36,7 +37,11 @@ class CallculationCurrencyFragment : Fragment() {
     ): View {
         _binding = FragmentCallculationCurrencyBinding.inflate(inflater, container, false)
         binding.apply {
-
+            if (savedInstanceState != null) {
+                context?.showToastShort("${savedInstanceState.getInt("mySpinner1", 0)}")
+                moneyValueSpinner1.setSelection(savedInstanceState.getInt("mySpinner1", 0))
+                moneyValueSpinner2.setSelection(savedInstanceState.getInt("mySpinner2", 0))
+            }
         }
 
         return binding.root
@@ -58,8 +63,10 @@ class CallculationCurrencyFragment : Fragment() {
         val symbols: DecimalFormatSymbols = format.decimalFormatSymbols
         val defaultSeperator = symbols.decimalSeparator.toString()
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
-            currencyList.addAll(it)
-            initSpinners(currencyList)
+            if (currencyList.size < it.size) {
+                currencyList.addAll(it)
+                initSpinners(currencyList)
+            }
         }
 
         var money: Double
@@ -164,6 +171,12 @@ class CallculationCurrencyFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("mySpinner1", binding.moneyValueSpinner1.selectedItemPosition)
+        outState.putInt("mySpinner2", binding.moneyValueSpinner2.selectedItemPosition)
     }
 
 }

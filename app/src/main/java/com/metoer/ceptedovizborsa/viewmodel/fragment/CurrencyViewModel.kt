@@ -17,11 +17,13 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
     var currencyMutableList = MutableLiveData<List<Currency>>()
 
     fun getAllCurrencyData(timeUnix: String) {
+        CurrencyListSingleton.clearMemory()
         currencyRepository.getDataFromApi(timeUnix)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 currencyMutableList.postValue(it.Currency)
-                it.Currency?.let { currencyList -> CurrencyListSingleton.setList(currencyList as ArrayList<Currency>) }
+                it.Currency?.let { currencyList ->
+                    CurrencyListSingleton.setList(currencyList as ArrayList<Currency>) }
             }, {
 
             }, {
