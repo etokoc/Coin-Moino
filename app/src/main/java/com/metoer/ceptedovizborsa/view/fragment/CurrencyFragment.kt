@@ -77,7 +77,7 @@ class CurrencyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val unixTime = System.nanoTime()
+        val unixTime = System.currentTimeMillis()
         viewModel.getAllCurrencyData(unixTime.toString())
     }
 

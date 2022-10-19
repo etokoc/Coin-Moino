@@ -26,6 +26,10 @@ import java.util.*
 
 @AndroidEntryPoint
 class CallculationCurrencyFragment : Fragment() {
+
+    private var spinner1Position = 0
+    private var spinner2Position = 0
+
     private val viewmodel: CallculationCurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private val binding
@@ -39,8 +43,8 @@ class CallculationCurrencyFragment : Fragment() {
         binding.apply {
             if (savedInstanceState != null) {
                 context?.showToastShort("${savedInstanceState.getInt("mySpinner1", 0)}")
-                moneyValueSpinner1.setSelection(savedInstanceState.getInt("mySpinner1", 0))
-                moneyValueSpinner2.setSelection(savedInstanceState.getInt("mySpinner2", 0))
+                spinner1Position = savedInstanceState.getInt("mySpinner1", 0)
+                spinner2Position = savedInstanceState.getInt("mySpinner2", 0)
             }
         }
 
@@ -63,7 +67,7 @@ class CallculationCurrencyFragment : Fragment() {
         val symbols: DecimalFormatSymbols = format.decimalFormatSymbols
         val defaultSeperator = symbols.decimalSeparator.toString()
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
-            currencyList=it
+            currencyList = it
             initSpinners(currencyList)
         }
 
@@ -165,6 +169,8 @@ class CallculationCurrencyFragment : Fragment() {
                 currencyList.map { currency -> currency.Isim })
         binding.moneyValueSpinner1.adapter = arrayAdapter
         binding.moneyValueSpinner2.adapter = arrayAdapter
+        binding.moneyValueSpinner1.setSelection(spinner1Position)
+        binding.moneyValueSpinner2.setSelection(spinner2Position)
     }
 
     override fun onDestroy() {
