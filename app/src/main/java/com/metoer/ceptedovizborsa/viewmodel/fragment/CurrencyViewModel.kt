@@ -21,9 +21,22 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
         currencyRepository.getDataFromApi(timeUnix)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                val currencyResponse = it.Currency
+                currencyResponse?.forEachIndexed { index, currency ->
+                    if (currency.CurrencyCode == "XDR")
+                        currencyResponse[index].apply {
+                            this.Isim = "TÜRK LİRASI"
+                            this.CurrencyName = "TÜRK LİRASI"
+                            this.ForexBuying = 1.0
+                            this.CurrencyCode = "TRY"
+                            this.Kod = "TRY"
+                            this.Kod = "TRY"
+                        }
+                }
                 currencyMutableList.postValue(it.Currency)
                 it.Currency?.let { currencyList ->
-                    CurrencyListSingleton.setList(currencyList as ArrayList<Currency>) }
+                    CurrencyListSingleton.setList(currencyList as ArrayList<Currency>)
+                }
             }, {
 
             }, {
