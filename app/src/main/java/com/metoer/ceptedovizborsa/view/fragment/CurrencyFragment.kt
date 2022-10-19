@@ -21,7 +21,7 @@ import java.util.*
 @AndroidEntryPoint
 class CurrencyFragment : Fragment() {
 
-    private  var adapter = CurrencyAdapter(arrayListOf())
+    private var adapter = CurrencyAdapter(arrayListOf())
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
     private var currencyList = ArrayList<Currency>()
@@ -51,7 +51,7 @@ class CurrencyFragment : Fragment() {
     private fun filter(text: String) {
         val filterlist = ArrayList<Currency>()
         for (item in currencyList) {
-            if (item.Isim?.toLowerCase()?.contains(text.lowercase(Locale.getDefault()))!!) {
+            if (item.Isim?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!) {
                 filterlist.add(item)
             }
         }
@@ -77,6 +77,8 @@ class CurrencyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllCurrencyData("1665773475685")
+        val unixTime = System.currentTimeMillis()
+        viewModel.getAllCurrencyData(unixTime.toString())
     }
+
 }

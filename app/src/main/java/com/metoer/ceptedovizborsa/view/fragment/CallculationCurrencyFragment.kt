@@ -15,6 +15,7 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBindin
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
+import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
@@ -25,6 +26,10 @@ import java.util.*
 
 @AndroidEntryPoint
 class CallculationCurrencyFragment : Fragment() {
+
+    private var spinner1Position = 0
+    private var spinner2Position = 0
+
     private val viewmodel: CallculationCurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private val binding
@@ -36,7 +41,11 @@ class CallculationCurrencyFragment : Fragment() {
     ): View {
         _binding = FragmentCallculationCurrencyBinding.inflate(inflater, container, false)
         binding.apply {
-
+            if (savedInstanceState != null) {
+                context?.showToastShort("${savedInstanceState.getInt("mySpinner1", 0)}")
+                spinner1Position = savedInstanceState.getInt("mySpinner1", 0)
+                spinner2Position = savedInstanceState.getInt("mySpinner2", 0)
+            }
         }
 
         return binding.root
@@ -58,7 +67,7 @@ class CallculationCurrencyFragment : Fragment() {
         val symbols: DecimalFormatSymbols = format.decimalFormatSymbols
         val defaultSeperator = symbols.decimalSeparator.toString()
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
-            currencyList.addAll(it)
+            currencyList = it
             initSpinners(currencyList)
         }
 
@@ -160,10 +169,18 @@ class CallculationCurrencyFragment : Fragment() {
                 currencyList.map { currency -> currency.Isim })
         binding.moneyValueSpinner1.adapter = arrayAdapter
         binding.moneyValueSpinner2.adapter = arrayAdapter
+        binding.moneyValueSpinner1.setSelection(spinner1Position)
+        binding.moneyValueSpinner2.setSelection(spinner2Position)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("mySpinner1", binding.moneyValueSpinner1.selectedItemPosition)
+        outState.putInt("mySpinner2", binding.moneyValueSpinner2.selectedItemPosition)
     }
 
 }
