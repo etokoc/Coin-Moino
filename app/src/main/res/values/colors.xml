@@ -10,4 +10,9 @@
     <color name="green">#1BB61B</color>
     <color name="currency_light_gray">#F8F7F7</color>
     <color name="appGray">#A8A8A8</color>
+    <color name="lightGray">#DAD6D6</color>
+    <color name="light_blue">#008EFA</color>
+    <color name="seceondPageColor">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="cardShapeColor">#BFB8B8</color>
 </resources>

@@ -28,9 +28,9 @@
         app:elevation="0dp"
         app:itemRippleColor="@color/white"
         app:itemIconTint="@drawable/bottom_navigation_selector"
-        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/currency_menu" />
 

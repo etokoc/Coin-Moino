@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.util.hide
 import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_callculation_currency.*
 import java.util.*
 
 @AndroidEntryPoint
@@ -34,6 +35,7 @@ class CurrencyFragment : Fragment() {
         _binding = FragmentCurrencyBinding.inflate(inflater, container, false)
         initListeners()
         binding.apply {
+
             currencySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return false
