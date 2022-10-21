@@ -9,7 +9,7 @@ import com.metoer.ceptedovizborsa.data.response.stock.detail.HisseYuzeysel
 import kotlinx.android.synthetic.main.stock_exchange_item.view.*
 
 class StockAdapter(
-    var items: List<HisseYuzeysel>
+    var items: ArrayList<HisseYuzeysel>
 ) : RecyclerView.Adapter<StockAdapter.ListViewHolder>() {
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

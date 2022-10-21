@@ -16,7 +16,7 @@ import javax.inject.Inject
 class StockViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
     var stockGeneralLiveData = MutableLiveData<List<Data>>()
-    var stockDetailLiveData = MutableLiveData<List<HisseYuzeysel>>()
+    var stockDetailLiveData = MutableLiveData<HisseYuzeysel>()
     fun getStockGeneralData() {
         Log.i("valueConst", "getStockGeneralData: " + Constants.STOCK_BASE_URL)
         currencyRepository.getStockGeneralDataFromApi(Constants.STOCK_BASE_URL + "hisse/list")
@@ -37,8 +37,7 @@ class StockViewModel @Inject constructor(private val currencyRepository: Currenc
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
                 { detailDataList ->
-                    stockDetailLiveData.value = detailDataList.hisseYuzeysel
-
+                    stockDetailLiveData.value = detailDataList.hisseYuzeysel[0]
                 }, {
 
                 }

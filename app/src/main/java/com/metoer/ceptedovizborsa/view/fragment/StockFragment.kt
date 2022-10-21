@@ -1,13 +1,14 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.metoer.ceptedovizborsa.adapter.StockAdapter
+import com.metoer.ceptedovizborsa.data.response.stock.detail.HisseYuzeysel
 import com.metoer.ceptedovizborsa.databinding.FragmentStockBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.StockViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,14 +29,34 @@ class StockFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+
+    private fun initListeners() {
+
+    }
+
+    var listSize = 0
+    val hisseList = ArrayList<HisseYuzeysel>()
     override fun onResume() {
         super.onResume()
         viewModel.getStockGeneralData()
         viewModel.stockGeneralLiveData.observe(viewLifecycleOwner) {
-            viewModel.getStockDetailData(it.get(0).kod)
+            it.forEach { data ->
+                viewModel.getStockDetailData(data.kod)
+            }
+            listSize = it.size
         }
         viewModel.stockDetailLiveData.observe(viewLifecycleOwner) {
-            Log.i("dataDetail", "" + it)
+            hisseList.add(it)
+            if (listSize == hisseList.size) {
+                binding.stockRecylerview.adapter = StockAdapter(hisseList)
+                binding.stockRecylerview.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }
         }
+
     }
 }
