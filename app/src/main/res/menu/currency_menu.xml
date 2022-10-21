@@ -8,6 +8,9 @@
     <item
         android:id="@+id/callculationCurrencyFragment"
         android:icon="@drawable/foreign_currency_exchange"
-        android:title="Zıkkım" />
-
+        android:title="Döviz Çeviri" />
+ <item
+        android:id="@+id/stockFragment"
+        android:icon="@drawable/foreign_currency_exchange"
+        android:title="Hisse Senedi" />
 </menu>

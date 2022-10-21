@@ -8,19 +8,20 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface AppApi {
     @GET("today.xml")
     @QualifiedTypeConverterFactory.Xml
     fun getCurrencyData(@Query(Constants.HEADER_DATA) timeUnix: String): Observable<TarihDate>
 
-    @GET("hisse/list")
+    @GET
     @QualifiedTypeConverterFactory.Json
-    fun getStockGeneralData(): Observable<StockGeneralResponse>
+    fun getStockGeneralData(@Url url: String): Observable<List<StockGeneralResponse>>
 
-    @GET("borsa/hisseyuzeysel/{stockName}")
+    @GET
     @QualifiedTypeConverterFactory.Json
-    fun getStockDetailData(@Path("stockName") stockName: String): Observable<StockDetailResponse>
+    fun getStockDetailData(@Url url: String): Observable<List<StockDetailResponse>>
 
 
 }
