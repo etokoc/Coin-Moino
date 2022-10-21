@@ -8,5 +8,6 @@ import retrofit2.http.Query
 
 interface AppApi {
     @GET("today.xml")
+    @QualifiedTypeConverterFactory.Xml
     fun getData(@Query(Constants.HEADER_DATA) timeUnix: String): Observable<TarihDate>
 }
