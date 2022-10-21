@@ -1,9 +1,11 @@
 package com.metoer.ceptedovizborsa.data.response.stock.detail
 
+
+import com.google.gson.annotations.SerializedName
+
 data class StockDetailResponse(
-    val ccI14: Any,
-    val hisseYuzeysel: HisseYuzeysel,
-    val mov10: Any,
-    val rsI14: Any,
-    val stc_5_3: Any
+    @SerializedName("code")
+    var code: String,
+    @SerializedName("data")
+    var data: DetailData
 )

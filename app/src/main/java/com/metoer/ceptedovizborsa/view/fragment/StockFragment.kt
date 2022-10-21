@@ -33,7 +33,6 @@ class StockFragment : Fragment() {
         viewModel.getStockGeneralData()
         viewModel.stockGeneralLiveData.observe(viewLifecycleOwner) {
             Log.i("EXCHANGE", "onResume: $it")
-            Toast.makeText(requireContext(), ""+it[0].ad, Toast.LENGTH_SHORT).show()
         }
     }
 }
