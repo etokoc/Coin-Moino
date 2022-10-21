@@ -23,7 +23,7 @@ class StockFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStockBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -32,7 +32,10 @@ class StockFragment : Fragment() {
         super.onResume()
         viewModel.getStockGeneralData()
         viewModel.stockGeneralLiveData.observe(viewLifecycleOwner) {
-            Log.i("EXCHANGE", "onResume: $it")
+            viewModel.getStockDetailData(it.get(0).kod)
+        }
+        viewModel.stockDetailLiveData.observe(viewLifecycleOwner) {
+            Log.i("dataDetail", "" + it)
         }
     }
 }

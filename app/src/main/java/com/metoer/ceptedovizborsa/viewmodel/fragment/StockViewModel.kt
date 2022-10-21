@@ -32,7 +32,7 @@ class StockViewModel @Inject constructor(private val currencyRepository: Currenc
             }
     }
 
-    /*fun getStockDetailData(stockName: String) {
+    fun getStockDetailData(stockName: String) {
         currencyRepository.getStockDetailDataFromApi(Constants.STOCK_BASE_URL + "borsa/hisseyuzeysel/$stockName")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
@@ -45,5 +45,5 @@ class StockViewModel @Inject constructor(private val currencyRepository: Currenc
             ).let {
 
             }
-    }*/
+    }
 }
