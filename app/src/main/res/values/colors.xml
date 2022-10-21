@@ -14,5 +14,8 @@
     <color name="light_blue">#008EFA</color>
     <color name="seceondPageColor">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="cardShapeColor">#BFB8B8</color>
+    <color name="cardShapeUnderColor">#F2AA4C</color> <!--#E94B3C--> <!--#F2AA4C-->
+    <color name="cardShapeUpperColor">#101820</color> <!--#2D2926--> <!--#101820-->
+    <color name="cardShapeColor2">#B9CC8B</color>
+
 </resources>
