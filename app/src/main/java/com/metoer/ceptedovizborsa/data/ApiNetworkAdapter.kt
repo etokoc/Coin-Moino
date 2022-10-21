@@ -32,7 +32,7 @@ object ApiNetworkAdapter {
                     SimpleXmlConverterFactory.create()
                 )
             )
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.CURRENCY_BASE_URL)
             .client(builder.build())
             .build()
 

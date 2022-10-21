@@ -1,4 +1,4 @@
-package com.metoer.ceptedovizborsa.data.response
+package com.metoer.ceptedovizborsa.data.response.currency
 
 import org.simpleframework.xml.Attribute
 import org.simpleframework.xml.Element

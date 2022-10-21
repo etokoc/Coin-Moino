@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.util.Constants
 import kotlinx.android.synthetic.main.currency_item_list.view.*
 import java.text.DecimalFormat

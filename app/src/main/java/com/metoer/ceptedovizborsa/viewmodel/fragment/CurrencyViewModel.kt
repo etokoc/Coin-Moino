@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,7 +18,7 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
 
     fun getAllCurrencyData(timeUnix: String) {
         CurrencyListSingleton.clearMemory()
-        currencyRepository.getDataFromApi(timeUnix)
+        currencyRepository.getCurrencyDataFromApi(timeUnix)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 val currencyResponse = it.Currency

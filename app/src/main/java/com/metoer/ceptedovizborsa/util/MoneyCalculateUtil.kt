@@ -1,6 +1,6 @@
 package com.metoer.ceptedovizborsa.util
 
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*

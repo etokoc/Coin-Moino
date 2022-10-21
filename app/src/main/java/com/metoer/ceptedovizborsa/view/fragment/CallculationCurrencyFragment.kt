@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.EditTextUtil

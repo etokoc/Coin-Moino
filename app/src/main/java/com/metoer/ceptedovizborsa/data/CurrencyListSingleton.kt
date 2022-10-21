@@ -1,6 +1,6 @@
 package com.metoer.ceptedovizborsa.data
 
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import javax.inject.Singleton
 
 @Singleton

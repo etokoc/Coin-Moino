@@ -3,7 +3,7 @@ package com.metoer.ceptedovizborsa.viewmodel.fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
-import com.metoer.ceptedovizborsa.data.response.Currency
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
