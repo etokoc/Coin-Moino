@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.stock.detail.HisseYuzeysel
+import kotlinx.android.synthetic.main.stock_exchange_item.view.*
 
 class StockAdapter(
     var items: List<HisseYuzeysel>
@@ -21,7 +22,10 @@ class StockAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItems = items[position]
         holder.itemView.apply {
-
+            stockExchangeSembolText.text = currentItems.sembol
+            stockExchangeNameText.text = currentItems.aciklama
+            stockExchangeValueText.text = currentItems.satis.toString()
+            stockExchangeParcentText.text = currentItems.yuzdedegisim.toString()
         }
     }
 
