@@ -28,24 +28,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/nameTextView"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:drawableEnd="@drawable/keyboard_shift"
                 android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
                 android:text="İsim"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:paddingEnd="15dp"
-                android:rotation="180"
-                android:src="@drawable/keyboard_shift"
-                app:tint="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,22 +48,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/valueTextView"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:drawableEnd="@drawable/minus"
+                android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
                 android:text="Değer"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:paddingStart="15dp"
-                android:src="@drawable/minus"
-                app:tint="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,22 +68,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/incraseTextView"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter_amount_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:drawableEnd="@drawable/minus"
+                android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
                 android:text="Artış Miktarı"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:paddingStart="15dp"
-                android:src="@drawable/minus"
-                app:tint="@color/white" />
         </LinearLayout>
 
     </LinearLayout>
@@ -106,8 +92,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/search_view_background"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

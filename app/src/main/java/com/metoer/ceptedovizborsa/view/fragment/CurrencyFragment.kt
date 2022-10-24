@@ -3,8 +3,10 @@ package com.metoer.ceptedovizborsa.view.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class CurrencyFragment : Fragment() {
+class CurrencyFragment : Fragment(), OnClickListener {
 
     private var adapter = CurrencyAdapter(arrayListOf())
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
@@ -52,7 +54,9 @@ class CurrencyFragment : Fragment() {
     private fun filter(text: String) {
         val filterlist = ArrayList<Currency>()
         for (item in currencyList) {
-            if (item.Isim?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!) {
+            if (item.Isim?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault()))!!
+            ) {
                 filterlist.add(item)
             }
         }
@@ -71,8 +75,13 @@ class CurrencyFragment : Fragment() {
             currencyList.clear()
             adapter = CurrencyAdapter(it)
             currencyList.addAll(it)
-            binding.currencyRecyclerView.adapter = adapter
-            binding.currencyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.apply {
+                currencyRecyclerView.adapter = adapter
+                currencyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                btnFilterName.setOnClickListener(this@CurrencyFragment)
+                btnFilterValue.setOnClickListener(this@CurrencyFragment)
+                btnFilterAmountIncrease.setOnClickListener(this@CurrencyFragment)
+            }
         }
     }
 
@@ -82,4 +91,18 @@ class CurrencyFragment : Fragment() {
         viewModel.getAllCurrencyData(unixTime.toString())
     }
 
+    //OnclickListener for all views in layout
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_filter_name -> {
+            }
+            R.id.btn_filter_value -> {
+
+            }
+            R.id.btn_filter_amount_increase -> {
+            }
+        }
+    }
+
 }
+
