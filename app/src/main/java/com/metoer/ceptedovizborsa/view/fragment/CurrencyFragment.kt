@@ -102,18 +102,23 @@ class CurrencyFragment : Fragment(), OnClickListener {
         super.onResume()
         val unixTime = System.currentTimeMillis()
         viewModel.getAllCurrencyData(unixTime.toString())
+        binding.apply {
+            iconName.tag = true
+            iconValue.tag = true
+            iconIncrase.tag = true
+        }
     }
 
-    private var clicked = false
     private fun onAddButtonClicked(view: View) {
         setAnimation(view.tag.toString().toBoolean(), view)
     }
 
     private fun setAnimation(clicked: Boolean, view: View) {
         if (clicked) {
-            view.tag = !clicked
+            view.tag = false
             view.startAnimation(rotateDesc)
         } else {
+            view.tag = true
             view.startAnimation(rotateAsc)
         }
     }
@@ -123,15 +128,12 @@ class CurrencyFragment : Fragment(), OnClickListener {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
-                binding.iconName.tag = !clicked
                 icon = binding.iconName
             }
             R.id.btn_filter_value -> {
-                binding.iconValue.tag = !clicked
                 icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
-                binding.iconIncrase.tag = !clicked
                 icon = binding.iconIncrase
             }
         }
