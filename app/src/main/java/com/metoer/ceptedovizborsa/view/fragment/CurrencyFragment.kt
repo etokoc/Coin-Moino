@@ -20,11 +20,12 @@ import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CurrencyFragment : Fragment(), OnClickListener {
 
-    private var adapter = CurrencyAdapter(arrayListOf())
+    private var adapter = CurrencyAdapter()
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
     val rotateDesc: Animation by lazy {
@@ -86,8 +87,8 @@ class CurrencyFragment : Fragment(), OnClickListener {
     private fun initListeners() {
         viewModel.currencyMutableList.observe(viewLifecycleOwner) {
             currencyList.clear()
-            adapter = CurrencyAdapter(it)
             currencyList.addAll(it)
+            adapter.setData(currencyList)
             binding.apply {
                 currencyRecyclerView.adapter = adapter
                 currencyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -148,6 +149,5 @@ class CurrencyFragment : Fragment(), OnClickListener {
         }
         onAddButtonClicked(icon!!)
     }
-
 }
 
