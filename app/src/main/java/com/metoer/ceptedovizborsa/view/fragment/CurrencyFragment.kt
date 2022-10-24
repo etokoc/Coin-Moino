@@ -115,9 +115,10 @@ class CurrencyFragment : Fragment(), OnClickListener {
 
     private fun setAnimation(clicked: Boolean, view: View) {
         if (!clicked) {
+            this.clicked = true
             view.startAnimation(rotateAsc)
-
         } else {
+            this.clicked = false
             view.startAnimation(rotateDesc)
         }
     }
