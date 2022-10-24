@@ -1,6 +1,5 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.SearchView
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,16 +106,15 @@ class CurrencyFragment : Fragment(), OnClickListener {
 
     private var clicked = false
     private fun onAddButtonClicked(view: View) {
-        setAnimation(clicked, view)
-        clicked = !clicked
+        setAnimation(view.tag.toString().toBoolean(), view)
     }
 
     private fun setAnimation(clicked: Boolean, view: View) {
-        if (!clicked) {
-            this.clicked = true
+        if (clicked) {
+            view.tag = false
             view.startAnimation(rotateAsc)
         } else {
-            this.clicked = false
+            view.tag = true
             view.startAnimation(rotateDesc)
         }
     }
@@ -128,12 +124,15 @@ class CurrencyFragment : Fragment(), OnClickListener {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
+                binding.iconName.tag = true
                 icon = binding.iconName
             }
             R.id.btn_filter_value -> {
+                binding.iconValue.tag = true
                 icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
+                binding.iconIncrase.tag = true
                 icon = binding.iconIncrase
             }
         }
