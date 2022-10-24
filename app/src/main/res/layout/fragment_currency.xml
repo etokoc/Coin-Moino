@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/sort_menu_design"
         android:gravity="center"
@@ -23,63 +23,83 @@
         app:layout_constraintTop_toBottomOf="@+id/currencySearchView">
 
         <LinearLayout
+            android:id="@+id/btn_filter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_filter_name"
+            <TextView
+                android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableEnd="@drawable/keyboard_shift"
                 android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
                 android:text="İsim"
-                android:textAllCaps="false"
+                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iconName"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:rotation="180"
+                android:src="@drawable/keyboard_shift"
+                app:tint="@color/white" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_filter_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_filter_value"
+            <TextView
+                android:id="@+id/valueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableEnd="@drawable/minus"
-                android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
                 android:text="Değer"
-                android:textAllCaps="false"
+                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iconValue"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/minus"
+                app:tint="@color/white" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_filter_amount_increase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_filter_amount_increase"
+            <TextView
+                android:id="@+id/incraseTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableEnd="@drawable/minus"
-                android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
                 android:text="Artış Miktarı"
-                android:textAllCaps="false"
+                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iconIncrase"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/minus"
+                app:tint="@color/white" />
         </LinearLayout>
 
     </LinearLayout>
@@ -92,8 +112,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/search_view_background"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/search_view_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,12 +1,16 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.SearchView
-import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +30,18 @@ class CurrencyFragment : Fragment(), OnClickListener {
     private var adapter = CurrencyAdapter(arrayListOf())
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
+    val rotateDesc: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.rotate_descending
+        )
+    }
+    val rotateAsc: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.rotate_ascending
+        )
+    }
     private var currencyList = ArrayList<Currency>()
     private val binding
         get() = _binding!!
@@ -91,17 +107,36 @@ class CurrencyFragment : Fragment(), OnClickListener {
         viewModel.getAllCurrencyData(unixTime.toString())
     }
 
+    private var clicked = false
+    private fun onAddButtonClicked(view: View) {
+        setAnimation(clicked, view)
+        clicked = !clicked
+    }
+
+    private fun setAnimation(clicked: Boolean, view: View) {
+        if (!clicked) {
+            view.startAnimation(rotateAsc)
+
+        } else {
+            view.startAnimation(rotateDesc)
+        }
+    }
+
     //OnclickListener for all views in layout
     override fun onClick(v: View?) {
+        var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
+                icon = binding.iconName
             }
             R.id.btn_filter_value -> {
-
+                icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
+                icon = binding.iconIncrase
             }
         }
+        onAddButtonClicked(icon!!)
     }
 
 }
