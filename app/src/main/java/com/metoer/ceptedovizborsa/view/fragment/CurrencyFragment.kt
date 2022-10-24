@@ -111,11 +111,10 @@ class CurrencyFragment : Fragment(), OnClickListener {
 
     private fun setAnimation(clicked: Boolean, view: View) {
         if (clicked) {
-            view.tag = false
-            view.startAnimation(rotateAsc)
-        } else {
-            view.tag = true
+            view.tag = !clicked
             view.startAnimation(rotateDesc)
+        } else {
+            view.startAnimation(rotateAsc)
         }
     }
 
@@ -124,15 +123,15 @@ class CurrencyFragment : Fragment(), OnClickListener {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
-                binding.iconName.tag = true
+                binding.iconName.tag = !clicked
                 icon = binding.iconName
             }
             R.id.btn_filter_value -> {
-                binding.iconValue.tag = true
+                binding.iconValue.tag = !clicked
                 icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
-                binding.iconIncrase.tag = true
+                binding.iconIncrase.tag = !clicked
                 icon = binding.iconIncrase
             }
         }
