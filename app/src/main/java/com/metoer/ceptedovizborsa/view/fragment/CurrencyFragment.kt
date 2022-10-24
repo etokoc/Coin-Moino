@@ -128,12 +128,21 @@ class CurrencyFragment : Fragment(), OnClickListener {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
+                binding.iconIncrase.setImageResource(R.drawable.minus)
+                binding.iconValue.setImageResource(R.drawable.minus)
+                binding.iconName.setImageResource(R.drawable.keyboard_shift)
                 icon = binding.iconName
             }
             R.id.btn_filter_value -> {
+                binding.iconIncrase.setImageResource(R.drawable.minus)
+                binding.iconName.setImageResource(R.drawable.minus)
+                binding.iconValue.setImageResource(R.drawable.keyboard_shift)
                 icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
+                binding.iconValue.setImageResource(R.drawable.minus)
+                binding.iconName.setImageResource(R.drawable.minus)
+                binding.iconIncrase.setImageResource(R.drawable.keyboard_shift)
                 icon = binding.iconIncrase
             }
         }
