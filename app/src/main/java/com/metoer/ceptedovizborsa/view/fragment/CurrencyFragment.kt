@@ -114,15 +114,18 @@ class CurrencyFragment : Fragment(), OnClickListener {
         setAnimation(view.tag.toString().toBoolean(), view)
     }
 
+    //when button click false, and sort process for list.
     private fun setAnimation(clicked: Boolean, view: View) {
         if (clicked) {
             view.tag = false
             view.startAnimation(rotateDesc)
             adapter.sortList(ListSortEnum.DESC,sortListItem!!)
+            binding.currencyRecyclerView.scrollToPosition(0)
         } else {
             view.tag = true
             view.startAnimation(rotateAsc)
             adapter.sortList(ListSortEnum.ASC,sortListItem!!)
+            binding.currencyRecyclerView.scrollToPosition(0)
         }
     }
     var sortListItem: ListSortEnum? = null
