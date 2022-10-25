@@ -21,7 +21,6 @@ import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CurrencyFragment : Fragment(), OnClickListener {
@@ -119,30 +118,35 @@ class CurrencyFragment : Fragment(), OnClickListener {
         if (clicked) {
             view.tag = false
             view.startAnimation(rotateDesc)
+            adapter.sortList(ListSortEnum.DESC,sortListItem!!)
         } else {
             view.tag = true
             view.startAnimation(rotateAsc)
+            adapter.sortList(ListSortEnum.ASC,sortListItem!!)
         }
     }
-
+    var sortListItem: ListSortEnum? = null
     //OnclickListener for all views in layout
     override fun onClick(v: View?) {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
-                adapter.sortList(ListSortEnum.DESC)
+                sortListItem = ListSortEnum.NAME
                 binding.iconIncrase.setImageResource(R.drawable.minus)
                 binding.iconValue.setImageResource(R.drawable.minus)
                 binding.iconName.setImageResource(R.drawable.keyboard_shift)
                 icon = binding.iconName
             }
             R.id.btn_filter_value -> {
+                sortListItem = ListSortEnum.VALUE
                 binding.iconIncrase.setImageResource(R.drawable.minus)
                 binding.iconName.setImageResource(R.drawable.minus)
                 binding.iconValue.setImageResource(R.drawable.keyboard_shift)
                 icon = binding.iconValue
             }
             R.id.btn_filter_amount_increase -> {
+                sortListItem = ListSortEnum.NAME
+                adapter.sortList(ListSortEnum.DESC, ListSortEnum.NAME)
                 binding.iconValue.setImageResource(R.drawable.minus)
                 binding.iconName.setImageResource(R.drawable.minus)
                 binding.iconIncrase.setImageResource(R.drawable.keyboard_shift)

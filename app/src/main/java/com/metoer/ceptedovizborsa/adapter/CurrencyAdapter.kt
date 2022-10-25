@@ -13,8 +13,7 @@ import com.metoer.ceptedovizborsa.util.SortListUtil
 import java.text.DecimalFormat
 import java.util.*
 
-class CurrencyAdapter :
-    RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
+class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
 
     class ListViewHolder(val binding: CurrencyItemListBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -43,8 +42,7 @@ class CurrencyAdapter :
                         Locale.ENGLISH
                     )
                 }.png"
-            )
-                .into(moneyImage)
+            ).into(moneyImage)
         }
     }
 
@@ -56,22 +54,11 @@ class CurrencyAdapter :
         notifyItemRangeChanged(0, itemList.size)
     }
 
-    fun sortList(listSortEnum: ListSortEnum) {
-        when (listSortEnum) {
-            ListSortEnum.ASC -> {
-            }
-            ListSortEnum.DESC -> {
-
-            }
-        }
-//       val sortedList = itemList.sortedBy { it.Isim }
-        val list = SortListUtil(
-            itemList,
-            ListSortEnum.ASC,
-            ListSortEnum.NAME)
-        setData(
-            list.sortedList()
+    fun sortList(listSortType: ListSortEnum, listSortItem: ListSortEnum) {
+        val newList = SortListUtil(
+            itemList, listSortType, listSortItem
         )
+        setData(newList.sortedList())
     }
 
     override fun getItemCount(): Int {
