@@ -15,6 +15,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCurrencyBinding
+import com.metoer.ceptedovizborsa.util.ListSortEnum
 import com.metoer.ceptedovizborsa.util.hide
 import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
@@ -129,6 +130,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
         var icon: View? = null
         when (v?.id) {
             R.id.btn_filter_name -> {
+                adapter.sortList(ListSortEnum.DESC)
                 binding.iconIncrase.setImageResource(R.drawable.minus)
                 binding.iconValue.setImageResource(R.drawable.minus)
                 binding.iconName.setImageResource(R.drawable.keyboard_shift)

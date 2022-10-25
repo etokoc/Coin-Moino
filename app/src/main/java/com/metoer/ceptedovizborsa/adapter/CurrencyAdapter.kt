@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
 import com.metoer.ceptedovizborsa.util.Constants
-import kotlinx.android.synthetic.main.currency_item_list.view.*
+import com.metoer.ceptedovizborsa.util.ListSortEnum
+import com.metoer.ceptedovizborsa.util.SortListUtil
 import java.text.DecimalFormat
 import java.util.*
 
@@ -23,14 +23,15 @@ class CurrencyAdapter :
         setData(filterList)
     }
 
-    private var oldItemList = emptyList<Currency>()
+    private var itemList = emptyList<Currency>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view = CurrencyItemListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val view =
+            CurrencyItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val currentItems = oldItemList[position]
+        val currentItems = itemList[position]
         holder.binding.apply {
             moneyNameTextView.text = currentItems.Isim
             moneyCodeTextView.text = currentItems.CurrencyCode
@@ -48,15 +49,33 @@ class CurrencyAdapter :
     }
 
     fun setData(newItemList: List<Currency>) {
-        val diffUtil = com.metoer.ceptedovizborsa.util.DiffUtil(oldItemList, newItemList)
+        val diffUtil = com.metoer.ceptedovizborsa.util.DiffUtil(itemList, newItemList)
         val diffResult = calculateDiff(diffUtil)
-        oldItemList = newItemList
+        itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(oldItemList.size, oldItemList.size)
+        notifyItemRangeChanged(0, itemList.size)
+    }
+
+    fun sortList(listSortEnum: ListSortEnum) {
+        when (listSortEnum) {
+            ListSortEnum.ASC -> {
+            }
+            ListSortEnum.DESC -> {
+
+            }
+        }
+//       val sortedList = itemList.sortedBy { it.Isim }
+        val list = SortListUtil(
+            itemList,
+            ListSortEnum.ASC,
+            ListSortEnum.NAME)
+        setData(
+            list.sortedList()
+        )
     }
 
     override fun getItemCount(): Int {
         //XDR para birimini almamak için yaptık
-        return oldItemList.size
+        return itemList.size
     }
 }
