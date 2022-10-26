@@ -14,7 +14,7 @@ interface AppApi {
     @QualifiedTypeConverterFactory.Xml
     fun getCurrencyData(@Query(Constants.HEADER_DATA) timeUnix: String): Observable<TarihDate>
 
-    @GET("https://api.coincap.io/v2/assets")
+    @GET("https://api.coincap.io/v2/assets?limit=2000")
     @QualifiedTypeConverterFactory.Json
     @Headers("Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6")
     fun getAllCoinData(): Observable<CoinResponse>

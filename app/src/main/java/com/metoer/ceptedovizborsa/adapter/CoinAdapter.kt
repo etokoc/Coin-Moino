@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.data.response.coin.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
+import java.text.DecimalFormat
 
 class CoinAdapter(
     val items: List<CoinData>
@@ -21,10 +22,12 @@ class CoinAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = items[position]
         holder.binding.apply {
-            coinExchangeNameText.text =currentItem.name
-            coinExchangeSembolText.text =currentItem.symbol
-            coinExchangeValueText.text =currentItem.priceUsd
-            coinExchangeParcentText.text =currentItem.changePercent24Hr
+            coinExchangeNameText.text = currentItem.name
+            coinExchangeSembolText.text = currentItem.symbol
+            val value = currentItem.priceUsd?.toDouble()
+            coinExchangeValueText.text = "$"+DecimalFormat("##.######").format(value)
+            val parcent = currentItem.changePercent24Hr?.toDouble()
+            coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
         }
     }
 
