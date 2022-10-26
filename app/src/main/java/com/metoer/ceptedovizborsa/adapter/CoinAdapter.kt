@@ -1,8 +1,11 @@
 package com.metoer.ceptedovizborsa.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
 import java.text.DecimalFormat
@@ -24,10 +27,32 @@ class CoinAdapter(
         holder.binding.apply {
             coinExchangeNameText.text = currentItem.name
             coinExchangeSembolText.text = currentItem.symbol
+            if (currentItem.volumeUsd24Hr!!.toDouble() > 1000000000) {
+                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 1000000000)+" milyar"
+            }
+            else {
+                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 10000000)+" milyon"
+            }
             val value = currentItem.priceUsd?.toDouble()
-            coinExchangeValueText.text = "$"+DecimalFormat("##.######").format(value)
+            coinExchangeValueText.text = "$" + DecimalFormat("##.######").format(value)
             val parcent = currentItem.changePercent24Hr?.toDouble()
+            if (parcent!! > 0) {
+                coinExchangeParcentText.setBackground(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.coin_value_rise_background
+                    )
+                );
+            } else {
+                coinExchangeParcentText.setBackground(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.coin_value_drop_background
+                    )
+                );
+            }
             coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
+            //coinVolumeExchangeText.text = currentItem.volumeUsd24Hr
         }
     }
 

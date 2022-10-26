@@ -17,5 +17,7 @@
     <color name="cardShapeUnderColor">#F2AA4C</color> <!--#E94B3C--> <!--#F2AA4C-->
     <color name="cardShapeUpperColor">#101820</color> <!--#2D2926--> <!--#101820-->
     <color name="cardShapeColor2">#B9CC8B</color>
+    <color name="coinValueRise">#019875</color>
+    <color name="coinValueDrop">#B8293D</color>
 
 </resources>

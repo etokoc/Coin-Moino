@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
-        android:padding="5dp"
+        android:padding="1dp"
         android:text="Apple, Inc."
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -33,23 +33,40 @@
         android:id="@+id/coinExchangeValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_medium"
         android:text="₺ 1684.91"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeParcentText" />
 
     <TextView
         android:id="@+id/coinExchangeParcentText"
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/coin_value_rise_background"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="12.33 %"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/coinExchangeNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeSembolText" />
+
+    <TextView
+        android:id="@+id/coinVolumeExchangeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:text="12.33 %"
+        android:layout_marginEnd="16dp"
+        android:text=""
         android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/coinExchangeValueText" />
+        app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
+        app:layout_constraintTop_toBottomOf="@+id/coinExchangeValueText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
