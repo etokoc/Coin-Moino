@@ -3,7 +3,7 @@ package com.metoer.ceptedovizborsa.data.response.coin
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class CoinData(
     @SerializedName("changePercent24Hr")
     var changePercent24Hr: String,
     @SerializedName("explorer")

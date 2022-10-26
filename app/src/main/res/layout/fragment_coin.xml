@@ -7,7 +7,7 @@
     tools:context=".view.fragment.CoinFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stock_recylerview"
+        android:id="@+id/coin_recylerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"

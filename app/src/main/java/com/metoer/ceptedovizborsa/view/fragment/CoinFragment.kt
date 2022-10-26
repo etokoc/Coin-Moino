@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,12 @@ class CoinFragment : Fragment() {
     }
 
     private fun initListeners() {
-
+        viewModel.getAllCoinData().observe(viewLifecycleOwner) {
+            binding.apply {
+                coinRecylerview.adapter = CoinAdapter(it)
+                coinRecylerview.layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
     }
 
     override fun onResume() {

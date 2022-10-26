@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/stockExchangeSembolText"
+        android:id="@+id/coinExchangeSembolText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -15,11 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/white"
         android:padding="5dp"
-        android:background="@drawable/stock_exchange_sembol_text"
+        android:background="@drawable/coin_exchange_sembol_text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/stockExchangeNameText"
+        android:id="@+id/coinExchangeNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,10 +29,10 @@
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stockExchangeSembolText" />
+        app:layout_constraintTop_toBottomOf="@id/coinExchangeSembolText" />
 
     <TextView
-        android:id="@+id/stockExchangeValueText"
+        android:id="@+id/coinExchangeValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/stockExchangeParcentText"
+        android:id="@+id/coinExchangeParcentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -55,5 +55,5 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stockExchangeValueText"/>
+        app:layout_constraintTop_toBottomOf="@id/coinExchangeValueText"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
