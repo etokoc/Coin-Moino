@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_callculation_currency" />
     <fragment
         android:id="@+id/stockFragment"
-        android:name="com.metoer.ceptedovizborsa.view.fragment.StockFragment"
+        android:name="com.metoer.ceptedovizborsa.view.fragment.CoinFragment"
         android:label="fragment_stock"
-        tools:layout="@layout/fragment_stock" />
+        tools:layout="@layout/fragment_coin" />
 </navigation>
