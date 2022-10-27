@@ -13,6 +13,8 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
+        style="@style/CoinTabLayout"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="@color/black"
         android:layout_height="wrap_content" />
