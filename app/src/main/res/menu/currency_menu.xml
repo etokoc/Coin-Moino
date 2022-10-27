@@ -6,11 +6,11 @@
         android:icon="@drawable/money_list"
         android:title="Kur" />
     <item
-        android:id="@+id/callculationCurrencyFragment"
-        android:icon="@drawable/foreign_currency_exchange"
-        android:title="Döviz Çeviri" />
- <item
         android:id="@+id/stockFragment"
         android:icon="@drawable/foreign_currency_exchange"
         android:title="Hisse Senedi" />
+    <item
+        android:id="@+id/callculationCurrencyFragment"
+        android:icon="@drawable/foreign_currency_exchange"
+        android:title="Döviz Çeviri" />
 </menu>

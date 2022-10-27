@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/clockMenuBar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_menu_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         app:navGraph="@navigation/my_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/clockMenuBar"
+        android:id="@+id/bottom_menu_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
