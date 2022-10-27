@@ -16,7 +16,6 @@
         style="@style/CoinTabLayout"
         app:tabTextAppearance="@style/AppTabTextAppearance"
         app:tabTextColor="@color/black"
-        app:tabIndicatorColor="@color/black"
         android:layout_height="wrap_content" />
 
     <FrameLayout
