@@ -19,8 +19,8 @@
         app:tabIndicatorColor="@color/black"
         android:layout_height="wrap_content" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/coin_recylerview"
+    <FrameLayout
+        android:id="@+id/coin_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"
