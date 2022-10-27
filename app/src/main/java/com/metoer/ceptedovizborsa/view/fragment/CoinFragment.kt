@@ -12,6 +12,7 @@ import com.metoer.ceptedovizborsa.adapter.CoinAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log
 
 @AndroidEntryPoint
 class CoinFragment : Fragment() {
@@ -40,6 +41,9 @@ class CoinFragment : Fragment() {
                 coinRecylerview.adapter = CoinAdapter(it)
                 coinRecylerview.layoutManager = LinearLayoutManager(requireContext())
             }
+        }
+        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner){
+            Log.i("COINCOIN", ""+it)
         }
     }
 

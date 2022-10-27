@@ -6,6 +6,7 @@ import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.util.Constants
+import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,8 +33,8 @@ class CoinViewModel @Inject constructor(private val currencyRepository: Currency
 
     fun getAllMarketsCoinData(
         quoteSymbol: String
-    ): MutableLiveData<List<CoinData>> {
-        currencyRepository.getAllMarketsCoinDataFromApi(Constants.API_KEY2, quoteSymbol)
+    ): MutableLiveData<List<MarketData>> {
+        currencyRepository.getAllMarketsCoinDataFromApi(CreateApiKeyUtil.getKey(), quoteSymbol)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -43,6 +44,8 @@ class CoinViewModel @Inject constructor(private val currencyRepository: Currency
             }).let {
 
             }
-        return coinLiveCoinData
+        return coinLiveMarketCoinData
     }
+
+
 }
