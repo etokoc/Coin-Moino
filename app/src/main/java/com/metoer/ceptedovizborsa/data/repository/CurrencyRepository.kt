@@ -6,4 +6,6 @@ import javax.inject.Inject
 class CurrencyRepository @Inject constructor(private val appApi: AppApi) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
     fun getAllCoinDataFromApi() = appApi.getAllCoinData()
+    fun getAllMarketsCoinDataFromApi(apiKey: String, quoteSymbol: String) =
+        appApi.getAllMarketsCoinData(apiKey, quoteSymbol)
 }

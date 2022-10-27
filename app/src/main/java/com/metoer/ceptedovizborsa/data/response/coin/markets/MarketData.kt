@@ -3,7 +3,7 @@ package com.metoer.ceptedovizborsa.data.response.coin.markets
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class MarketData(
     @SerializedName("baseId")
     var baseId: String,
     @SerializedName("baseSymbol")
