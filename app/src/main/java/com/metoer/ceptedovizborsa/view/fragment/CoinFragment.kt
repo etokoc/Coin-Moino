@@ -38,30 +38,23 @@ class CoinFragment : Fragment() {
     }
 
     private fun initListeners() {
-        viewModel.getAllCoinData().observe(viewLifecycleOwner) {
-            binding.apply {
-//                coinRecylerview.adapter = CoinAdapter(it)
-//                coinRecylerview.layoutManager = LinearLayoutManager(requireContext())
-            }
-        }
-//        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner) {
-//            Log.i("COINCOIN", "" + it)
-//        }
     }
 
     private fun initTabLayout() {
         binding.tabLayout.apply {
-            addTab(binding.tabLayout.newTab().setText("TRY"))
+            addTab(binding.tabLayout.newTab().setText("USD"))
             addTab(binding.tabLayout.newTab().setText("USDT"))
             addTab(binding.tabLayout.newTab().setText("BNB"))
             addTab(binding.tabLayout.newTab().setText("BTC"))
             addTab(binding.tabLayout.newTab().setText("ETH"))
-            binding.tabLayout.getTabAt(0)?.select()
+            //first fragment start in try
+            val firstPage = CoinTryFragment()
+            changeFragment(firstPage)
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: Tab?) {
                     when (tab?.position) {
                         0 -> {
-                            changeFragment(CoinTryFragment())
+                            changeFragment(firstPage)
                         }
                         1 -> {
                             changeFragment(CoinUSDTFragment())
@@ -81,14 +74,6 @@ class CoinFragment : Fragment() {
                     }
                 }
 
-                //Change Page Fragments (TRY,USDT,ETH, etc.)
-                fun changeFragment (fragment: Fragment){
-                    val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.coin_container,fragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
-
                 override fun onTabUnselected(tab: Tab?) {
                 }
 
@@ -97,6 +82,14 @@ class CoinFragment : Fragment() {
 
             })
         }
+    }
+
+    //Change Page Fragments (TRY,USDT,ETH, etc.)
+    private fun changeFragment(fragment: Fragment) {
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.coin_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onResume() {
