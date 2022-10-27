@@ -1,12 +1,11 @@
 package com.metoer.ceptedovizborsa.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.data.response.coin.CoinData
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
 import java.text.DecimalFormat
 

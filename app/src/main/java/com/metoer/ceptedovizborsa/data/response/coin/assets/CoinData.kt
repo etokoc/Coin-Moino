@@ -1,4 +1,4 @@
-package com.metoer.ceptedovizborsa.data.response.coin
+package com.metoer.ceptedovizborsa.data.response.coin.assets
 
 
 import com.google.gson.annotations.SerializedName

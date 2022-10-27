@@ -7,4 +7,9 @@ object Constants {
     const val IMAGE_URL = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val SPINNER1_STATE_KEY = "mySpinner1"
     const val SPINNER2_STATE_KEY = "mySpinner2"
+
+    const val API_KEY1 = "9be33ccd-1b0b-4009-ac01-0aed7af968f6"
+    const val API_KEY2 = "822c604b-436a-40d7-920b-9274a4bb8040"
+    const val API_KEY3 = "cff18fc1-8a6e-4c99-906e-7eb3138cf36c"
+    const val API_KEY4 = "ad334be6-0d70-4df5-90b8-75f6b5f9290a "
 }

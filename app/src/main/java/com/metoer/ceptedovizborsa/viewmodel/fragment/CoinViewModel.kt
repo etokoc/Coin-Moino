@@ -3,7 +3,7 @@ package com.metoer.ceptedovizborsa.viewmodel.fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
-import com.metoer.ceptedovizborsa.data.response.coin.CoinData
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
