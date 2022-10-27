@@ -51,7 +51,6 @@ class CoinAdapter(
                 );
             }
             coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
-            //coinVolumeExchangeText.text = currentItem.volumeUsd24Hr
         }
     }
 

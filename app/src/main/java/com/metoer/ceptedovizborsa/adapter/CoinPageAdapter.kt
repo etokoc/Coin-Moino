@@ -5,20 +5,23 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
-import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
+import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import java.text.DecimalFormat
 
 class CoinPageAdapter(
     val items: List<MarketData>
 ) : RecyclerView.Adapter<CoinPageAdapter.ListViewHolder>() {
-    class ListViewHolder(val binding: CoinBlockchainItemBinding) :
+    class ListViewHolder(val binding: CoinMarketsblockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
-            CoinBlockchainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            CoinMarketsblockchainItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ListViewHolder(view)
     }
 
@@ -27,14 +30,16 @@ class CoinPageAdapter(
         holder.binding.apply {
             coinExchangeNameText.text = currentItem.baseId.uppercase()
             coinExchangeSembolText.text = currentItem.baseSymbol
+            coinQuoteSembolText.text = "/${currentItem.quoteSymbol}"
             if (currentItem.volumeUsd24Hr!!.toDouble() > 1000000000) {
-                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 1000000000)+" milyar"
+                coinVolumeExchangeText.text =
+                    "Hacim " + DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 1000000000) + " milyar"
+            } else {
+                coinVolumeExchangeText.text =
+                    "Hacim " + DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 10000000) + " milyon"
             }
-            else {
-                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 10000000)+" milyon"
-            }
-            val value = currentItem.priceUsd?.toDouble()
-            coinExchangeValueText.text = "$" + DecimalFormat("##.######").format(value)
+            val value = currentItem.priceQuote?.toDouble()
+            coinExchangeValueText.text = DecimalFormat("##.######").format(value)
             val parcent = currentItem.percentExchangeVolume.toDouble()
             if (parcent > 0) {
                 coinExchangeParcentText.setBackground(

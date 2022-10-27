@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/coinExchangeSembolText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/coin_exchange_sembol_text"
+        android:padding="5dp"
+        android:text="AAPL"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/coinQuoteSembolText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="/USD"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/coinExchangeSembolText"
+        app:layout_constraintStart_toEndOf="@+id/coinExchangeSembolText" />
+
+    <TextView
+        android:id="@+id/coinExchangeNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:padding="1dp"
+        android:text="Apple, Inc."
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coinExchangeSembolText" />
+
+    <TextView
+        android:id="@+id/coinExchangeValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="1684.91"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeParcentText" />
+
+    <TextView
+        android:id="@+id/coinExchangeParcentText"
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/coin_value_rise_background"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="12.33 %"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/coinExchangeNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeSembolText" />
+
+    <TextView
+        android:id="@+id/coinVolumeExchangeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text=""
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
+        app:layout_constraintTop_toBottomOf="@+id/coinExchangeValueText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
