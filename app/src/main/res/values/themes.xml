@@ -19,9 +19,9 @@
     </style>
 
     <style name="CoinTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
-        <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicator">@drawable/custom_divider</item>
+        <item name="tabIndicatorColor">@color/black</item>
         <item name="tabIndicatorGravity">top</item>
         <item name="tabIndicatorAnimationMode">elastic</item>
         <item name="tabIndicatorAnimationDuration">300</item>
