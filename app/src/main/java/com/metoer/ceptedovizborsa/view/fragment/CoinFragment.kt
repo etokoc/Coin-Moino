@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.Tab
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
+import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.log
 
 @AndroidEntryPoint
 class CoinFragment : Fragment() {
@@ -33,6 +35,7 @@ class CoinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        initTabLayout()
     }
 
     private fun initListeners() {
@@ -42,8 +45,29 @@ class CoinFragment : Fragment() {
                 coinRecylerview.layoutManager = LinearLayoutManager(requireContext())
             }
         }
-        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner){
-            Log.i("COINCOIN", ""+it)
+        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner) {
+            Log.i("COINCOIN", "" + it)
+        }
+    }
+
+    private fun initTabLayout() {
+        binding.tabLayout.apply {
+            addTab(binding.tabLayout.newTab().setText("TRY"))
+            addTab(binding.tabLayout.newTab().setText("USDT"))
+            addTab(binding.tabLayout.newTab().setText("BNB"))
+            addTab(binding.tabLayout.newTab().setText("BTC"))
+            addTab(binding.tabLayout.newTab().setText("ETH"))
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: Tab?) {
+                }
+
+                override fun onTabUnselected(tab: Tab?) {
+                }
+
+                override fun onTabReselected(tab: Tab?) {
+                }
+
+            })
         }
     }
 
