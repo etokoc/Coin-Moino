@@ -1,14 +1,17 @@
 package com.metoer.ceptedovizborsa.adapter
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
+import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
+import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 import java.text.DecimalFormat
 
 
@@ -65,6 +68,11 @@ class CoinPageAdapter(
                 coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
             }
             itemRow.setOnClickListener {
+//                val bundle = Bundle()
+//                bundle.putSerializable(Constants.COIN_BUNDLE_KEY_STRING, items[position])
+                it.apply {
+                    it.context.startActivity(Intent(it.context, ChartActivity::class.java))
+                }
             }
         }
     }
