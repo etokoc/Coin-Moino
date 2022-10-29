@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
+import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import java.text.DecimalFormat
+
 
 class CoinPageAdapter(
     val items: List<MarketData>
@@ -28,36 +30,39 @@ class CoinPageAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = items[position]
         holder.binding.apply {
-            coinExchangeNameText.text = currentItem.baseId.uppercase()
-            coinExchangeSembolText.text = currentItem.baseSymbol
-            coinQuoteSembolText.text = "/${currentItem.quoteSymbol}"
-            if (currentItem.volumeUsd24Hr!!.toDouble() > 1000000000) {
+            if (currentItem.priceQuote.toDouble() != 0.0) {
+                coinExchangeNameText.text = currentItem.baseId.uppercase()
+                coinExchangeSembolText.text = currentItem.baseSymbol
+                coinQuoteSembolText.text = "/${currentItem.quoteSymbol}"
                 coinVolumeExchangeText.text =
-                    "Hacim " + DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 1000000000) + " milyar"
-            } else {
-                coinVolumeExchangeText.text =
-                    "Hacim " + DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 10000000) + " milyon"
-            }
-            val value = currentItem.priceQuote?.toDouble()
-            coinExchangeValueText.text = DecimalFormat("##.######").format(value)
-            val parcent = currentItem.percentExchangeVolume.toDouble()
-            if (parcent > 0) {
-                coinExchangeParcentText.setBackground(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.coin_value_rise_background
+                    MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
+                val value = currentItem.priceQuote.toDouble()
+                coinExchangeValueText.text = DecimalFormat("##.######").format(value)
+                val parcent = currentItem.percentExchangeVolume.toDouble()
+                if (parcent > 0) {
+                    coinExchangeParcentText.background.setTint(
+                        ContextCompat.getColor(
+                            holder.itemView.context,
+                            R.color.coinValueRise
+                        )
                     )
-                );
-            } else {
-                coinExchangeParcentText.setBackground(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.coin_value_drop_background
+                } else if (parcent < 0) {
+                    coinExchangeParcentText.background.setTint(
+                        ContextCompat.getColor(
+                            holder.itemView.context,
+                            R.color.coinValueDrop
+                        )
                     )
-                );
+                }else {
+                    coinExchangeParcentText.background.setTint(
+                        ContextCompat.getColor(
+                            holder.itemView.context,
+                            R.color.appGray
+                        )
+                    )
+                }
+                coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
             }
-            coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
-            //coinVolumeExchangeText.text = currentItem.volumeUsd24Hr
         }
     }
 

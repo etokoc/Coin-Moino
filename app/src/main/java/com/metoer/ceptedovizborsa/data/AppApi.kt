@@ -21,7 +21,7 @@ interface AppApi {
     @Headers("Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6")
     fun getAllCoinData(): Observable<CoinResponse>
 
-    @GET("https://api.coincap.io/v2/markets?&limit=2000&exchangeId=binance")
+    @GET("https://api.coincap.io/v2/markets?&limit=200&exchangeId=binance")
     @QualifiedTypeConverterFactory.Json
     fun getAllMarketsCoinData(
         @Header("Authorization") apiKey: String,

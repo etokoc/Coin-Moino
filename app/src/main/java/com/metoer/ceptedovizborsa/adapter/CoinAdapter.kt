@@ -1,12 +1,16 @@
 package com.metoer.ceptedovizborsa.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
+import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import java.text.DecimalFormat
 
 class CoinAdapter(
@@ -26,31 +30,37 @@ class CoinAdapter(
         holder.binding.apply {
             coinExchangeNameText.text = currentItem.name
             coinExchangeSembolText.text = currentItem.symbol
-            if (currentItem.volumeUsd24Hr!!.toDouble() > 1000000000) {
-                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 1000000000)+" milyar"
-            }
-            else {
-                coinVolumeExchangeText.text="Hacim "+DecimalFormat("##.##").format(currentItem.volumeUsd24Hr!!.toDouble() / 10000000)+" milyon"
-            }
+            coinVolumeExchangeText.text =
+                MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble())
             val value = currentItem.priceUsd?.toDouble()
             coinExchangeValueText.text = "$" + DecimalFormat("##.######").format(value)
             val parcent = currentItem.changePercent24Hr?.toDouble()
-            if (parcent!! > 0) {
-                coinExchangeParcentText.setBackground(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.coin_value_rise_background
-                    )
-                );
-            } else {
-                coinExchangeParcentText.setBackground(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.coin_value_drop_background
-                    )
-                );
-            }
+            parcentBacgroundTint(parcent!!,coinExchangeParcentText,holder.itemView.context)
             coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
+        }
+    }
+    private fun parcentBacgroundTint(parcent:Double,textView: TextView,context: Context){
+        if (parcent > 0) {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    R.color.coinValueRise
+                )
+            )
+        } else if (parcent < 0) {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    R.color.coinValueDrop
+                )
+            )
+        } else {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    R.color.appGray
+                )
+            )
         }
     }
 
