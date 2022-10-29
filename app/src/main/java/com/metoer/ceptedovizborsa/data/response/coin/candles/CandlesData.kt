@@ -11,7 +11,7 @@ data class CandlesData(
     @SerializedName("low")
     var low: String,
     @SerializedName("open")
-    var `open`: String,
+    var open: String,
     @SerializedName("period")
     var period: Long,
     @SerializedName("volume")

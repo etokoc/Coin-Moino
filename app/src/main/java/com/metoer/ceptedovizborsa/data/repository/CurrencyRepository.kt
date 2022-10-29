@@ -9,7 +9,7 @@ class CurrencyRepository @Inject constructor(private val appApi: AppApi) {
     fun getAllMarketsCoinDataFromApi(apiKey: String, quoteSymbol: String) =
         appApi.getAllMarketsCoinData(apiKey, quoteSymbol)
 
-    fun getAllCoinCanslesDataFromApi(
+    fun getAllCoinCandlesDataFromApi(
         apiKey: String,
         interval: String,
         baseId: String,
