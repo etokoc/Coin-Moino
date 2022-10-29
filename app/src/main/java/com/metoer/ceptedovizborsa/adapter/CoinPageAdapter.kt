@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
@@ -62,6 +63,8 @@ class CoinPageAdapter(
                     )
                 }
                 coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
+            }
+            itemRow.setOnClickListener {
             }
         }
     }
