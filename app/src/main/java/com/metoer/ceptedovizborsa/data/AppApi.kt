@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.data
 
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinResponse
+import com.metoer.ceptedovizborsa.data.response.coin.candles.CoinCandlesResponse
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinMarketsResponse
 import com.metoer.ceptedovizborsa.data.response.currency.TarihDate
 import com.metoer.ceptedovizborsa.util.Constants
@@ -27,4 +28,13 @@ interface AppApi {
         @Header("Authorization") apiKey: String,
         @Query("quoteSymbol") quoteSymbol: String
     ): Observable<CoinMarketsResponse>
+
+    @GET("https://api.coincap.io/v2/candles?exchange=binance")
+    @QualifiedTypeConverterFactory.Json
+    fun getAllCandlesCoinData(
+        @Header("Authorization") apiKey: String,
+        @Query("interval") interval:String,
+        @Query("baseId") baseId: String,
+        @Query("quoteId") quoteId: String
+    ): Observable<CoinCandlesResponse>
 }
