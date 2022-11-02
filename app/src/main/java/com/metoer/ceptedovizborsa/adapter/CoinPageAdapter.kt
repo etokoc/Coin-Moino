@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
-import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 import java.text.DecimalFormat
@@ -57,7 +56,7 @@ class CoinPageAdapter(
                             R.color.coinValueDrop
                         )
                     )
-                }else {
+                } else {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
@@ -68,10 +67,10 @@ class CoinPageAdapter(
                 coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
             }
             itemRow.setOnClickListener {
-//                val bundle = Bundle()
-//                bundle.putSerializable(Constants.COIN_BUNDLE_KEY_STRING, items[position])
                 it.apply {
-                    it.context.startActivity(Intent(it.context, ChartActivity::class.java))
+                    val intent = Intent(it.context, ChartActivity::class.java)
+                    intent.putExtra("send", currentItem)
+                    context.startActivity(intent)
                 }
             }
         }

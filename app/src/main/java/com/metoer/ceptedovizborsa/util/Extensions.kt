@@ -36,4 +36,7 @@ fun Context.showToastLong(text: String) {
 fun Context.showToastShort(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
+fun View.bacgroundColour(id:Int){
+    this.setBackgroundColor(ContextCompat.getColor(context,id))
+}
 

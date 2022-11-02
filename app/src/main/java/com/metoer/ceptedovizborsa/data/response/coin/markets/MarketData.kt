@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.data.response.coin.markets
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class MarketData(
     @SerializedName("baseId")
@@ -28,4 +29,4 @@ data class MarketData(
     var updated: Long,
     @SerializedName("volumeUsd24Hr")
     var volumeUsd24Hr: String
-)
+): Serializable
