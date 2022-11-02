@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,6 +14,8 @@ import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.listener.ChartTouchListener
+import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
@@ -22,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -53,8 +55,8 @@ class ChartActivity : AppCompatActivity() {
 //        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         viewModel.getAllCandlesData("h1", baseId, qutoId).observe(this) {
             var sayac = 0f
-            it.forEach {candleData->
-                areaCount.add(getDate(candleData.period,"dd/MM")!!)
+            it.forEach { candleData ->
+                areaCount.add(getDate(candleData.period, "dd/MM")!!)
                 candlestickentry.add(
                     CandleEntry(
                         sayac,
@@ -69,7 +71,10 @@ class ChartActivity : AppCompatActivity() {
             binding!!.apply {
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
                 candledataset.color = Color.rgb(80, 80, 80)
-                candledataset.shadowColor = ContextCompat.getColor(this@ChartActivity, R.color.green)//çizgi rengi düşüşe veya yükselişe göre değişecek
+                candledataset.shadowColor = ContextCompat.getColor(
+                    this@ChartActivity,
+                    R.color.green
+                )//çizgi rengi düşüşe veya yükselişe göre değişecek
                 candledataset.shadowWidth = 1f
                 candledataset.setDrawValues(false)
                 candledataset.decreasingColor =
@@ -80,8 +85,52 @@ class ChartActivity : AppCompatActivity() {
                 candledataset.increasingPaintStyle = Paint.Style.FILL
                 val candledata = CandleData(candledataset)
                 coinDataChart.data = candledata
-                coinDataChart.setOnClickListener {
-                    autoScale(coinDataChart)
+                coinDataChart.onChartGestureListener = object : OnChartGestureListener {
+                    override fun onChartGestureStart(
+                        me: MotionEvent?,
+                        lastPerformedGesture: ChartTouchListener.ChartGesture?
+                    ) {
+                        autoScale(coinDataChart)
+                    }
+
+                    override fun onChartGestureEnd(
+                        me: MotionEvent?,
+                        lastPerformedGesture: ChartTouchListener.ChartGesture?
+                    ) {
+                        autoScale(coinDataChart)
+                    }
+
+                    override fun onChartLongPressed(me: MotionEvent?) {
+                        autoScale(coinDataChart)
+                    }
+
+                    override fun onChartDoubleTapped(me: MotionEvent?) {
+                        autoScale(coinDataChart)
+                    }
+
+                    override fun onChartSingleTapped(me: MotionEvent?) {
+                        autoScale(coinDataChart)
+                    }
+
+                    override fun onChartFling(
+                        me1: MotionEvent?,
+                        me2: MotionEvent?,
+                        velocityX: Float,
+                        velocityY: Float
+                    ) {
+                        autoScale(coinDataChart)
+
+                    }
+
+                    override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+                        autoScale(coinDataChart)
+
+                    }
+
+                    override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+                        autoScale(coinDataChart)
+
+                    }
                 }
                 val xval = coinDataChart.xAxis
                 xval.position = XAxis.XAxisPosition.BOTTOM
