@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -38,6 +37,7 @@ import java.util.*
 class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private var _binding: ActivityChartBinding? = null
+    private lateinit var dataMarket: MarketData
     private val binding
         get() = _binding
     private val viewModel: ChartViewModel by viewModels()
@@ -49,13 +49,14 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        val dataMarket = intent.getSerializableExtra("send") as MarketData
-
-        binding?.apply {
-            setCandelStickChart(dataMarket.baseId, dataMarket.quoteId)
-        }
+        dataMarket = intent.getSerializableExtra("send") as MarketData
         initTabLayout()
         initSpinner()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.apply { }
     }
 
     private fun initSpinner() {
@@ -81,7 +82,23 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         binding?.tabLayout.apply {
             this?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    Toast.makeText(context, "${tab?.text}", Toast.LENGTH_SHORT).show()
+                    var interval = "m15"
+                    when (tab?.position) {
+                        0 -> {
+                            interval = "m15"
+                        }
+                        1 -> {
+                            interval = "h1"
+                        }
+                        2 -> {
+                            interval = "h4"
+
+                        }
+                        3 -> {
+                            interval = "d1"
+                        }
+                    }
+                    setCandelStickChart(interval, dataMarket.baseId, dataMarket.quoteId)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -95,12 +112,12 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
 
-    private fun setCandelStickChart(baseId: String, qutoId: String) {
+    private fun setCandelStickChart(interval: String, baseId: String, qutoId: String) {
         binding!!.apply {
             val candlestickentry = ArrayList<CandleEntry>()
             val areaCount = ArrayList<String>()
 //        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            viewModel.getAllCandlesData("h1", baseId, qutoId).observe(this@ChartActivity) {
+            viewModel.getAllCandlesData(interval, baseId, qutoId).observe(this@ChartActivity) {
                 var sayac = 0f
                 it.forEach { candleData ->
                     areaCount.add(getDate(candleData.period)!!)
