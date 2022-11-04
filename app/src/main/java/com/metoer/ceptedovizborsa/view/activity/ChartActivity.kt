@@ -4,6 +4,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,6 +20,7 @@ import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
+import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
@@ -30,7 +35,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class ChartActivity : AppCompatActivity() {
+class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private var _binding: ActivityChartBinding? = null
     private val binding
@@ -49,7 +54,46 @@ class ChartActivity : AppCompatActivity() {
         binding?.apply {
             setCandelStickChart(dataMarket.baseId, dataMarket.quoteId)
         }
+        initTabLayout()
+        initSpinner()
     }
+
+    private fun initSpinner() {
+        val moreTimeList = arrayListOf<String>(
+            getString(R.string.coin_time_1_minute),
+            getString(R.string.coin_time_5_minute),
+            getString(
+                R.string.coin_time_30_minute,
+            ),
+            getString(R.string.coin_time_2_hour),
+            getString(R.string.coin_time_8_hour),
+            getString(R.string.coin_time_12_hour),
+            getString(R.string.coin_time_1_week),
+        )
+
+        binding?.spinnerCoinMoreItems.apply {
+            this?.adapter =
+                ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
+        }
+    }
+
+    private fun initTabLayout() {
+        binding?.tabLayout.apply {
+            this?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    Toast.makeText(context, "${tab?.text}", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
+        }
+    }
+
 
     private fun setCandelStickChart(baseId: String, qutoId: String) {
         binding!!.apply {
@@ -73,10 +117,22 @@ class ChartActivity : AppCompatActivity() {
                 }
 
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
-                coinValueTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).close.toDouble())
-                volumeTextView.text = DecimalFormat("###,###,###,###.##", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).volume.toDouble())
-                highestPriceTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).high.toDouble())
-                lowestPriceTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).low.toDouble())
+                coinValueTextView.text = DecimalFormat(
+                    "###,###,###,###.######",
+                    DecimalFormatSymbols.getInstance()
+                ).format(it.get(candlestickentry.size - 1).close.toDouble())
+                volumeTextView.text =
+                    DecimalFormat("###,###,###,###.##", DecimalFormatSymbols.getInstance()).format(
+                        it.get(candlestickentry.size - 1).volume.toDouble()
+                    )
+                highestPriceTextView.text = DecimalFormat(
+                    "###,###,###,###.######",
+                    DecimalFormatSymbols.getInstance()
+                ).format(it.get(candlestickentry.size - 1).high.toDouble())
+                lowestPriceTextView.text = DecimalFormat(
+                    "###,###,###,###.######",
+                    DecimalFormatSymbols.getInstance()
+                ).format(it.get(candlestickentry.size - 1).low.toDouble())
                 candledataset.color = Color.rgb(80, 80, 80)
                 candledataset.shadowColor = ContextCompat.getColor(
                     this@ChartActivity,
@@ -189,6 +245,11 @@ class ChartActivity : AppCompatActivity() {
             val yMax = chartData.getYMax(axisDependency)
             yAxis.calculate(yMin, yMax)
         }
+    }
+
+    //Listen to spinner
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
     }
 
 }

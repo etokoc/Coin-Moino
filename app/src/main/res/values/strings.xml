@@ -10,4 +10,11 @@
     <string name="coin_time_4_hour">4S</string>
     <string name="coin_time_1_day">1G</string>
     <string name="coin_time_more">Daha Fazla</string>
+    <string name="coin_time_1_minute">1D</string>
+    <string name="coin_time_5_minute">5D</string>
+    <string name="coin_time_30_minute">30D</string>
+    <string name="coin_time_2_hour">2S</string>
+    <string name="coin_time_8_hour">8S</string>
+    <string name="coin_time_12_hour">12S</string>
+    <string name="coin_time_1_week">1H</string>
 </resources>
