@@ -23,13 +23,11 @@ import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 import com.metoer.ceptedovizborsa.util.bacgroundColour
-import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,8 +79,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun initTabLayout() {
-        binding?.tabLayout.apply {
-            this?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding?.apply {
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     var interval = "m15"
                     when (tab?.position) {
@@ -100,6 +98,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                             interval = "d1"
                         }
                     }
+                    textViewVolume.text = tab?.text.toString() + " Hacim"
                     setCandelStickChart(interval, dataMarket.baseId, dataMarket.quoteId)
                 }
 
@@ -136,22 +135,29 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 }
 
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
-                coinValueTextView.text = DecimalFormat(
-                    "###,###,###,###.######",
-                    DecimalFormatSymbols.getInstance()
-                ).format(it.get(candlestickentry.size - 1).close.toDouble())
-                volumeTextView.text =
-                    DecimalFormat("###,###,###,###.##", DecimalFormatSymbols.getInstance()).format(
-                        it.get(candlestickentry.size - 1).volume.toDouble()
+                coinValueTextView.text =
+                    NumberDecimalFormat.numberDecimalFormat(
+                        it.get(candlestickentry.size - 1).close,
+                        "###,###,###,###.######"
                     )
-                highestPriceTextView.text = DecimalFormat(
-                    "###,###,###,###.######",
-                    DecimalFormatSymbols.getInstance()
-                ).format(it.get(candlestickentry.size - 1).high.toDouble())
-                lowestPriceTextView.text = DecimalFormat(
-                    "###,###,###,###.######",
-                    DecimalFormatSymbols.getInstance()
-                ).format(it.get(candlestickentry.size - 1).low.toDouble())
+                volumeTextView.text =
+                    NumberDecimalFormat.numberDecimalFormat(
+                        it.get(candlestickentry.size - 1).volume,
+                        "###,###,###,###.##"
+                    )
+
+                highestPriceTextView.text =
+                    NumberDecimalFormat.numberDecimalFormat(
+                        it.get(candlestickentry.size - 1).high,
+                        "###,###,###,###.######"
+                    )
+
+                lowestPriceTextView.text =
+                    NumberDecimalFormat.numberDecimalFormat(
+                        it.get(candlestickentry.size - 1).low,
+                        "###,###,###,###.######"
+                    )
+
                 candledataset.color = Color.rgb(80, 80, 80)
                 candledataset.shadowColor = ContextCompat.getColor(
                     this@ChartActivity,
