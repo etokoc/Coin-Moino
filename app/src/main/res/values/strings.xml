@@ -5,4 +5,9 @@
     <string name="volume">Hacim</string>
     <string name="highest_price">En Yüksek Fiyat:</string>
     <string name="lowest_price">En Düşük Fiyat:</string>
+    <string name="coin_time_15_minute">15D</string>
+    <string name="coin_time_1_hour">1S</string>
+    <string name="coin_time_4_hour">4S</string>
+    <string name="coin_time_1_day">1G</string>
+    <string name="coin_time_more">Daha Fazla</string>
 </resources>

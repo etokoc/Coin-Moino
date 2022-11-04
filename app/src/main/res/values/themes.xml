@@ -34,4 +34,18 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="CustomTablayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicator">@null</item>
+        <item name="rippleColor">@color/transparent</item>
+        <item name="tabTextAppearance">@style/ItemTextAppearence</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabBackground">@drawable/sc_tablayout</item>
+    </style>
+    <!--for text -->
+    <style name="ItemTextAppearence" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
