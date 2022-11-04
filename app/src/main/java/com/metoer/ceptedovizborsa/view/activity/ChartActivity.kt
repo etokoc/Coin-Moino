@@ -24,6 +24,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.util.bacgroundColour
+import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
@@ -50,6 +51,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onResume() {
         super.onResume()
         dataMarket = intent.getSerializableExtra("send") as MarketData
+        setCandelStickChart("m15", dataMarket.baseId, dataMarket.quoteId)
         initTabLayout()
         initSpinner()
         initListeners()
@@ -98,6 +100,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                             interval = "d1"
                         }
                     }
+                    context.showToastShort("coin")
                     setCandelStickChart(interval, dataMarket.baseId, dataMarket.quoteId)
                 }
 
