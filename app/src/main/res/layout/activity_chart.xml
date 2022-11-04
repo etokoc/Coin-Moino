@@ -62,12 +62,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_time_1_day" />
-
-            <!--            <com.google.android.material.tabs.TabItem-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="@string/coin_time_more" />-->
-
         </com.google.android.material.tabs.TabLayout>
 
 

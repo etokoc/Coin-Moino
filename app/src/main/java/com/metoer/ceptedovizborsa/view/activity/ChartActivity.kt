@@ -100,7 +100,6 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                             interval = "d1"
                         }
                     }
-                    context.showToastShort("coin")
                     setCandelStickChart(interval, dataMarket.baseId, dataMarket.quoteId)
                 }
 
