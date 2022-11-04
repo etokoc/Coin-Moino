@@ -40,7 +40,7 @@ class CoinPageAdapter(
                 coinVolumeExchangeText.text =
                     MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
                 val value = currentItem.priceQuote.toDouble()
-                coinExchangeValueText.text = DecimalFormat("##.######").format(value)
+                coinExchangeValueText.text = DecimalFormat("0.######").format(value)
                 val parcent = currentItem.percentExchangeVolume.toDouble()
                 if (parcent > 0) {
                     coinExchangeParcentText.background.setTint(
@@ -64,7 +64,7 @@ class CoinPageAdapter(
                         )
                     )
                 }
-                coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
+                coinExchangeParcentText.text = DecimalFormat("0.##").format(parcent) + "%"
             }
             itemRow.setOnClickListener {
                 it.apply {

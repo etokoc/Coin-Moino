@@ -23,6 +23,8 @@ import com.metoer.ceptedovizborsa.util.bacgroundColour
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,26 +52,31 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun setCandelStickChart(baseId: String, qutoId: String) {
-        val candlestickentry = ArrayList<CandleEntry>()
-        val areaCount = ArrayList<String>()
+        binding!!.apply {
+            val candlestickentry = ArrayList<CandleEntry>()
+            val areaCount = ArrayList<String>()
 //        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        viewModel.getAllCandlesData("h1", baseId, qutoId).observe(this) {
-            var sayac = 0f
-            it.forEach { candleData ->
-                areaCount.add(getDate(candleData.period, "dd/MM")!!)
-                candlestickentry.add(
-                    CandleEntry(
-                        sayac,
-                        candleData.high.toFloat(),
-                        candleData.low.toFloat(),
-                        candleData.open.toFloat(),
-                        candleData.close.toFloat()
+            viewModel.getAllCandlesData("h1", baseId, qutoId).observe(this@ChartActivity) {
+                var sayac = 0f
+                it.forEach { candleData ->
+                    areaCount.add(getDate(candleData.period)!!)
+                    candlestickentry.add(
+                        CandleEntry(
+                            sayac,
+                            candleData.high.toFloat(),
+                            candleData.low.toFloat(),
+                            candleData.open.toFloat(),
+                            candleData.close.toFloat()
+                        )
                     )
-                )
-                sayac++
-            }
-            binding!!.apply {
+                    sayac++
+                }
+
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
+                coinValueTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).close.toDouble())
+                volumeTextView.text = DecimalFormat("###,###,###,###.##", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).volume.toDouble())
+                highestPriceTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).high.toDouble())
+                lowestPriceTextView.text = DecimalFormat("###,###,###,###.######", DecimalFormatSymbols.getInstance()).format(it.get(candlestickentry.size-1).low.toDouble())
                 candledataset.color = Color.rgb(80, 80, 80)
                 candledataset.shadowColor = ContextCompat.getColor(
                     this@ChartActivity,
@@ -85,31 +92,32 @@ class ChartActivity : AppCompatActivity() {
                 candledataset.increasingPaintStyle = Paint.Style.FILL
                 val candledata = CandleData(candledataset)
                 coinDataChart.data = candledata
+
                 coinDataChart.onChartGestureListener = object : OnChartGestureListener {
                     override fun onChartGestureStart(
                         me: MotionEvent?,
                         lastPerformedGesture: ChartTouchListener.ChartGesture?
                     ) {
-                        autoScale(coinDataChart)
+
                     }
 
                     override fun onChartGestureEnd(
                         me: MotionEvent?,
                         lastPerformedGesture: ChartTouchListener.ChartGesture?
                     ) {
-                        autoScale(coinDataChart)
+
                     }
 
                     override fun onChartLongPressed(me: MotionEvent?) {
-                        autoScale(coinDataChart)
+
                     }
 
                     override fun onChartDoubleTapped(me: MotionEvent?) {
-                        autoScale(coinDataChart)
+
                     }
 
                     override fun onChartSingleTapped(me: MotionEvent?) {
-                        autoScale(coinDataChart)
+
                     }
 
                     override fun onChartFling(
@@ -118,12 +126,12 @@ class ChartActivity : AppCompatActivity() {
                         velocityX: Float,
                         velocityY: Float
                     ) {
-                        autoScale(coinDataChart)
+
 
                     }
 
                     override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-                        autoScale(coinDataChart)
+
 
                     }
 
@@ -132,6 +140,7 @@ class ChartActivity : AppCompatActivity() {
 
                     }
                 }
+
                 val xval = coinDataChart.xAxis
                 xval.position = XAxis.XAxisPosition.BOTTOM
                 xval.setDrawGridLines(true)
@@ -143,13 +152,14 @@ class ChartActivity : AppCompatActivity() {
                 coinDataChart.animateXY(1000, 1000)
                 coinDataChart.setVisibleXRangeMaximum(65F) //max item range
                 coinDataChart.moveViewToX(candlestickentry.size.toFloat()) //last item than view
+
             }
         }
     }
 
-    private fun getDate(milliSeconds: Long, dateFormat: String): String? {
+    private fun getDate(milliSeconds: Long): String? {
         // Create a DateFormatter object for displaying date in specified format.
-        val formatter: DateFormat = SimpleDateFormat(dateFormat)
+        val formatter: DateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
 
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         val calendar: Calendar = Calendar.getInstance()

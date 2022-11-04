@@ -19,5 +19,6 @@
     <color name="cardShapeColor2">#B9CC8B</color>
     <color name="coinValueRise">#019875</color>
     <color name="coinValueDrop">#B8293D</color>
+    <color name="forested_gray">#D8E6E6E6</color>
 
 </resources>

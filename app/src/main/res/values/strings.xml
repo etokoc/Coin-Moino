@@ -2,4 +2,7 @@
     <string name="app_name">CepteDovizBorsa</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="volume">Hacim</string>
+    <string name="highest_price">En Yüksek Fiyat:</string>
+    <string name="lowest_price">En Düşük Fiyat:</string>
 </resources>
