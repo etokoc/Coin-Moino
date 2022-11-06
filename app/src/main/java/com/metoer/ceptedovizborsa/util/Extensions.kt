@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.data.CandleDataSet
 
 fun View.hide() {
     this.visibility = View.GONE
@@ -38,5 +39,8 @@ fun Context.showToastShort(text: String) {
 }
 fun View.bacgroundColour(id:Int){
     this.setBackgroundColor(ContextCompat.getColor(context,id))
+}
+fun getColorful(context:Context,id:Int): Int {
+    return ContextCompat.getColor(context,id)
 }
 
