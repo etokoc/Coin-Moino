@@ -123,6 +123,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             val candlestickentry = ArrayList<CandleEntry>()
             val areaCount = ArrayList<String>()
             viewModel.coinCanslesData.observe(this@ChartActivity) {
+                candlestickentry.clear()
+                areaCount.clear()
                 var sayac = 0f
                 Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
