@@ -24,9 +24,7 @@ import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
-import com.metoer.ceptedovizborsa.util.bacgroundColour
-import com.metoer.ceptedovizborsa.util.getColorful
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
@@ -103,6 +101,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                             interval = "d1"
                         }
                     }
+                    progressBar.show()
                     viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
                     textViewVolume.text = "${tab?.text} Hacim"
                 }
@@ -123,6 +122,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             val candlestickentry = ArrayList<CandleEntry>()
             val areaCount = ArrayList<String>()
             viewModel.coinCanslesData.observe(this@ChartActivity) {
+                progressBar.hide()
                 candlestickentry.clear()
                 areaCount.clear()
                 var sayac = 0f
