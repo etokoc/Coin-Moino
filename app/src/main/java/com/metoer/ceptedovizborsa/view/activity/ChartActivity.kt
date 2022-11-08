@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
@@ -57,6 +58,9 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private fun initListeners() {
         binding.apply { }
+        setCandelStickChart()
+        viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
+
     }
 
     private fun initSpinner() {
@@ -78,12 +82,12 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         }
     }
 
+    var interval = "m15"
     private fun initTabLayout() {
         binding?.apply {
-            setCandelStickChart("d1", dataMarket.baseId, dataMarket.quoteId)
+//            setCandelStickChart("m15", dataMarket.baseId, dataMarket.quoteId)
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    var interval = ""
                     when (tab?.position) {
                         0 -> {
                             interval = "m15"
@@ -99,7 +103,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                             interval = "d1"
                         }
                     }
-                    setCandelStickChart(interval, dataMarket.baseId, dataMarket.quoteId)
+                    viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
                     textViewVolume.text = "${tab?.text} Hacim"
                 }
 
@@ -114,12 +118,13 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
 
-    private fun setCandelStickChart(interval: String, baseId: String, qutoId: String) {
+    private fun setCandelStickChart() {
         binding!!.apply {
             val candlestickentry = ArrayList<CandleEntry>()
             val areaCount = ArrayList<String>()
-            viewModel.getAllCandlesData(interval, baseId, qutoId).observe(this@ChartActivity) {
+            viewModel.coinCanslesData.observe(this@ChartActivity) {
                 var sayac = 0f
+                Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
                     areaCount.add(getDate(candleData.period)!!)
                     candlestickentry.add(
@@ -133,6 +138,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     )
                     sayac++
                 }
+                Log.i("MYLOG", "2: ")
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
                 coinValueTextView.text =
                     NumberDecimalFormat.numberDecimalFormat(
@@ -155,6 +161,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                         it.last().low,
                         "###,###,###,###.######"
                     )
+                Log.i("MYLOG", "3: ")
 
                 candledataset.apply {
                     color = Color.rgb(80, 80, 80)
@@ -170,6 +177,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 val candledata = CandleData(candledataset)
 
                 coinDataChart.apply {
+                    this.clear()
                     data = candledata
                     onChartGestureListener = object : OnChartGestureListener {
                         override fun onChartGestureStart(

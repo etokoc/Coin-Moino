@@ -12,13 +12,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(private val repository: CurrencyRepository) : ViewModel() {
-    private val coinCanslesData = MutableLiveData<List<CandlesData>>()
+     val coinCanslesData = MutableLiveData<List<CandlesData>>()
 
     fun getAllCandlesData(
         interval: String,
         baseId: String,
         quetoId: String
-    ): MutableLiveData<List<CandlesData>> {
+    ){
         repository.getAllCoinCandlesDataFromApi(
             CreateApiKeyUtil.getKey(),
             interval,
@@ -34,6 +34,5 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             }).let {
 
             }
-        return coinCanslesData
     }
 }
