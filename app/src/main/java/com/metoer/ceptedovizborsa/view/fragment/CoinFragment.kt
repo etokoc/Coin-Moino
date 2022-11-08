@@ -48,7 +48,7 @@ class CoinFragment : Fragment() {
             addTab(binding.tabLayout.newTab().setText("BTC"))
             addTab(binding.tabLayout.newTab().setText("ETH"))
             //first fragment start in try
-            val firstPage = CoinTryFragment()
+            val firstPage = CoinAllFragment()
             changeFragment(firstPage)
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: Tab?) {

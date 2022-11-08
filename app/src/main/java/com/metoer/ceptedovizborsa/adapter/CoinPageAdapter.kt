@@ -1,15 +1,16 @@
 package com.metoer.ceptedovizborsa.adapter
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
+import com.metoer.ceptedovizborsa.util.StaticCoinList
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 import java.text.DecimalFormat
 
@@ -41,7 +42,7 @@ class CoinPageAdapter(
                     MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
                 val value = currentItem.priceQuote.toDouble()
                 coinExchangeValueText.text = DecimalFormat("0.######").format(value)
-                val parcent = currentItem.percentExchangeVolume.toDouble()
+                val parcent = caltulateMainCoin(currentItem.baseSymbol)
                 if (parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
@@ -74,6 +75,13 @@ class CoinPageAdapter(
                 }
             }
         }
+    }
+
+    val coinList = StaticCoinList.coinList
+    private fun caltulateMainCoin(baseSymbol: String): Double {
+        val usdt = coinList.filter { x -> x.symbol == "USDT" }.first()
+        val otherCoin = coinList.filter { x-> x.symbol == baseSymbol }.firstOrNull()?: CoinData("0.0","","","","","","","","","","","")
+        return (otherCoin.changePercent24Hr!!.toDouble()) - (usdt.changePercent24Hr!!.toDouble())
     }
 
     override fun getItemCount(): Int {
