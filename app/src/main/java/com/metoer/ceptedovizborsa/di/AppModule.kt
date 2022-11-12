@@ -3,6 +3,8 @@ package com.metoer.ceptedovizborsa.di
 import com.metoer.ceptedovizborsa.data.ApiNetworkAdapter
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
+import com.metoer.ceptedovizborsa.view.fragment.CoinFragment
+import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +25,11 @@ object AppModule {
     fun providesAppApi(): AppApi {
         return ApiNetworkAdapter.appApi()
     }
+    @Provides
+    @Singleton
+    fun providesSharedViewModel(): SharedViewModel {
+        return SharedViewModel()
+    }
+
+
 }

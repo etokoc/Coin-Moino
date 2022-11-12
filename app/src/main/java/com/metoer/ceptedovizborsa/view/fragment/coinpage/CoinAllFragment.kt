@@ -8,10 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
+import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
+import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.util.StaticCoinList
+import com.metoer.ceptedovizborsa.util.hide
+import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
+import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CoinAllFragment : Fragment() {
@@ -21,7 +29,7 @@ class CoinAllFragment : Fragment() {
     private val binding
         get() = _binding!!
     private val viewModel: CoinViewModel by viewModels()
-
+    private val sharedViewModel: SharedViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,8 +47,30 @@ class CoinAllFragment : Fragment() {
         viewModel.getAllCoinData().observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it)
+            coinList.clear()
+            coinList.addAll(it)
             binding.recylerview.adapter = adapter
             StaticCoinList.coinList = it
+        }
+        sharedViewModel.coinList.observe(viewLifecycleOwner){
+            filter(it)
+        }
+    }
+    private val coinList = ArrayList<CoinData>()
+    private fun filter(text: String) {
+        val filterlist = ArrayList<CoinData>()
+        for (item in coinList) {
+            if (item.symbol?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault()))!!
+                || item.name?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!) {
+                filterlist.add(item)
+            }
+        }
+        if (filterlist.isEmpty()) {
+            filterlist.clear()
+            adapter.filterList(filterlist)
+        } else {
+            adapter.filterList(filterlist)
         }
     }
 }
