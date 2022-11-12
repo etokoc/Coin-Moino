@@ -19,13 +19,19 @@
 
     <TextView
         android:id="@+id/coinExchangeNameText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:padding="1dp"
+        android:maxLines="1"
+        android:autoSizeMinTextSize="6sp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
         android:text="Apple, Inc."
         android:textColor="@color/black"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/coinVolumeExchangeText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/coinExchangeSembolText" />
 
