@@ -119,16 +119,18 @@ class CurrencyFragment : Fragment(), OnClickListener {
         if (clicked) {
             view.tag = false
             view.startAnimation(rotateDesc)
-            adapter.sortList(ListSortEnum.DESC,sortListItem!!)
+            adapter.sortList(ListSortEnum.DESC, sortListItem!!)
             binding.currencyRecyclerView.scrollToPosition(0)
         } else {
             view.tag = true
             view.startAnimation(rotateAsc)
-            adapter.sortList(ListSortEnum.ASC,sortListItem!!)
+            adapter.sortList(ListSortEnum.ASC, sortListItem!!)
             binding.currencyRecyclerView.scrollToPosition(0)
         }
     }
+
     var sortListItem: ListSortEnum? = null
+
     //OnclickListener for all views in layout
     override fun onClick(v: View?) {
         var icon: View? = null

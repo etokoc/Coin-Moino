@@ -33,11 +33,11 @@
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="İsim"
-                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -60,10 +60,10 @@
                 android:id="@+id/valueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Değer"
-                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -86,10 +86,10 @@
                 android:id="@+id/incraseTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Popülerlik"
-                android:layout_marginEnd="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -111,12 +111,13 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:showAsAction="collapseActionView|always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:background="@drawable/search_view_background"
+        android:queryBackground="@color/transparent"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:showAsAction="collapseActionView|always" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/currencyRecyclerView"
