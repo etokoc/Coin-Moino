@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,12 +18,13 @@ class CoinUSDTFragment : Fragment() {
     private var _binding: FragmentCoinPageBinding? = null
     private val binding
         get() = _binding!!
+    private var adapter = CoinPageAdapter("USDT")
     private val viewModel: CoinPageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,9 +36,10 @@ class CoinUSDTFragment : Fragment() {
 
 
     fun initListener() {
-        viewModel.getAllMarketsCoinData("USDT").observe(viewLifecycleOwner){
+        viewModel.getAllMarketsCoinData("USDT").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.recylerview.adapter = CoinPageAdapter(it)
+            adapter.setData(it)
+            binding.recylerview.adapter = adapter
         }
     }
 }

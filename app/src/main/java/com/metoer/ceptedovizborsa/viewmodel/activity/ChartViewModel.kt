@@ -29,6 +29,7 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 coinCanslesData.value = it.data
+
             }, {
 
             }).let {

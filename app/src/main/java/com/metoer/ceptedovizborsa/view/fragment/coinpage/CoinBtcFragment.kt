@@ -20,6 +20,7 @@ class CoinBtcFragment : Fragment() {
     private var _binding: FragmentCoinPageBinding? = null
      private val binding
         get() = _binding!!
+    private var adapter = CoinPageAdapter("BTC")
     private val viewModel : CoinPageViewModel by viewModels ()
 
     override fun onCreateView(
@@ -40,7 +41,8 @@ class CoinBtcFragment : Fragment() {
     fun initListener() {
         viewModel.getAllMarketsCoinData("BTC").observe(viewLifecycleOwner){
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.recylerview.adapter = CoinPageAdapter(it)
+            adapter.setData(it)
+            binding.recylerview.adapter = adapter
         }
     }
 }

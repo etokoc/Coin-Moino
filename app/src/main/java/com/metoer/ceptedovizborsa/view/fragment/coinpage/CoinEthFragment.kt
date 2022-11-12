@@ -19,6 +19,7 @@ class CoinEthFragment : Fragment() {
     private var _binding: FragmentCoinPageBinding? = null
     private val binding
         get() = _binding!!
+    private var adapter = CoinPageAdapter("ETH")
     private val viewModel : CoinPageViewModel by viewModels ()
 
     override fun onCreateView(
@@ -38,7 +39,8 @@ class CoinEthFragment : Fragment() {
     fun initListener() {
         viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner){
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.recylerview.adapter = CoinPageAdapter(it)
+            adapter.setData(it)
+            binding.recylerview.adapter = adapter
         }
     }
 }

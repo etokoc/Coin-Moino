@@ -3,22 +3,27 @@ package com.metoer.ceptedovizborsa.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
+import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
+import com.metoer.ceptedovizborsa.util.DiffUtil
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
-import java.text.DecimalFormat
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 
-class CoinAdapter(
-    val items: List<CoinData>
-) : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
+class CoinAdapter: RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    fun filterList(filterList: List<CoinData>) {
+        setData(filterList)
+    }
+
+    private var itemList = emptyList<CoinData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
             CoinBlockchainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,20 +31,31 @@ class CoinAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val currentItem = items[position]
+        val currentItem = itemList[position]
         holder.binding.apply {
             coinExchangeNameText.text = currentItem.name
             coinExchangeSembolText.text = currentItem.symbol
             coinVolumeExchangeText.text =
                 MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble())
-            val value = currentItem.priceUsd?.toDouble()
-            coinExchangeValueText.text = "$" + DecimalFormat("##.######").format(value)
+            val value = currentItem.priceUsd
+            coinExchangeValueText.text =
+                "$" + NumberDecimalFormat.numberDecimalFormat(value!!, "###,###,###,###.######")
             val parcent = currentItem.changePercent24Hr?.toDouble()
-            parcentBacgroundTint(parcent!!,coinExchangeParcentText,holder.itemView.context)
-            coinExchangeParcentText.text = DecimalFormat("##.##").format(parcent) + "%"
+            parcentBacgroundTint(parcent!!, coinExchangeParcentText, holder.itemView.context)
+            coinExchangeParcentText.text =
+                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##") + "%"
         }
     }
-    private fun parcentBacgroundTint(parcent:Double,textView: TextView,context: Context){
+
+    fun setData(newItemList: List<CoinData>) {
+        val diffUtil = DiffUtil(itemList, newItemList)
+        val diffResult = calculateDiff(diffUtil)
+        itemList = newItemList
+        diffResult.dispatchUpdatesTo(this)
+        notifyItemRangeChanged(0,itemList.size)
+    }
+
+    private fun parcentBacgroundTint(parcent: Double, textView: TextView, context: Context) {
         if (parcent > 0) {
             textView.background.setTint(
                 ContextCompat.getColor(
@@ -65,6 +81,6 @@ class CoinAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return itemList.size
     }
 }

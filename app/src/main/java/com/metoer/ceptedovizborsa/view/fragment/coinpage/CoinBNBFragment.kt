@@ -18,15 +18,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class CoinBNBFragment : Fragment() {
 
     private var _binding: FragmentCoinPageBinding? = null
-     private val binding
+    private val binding
         get() = _binding!!
-    private val viewModel : CoinPageViewModel by viewModels ()
+    private var adapter = CoinPageAdapter("BNB")
+    private val viewModel: CoinPageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCoinPageBinding.inflate(inflater,container,false)
+        _binding = FragmentCoinPageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,9 +38,10 @@ class CoinBNBFragment : Fragment() {
 
 
     fun initListener() {
-        viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner){
+        viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.recylerview.adapter = CoinPageAdapter(it)
+            adapter.setData(it)
+            binding.recylerview.adapter = adapter
         }
     }
 }

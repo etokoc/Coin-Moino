@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
-import com.metoer.ceptedovizborsa.util.Constants
-import com.metoer.ceptedovizborsa.util.ListSortEnum
-import com.metoer.ceptedovizborsa.util.SortListUtil
+import com.metoer.ceptedovizborsa.util.*
 import java.text.DecimalFormat
 import java.util.*
 
@@ -35,7 +33,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
             moneyNameTextView.text = currentItems.Isim
             moneyCodeTextView.text = currentItems.CurrencyCode
             val result = currentItems.ForexBuying?.div(currentItems.Unit!!)!!
-            moneyValueTextView.text = "₺" + DecimalFormat("##.####").format(result)
+            moneyValueTextView.text = "₺" + NumberDecimalFormat.numberDecimalFormat(result.toString(), "0.####")
             Glide.with(this.root).load(
                 Constants.IMAGE_URL + "${
                     currentItems.CurrencyCode?.lowercase(
@@ -47,7 +45,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
     }
 
     fun setData(newItemList: List<Currency>) {
-        val diffUtil = com.metoer.ceptedovizborsa.util.DiffUtil(itemList, newItemList)
+        val diffUtil = DiffUtil(itemList, newItemList)
         val diffResult = calculateDiff(diffUtil)
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
@@ -62,7 +60,6 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        //XDR para birimini almamak için yaptık
         return itemList.size
     }
 }

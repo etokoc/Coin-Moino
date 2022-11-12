@@ -120,6 +120,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private fun setCandelStickChart() {
         binding!!.apply {
             val candlestickentry = ArrayList<CandleEntry>()
+            candlestickentry.clear()
             val areaCount = ArrayList<String>()
             viewModel.coinCanslesData.observe(this@ChartActivity) {
                 progressBar.hide()
@@ -129,6 +130,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
                     areaCount.add(getDate(candleData.period)!!)
+                    Log.i("valueobserve", ""+candleData.close)
                     candlestickentry.add(
                         CandleEntry(
                             sayac,

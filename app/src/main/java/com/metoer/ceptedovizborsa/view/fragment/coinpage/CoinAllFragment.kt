@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CoinAllFragment : Fragment() {
 
+    private var adapter = CoinAdapter()
     private var _binding: FragmentCoinPageBinding? = null
     private val binding
         get() = _binding!!
@@ -24,7 +25,7 @@ class CoinAllFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,7 +38,8 @@ class CoinAllFragment : Fragment() {
     fun initListener() {
         viewModel.getAllCoinData().observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.recylerview.adapter = CoinAdapter(it)
+            adapter.setData(it)
+            binding.recylerview.adapter = adapter
             StaticCoinList.coinList = it
         }
     }
