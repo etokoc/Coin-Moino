@@ -89,6 +89,7 @@ class CoinFragment : Fragment() {
             binding.currencySearchView.btnClear.setOnClickListener {
                 if (!this.text.isNullOrEmpty()) {
                     this.text?.clear()
+                    this.clearFocus()
                 } else {
                     binding.currencySearchView.btnClear.visibility = View.GONE
                     this.clearFocus()
