@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/search_view_background"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:src="?android:attr/actionModeWebSearchDrawable" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/currencySearchView"
+            android:layout_width="match_parent"
+            android:background="@color/transparent"
+            android:layout_margin="10dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:hint="Coin"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_clear"
+            android:visibility="gone"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

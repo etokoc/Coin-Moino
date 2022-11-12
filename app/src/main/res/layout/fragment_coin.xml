@@ -6,20 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".view.fragment.CoinFragment">
 
-    <SearchView
+    <include
         android:id="@+id/currencySearchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:showAsAction="collapseActionView|always"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@color/transparent"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:background="@drawable/search_view_background"
-        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/search_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
@@ -45,8 +36,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
     <FrameLayout
         android:id="@+id/coin_container"

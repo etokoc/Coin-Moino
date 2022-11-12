@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView.OnQueryTextListener
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayoutMediator
 import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
@@ -23,7 +22,7 @@ class CoinFragment : Fragment() {
     private val binding
         get() = _binding!!
     private val viewModel: CoinViewModel by viewModels()
-    private val sharedViewModel : SharedViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,16 +78,26 @@ class CoinFragment : Fragment() {
     }
 
     private fun initSearchView() {
-        binding.currencySearchView.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+        binding.currencySearchView.currencySearchView.apply {
+            addTextChangedListener {
+                sharedViewModel.coinList.value = it.toString()
+                if (!this.text.isNullOrEmpty()) {
+                    binding.currencySearchView.btnClear.visibility = View.VISIBLE
+                } else
+                    binding.currencySearchView.btnClear.visibility = View.GONE
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-               sharedViewModel.coinList.value = newText.toString()
-                return false
+            binding.currencySearchView.btnClear.setOnClickListener {
+                if (!this.text.isNullOrEmpty()) {
+                    this.text?.clear()
+                } else {
+                    binding.currencySearchView.btnClear.visibility = View.GONE
+                    this.clearFocus()
+                }
             }
-        })
+            binding.currencySearchView.btnSearch.setOnClickListener {
+                binding.currencySearchView.currencySearchView.requestFocus()
+            }
+        }
     }
 
 }
