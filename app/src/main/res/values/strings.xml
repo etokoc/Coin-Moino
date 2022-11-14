@@ -17,4 +17,8 @@
     <string name="coin_time_8_hour">8S</string>
     <string name="coin_time_12_hour">12S</string>
     <string name="coin_time_1_week">1H</string>
+    <string name="_24s_de_i_im">24s Değişim</string>
+    <string name="fiyat">Fiyat</string>
+    <string name="hacim">Hacim</string>
+    <string name="ad">Ad</string>
 </resources>

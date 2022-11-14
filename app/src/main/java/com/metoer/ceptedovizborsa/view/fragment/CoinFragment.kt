@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
+import com.metoer.ceptedovizborsa.util.FilterEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +72,75 @@ class CoinFragment : Fragment() {
                     }
                 }
             }.attach()
+
+            binding.tablayoutFilter.apply {
+                addTab(binding.tablayoutFilter.newTab().setText("Ad"))
+                addTab(binding.tablayoutFilter.newTab().setText("Hacim"))
+                addTab(binding.tablayoutFilter.newTab().setText("Fiyat"))
+                addTab(binding.tablayoutFilter.newTab().setText("24s Değişim"))
+                var statusType = FilterEnum.NAME
+                var statusSortType = FilterEnum.ASC
+                val isClicked = arrayListOf(false, false, false, false)
+                binding.tablayoutFilter.apply {
+                    this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                        override fun onTabSelected(tab: TabLayout.Tab?) {
+                            when (tab?.position) {
+                                0 -> {
+                                    statusType = FilterEnum.NAME
+                                }
+                                1 -> {
+                                    statusType = FilterEnum.VOLUME
+
+                                }
+                                2 -> {
+                                    statusType = FilterEnum.PRICE
+
+                                }
+                                3 -> {
+                                    statusType = FilterEnum.HOUR24
+
+                                }
+                            }
+                            statusSortType = if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                            sharedViewModel.filterStatus.value =
+                                Pair(
+                                    statusType, statusSortType
+                                )
+                            isClicked[tab?.position!!] = !isClicked[tab?.position]
+
+                        }
+
+                        override fun onTabUnselected(tab: TabLayout.Tab?) {
+                        }
+
+                        override fun onTabReselected(tab: TabLayout.Tab?) {
+                            when (tab?.position) {
+                                0 -> {
+                                    statusType = FilterEnum.NAME
+                                }
+                                1 -> {
+                                    statusType = FilterEnum.VOLUME
+
+                                }
+                                2 -> {
+                                    statusType = FilterEnum.PRICE
+
+                                }
+                                3 -> {
+                                    statusType = FilterEnum.HOUR24
+
+                                }
+                            }
+                            statusSortType = if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                            sharedViewModel.filterStatus.value =
+                                Pair(
+                                    statusType, statusSortType
+                                )
+                            isClicked[tab?.position!!] = !isClicked[tab?.position]
+                        }
+                    })
+                }
+            }
         }
     }
 

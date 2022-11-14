@@ -9,13 +9,10 @@ import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
-import com.metoer.ceptedovizborsa.util.DiffUtil
-import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.*
 
-class CoinAdapter: RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
+class CoinAdapter : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -52,7 +49,7 @@ class CoinAdapter: RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
         val diffResult = calculateDiff(diffUtil)
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(0,itemList.size)
+        notifyItemRangeChanged(0, itemList.size)
     }
 
     private fun parcentBacgroundTint(parcent: Double, textView: TextView, context: Context) {
@@ -78,6 +75,15 @@ class CoinAdapter: RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
                 )
             )
         }
+    }
+
+    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
+        val newList = SortListUtil()
+        setData(
+            newList.sortedForCoinList(
+                itemList, listSortType, listSortItem
+            )
+        )
     }
 
     override fun getItemCount(): Int {

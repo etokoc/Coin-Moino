@@ -19,6 +19,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout_filter"
+        style="@style/CoinTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
+        app:tabTextColor="@color/black" />
+
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         style="@style/CoinTabLayout"
         android:layout_width="match_parent"
@@ -41,7 +53,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@id/tablayout_filter" />
 
     <FrameLayout
         android:id="@+id/coin_container"

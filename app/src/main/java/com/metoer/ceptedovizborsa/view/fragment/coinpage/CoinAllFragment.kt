@@ -9,17 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.util.StaticCoinList
-import com.metoer.ceptedovizborsa.util.hide
-import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CoinAllFragment : Fragment() {
@@ -41,6 +36,10 @@ class CoinAllFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initListener()
+        sharedViewModel.filterStatus.observe(viewLifecycleOwner) {
+            adapter.sortList(it.second, it.first)
+            binding.recylerview.scrollToPosition(0)
+        }
     }
 
     fun initListener() {
@@ -52,17 +51,20 @@ class CoinAllFragment : Fragment() {
             binding.recylerview.adapter = adapter
             StaticCoinList.coinList = it
         }
-        sharedViewModel.coinList.observe(viewLifecycleOwner){
+        sharedViewModel.coinList.observe(viewLifecycleOwner) {
             filter(it)
         }
     }
+
     private val coinList = ArrayList<CoinData>()
     private fun filter(text: String) {
         val filterlist = ArrayList<CoinData>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault()))!!
-                || item.name?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!) {
+                || item.name?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault()))!!
+            ) {
                 filterlist.add(item)
             }
         }
