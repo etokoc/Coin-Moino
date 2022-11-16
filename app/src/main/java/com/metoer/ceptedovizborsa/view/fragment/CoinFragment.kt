@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
+import com.metoer.ceptedovizborsa.databinding.ItemCoinTabBinding
 import com.metoer.ceptedovizborsa.util.FilterEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -75,14 +75,13 @@ class CoinFragment : Fragment() {
             }.attach()
 
             binding.tablayoutFilter.apply {
-                addTab(binding.tablayoutFilter.newTab().setText("Ad"))
-                addTab(binding.tablayoutFilter.newTab().setText("Hacim"))
-                addTab(binding.tablayoutFilter.newTab().setText("Fiyat"))
-                addTab(binding.tablayoutFilter.newTab().setText("24s Değişim"))
-                getTabAt(0)!!.setIcon(R.drawable.arrow_back)
-                getTabAt(1)!!.setIcon(R.drawable.arrow_back)
-                getTabAt(2)!!.setIcon(R.drawable.arrow_back)
-                getTabAt(3)!!.setIcon(R.drawable.arrow_back)
+                val headerList = arrayListOf("Ad", "Hacim", "Fiyat", "24s Değişim")
+                headerList.forEachIndexed { index, s ->
+                    val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
+                    tabItem.tvTabItem.text = headerList[index]
+                    this.getTabAt(index)?.customView = tabItem.root
+                }
+
                 var statusType = FilterEnum.NAME
                 var statusSortType: FilterEnum
                 val isClicked = arrayListOf(false, false, false, false)
