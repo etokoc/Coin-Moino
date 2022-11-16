@@ -20,7 +20,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout_filter"
-        style="@style/CoinTabLayout"
+        style="@style/SortTablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -28,7 +28,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout"
         app:tabTextAppearance="@style/AppTabTextAppearance"
-        app:tabTextColor="@color/black" />
+        app:tabTextColor="@color/black" >
+    </com.google.android.material.tabs.TabLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -54,20 +55,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tablayout_filter" />
-
-    <FrameLayout
-        android:id="@+id/coin_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout"
-        app:layout_constraintVertical_bias="0.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

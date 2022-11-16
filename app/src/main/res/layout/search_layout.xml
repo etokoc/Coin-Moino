@@ -12,6 +12,7 @@
         <ImageButton
             android:id="@+id/btn_search"
             android:layout_weight="0.5"
+            android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent"
@@ -20,7 +21,9 @@
             android:id="@+id/currencySearchView"
             android:layout_width="match_parent"
             android:background="@color/transparent"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="0.1"
             android:layout_height="wrap_content"
             android:hint="Coin"
@@ -28,12 +31,15 @@
 
         <ImageButton
             android:id="@+id/btn_clear"
-            android:visibility="gone"
-            android:layout_weight="0.5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="0.5"
             android:background="@color/transparent"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+            android:src="@drawable/close_delete"
+            android:visibility="gone" />
 
     </LinearLayout>
 

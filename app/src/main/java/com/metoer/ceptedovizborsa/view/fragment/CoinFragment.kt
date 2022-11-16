@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.util.FilterEnum
@@ -78,8 +79,12 @@ class CoinFragment : Fragment() {
                 addTab(binding.tablayoutFilter.newTab().setText("Hacim"))
                 addTab(binding.tablayoutFilter.newTab().setText("Fiyat"))
                 addTab(binding.tablayoutFilter.newTab().setText("24s Değişim"))
+                getTabAt(0)!!.setIcon(R.drawable.arrow_back)
+                getTabAt(1)!!.setIcon(R.drawable.arrow_back)
+                getTabAt(2)!!.setIcon(R.drawable.arrow_back)
+                getTabAt(3)!!.setIcon(R.drawable.arrow_back)
                 var statusType = FilterEnum.NAME
-                var statusSortType = FilterEnum.ASC
+                var statusSortType: FilterEnum
                 val isClicked = arrayListOf(false, false, false, false)
                 binding.tablayoutFilter.apply {
                     this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -101,12 +106,13 @@ class CoinFragment : Fragment() {
 
                                 }
                             }
-                            statusSortType = if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                            statusSortType =
+                                if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
-                            isClicked[tab?.position!!] = !isClicked[tab?.position]
+                            isClicked[tab.position] = !isClicked[tab.position]
 
                         }
 
@@ -131,12 +137,13 @@ class CoinFragment : Fragment() {
 
                                 }
                             }
-                            statusSortType = if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                            statusSortType =
+                                if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
-                            isClicked[tab?.position!!] = !isClicked[tab?.position]
+                            isClicked[tab.position] = !isClicked[tab.position]
                         }
                     })
                 }

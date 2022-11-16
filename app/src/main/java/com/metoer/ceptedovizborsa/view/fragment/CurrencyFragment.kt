@@ -1,13 +1,15 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.SearchView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,16 +52,19 @@ class CurrencyFragment : Fragment(), OnClickListener {
         _binding = FragmentCurrencyBinding.inflate(inflater, container, false)
         initListeners()
         binding.apply {
+            currencySearchView.currencySearchView.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-            currencySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
                 }
 
-                override fun onQueryTextChange(searchText: String): Boolean {
-                    if (searchText.isNotEmpty()) filter(searchText) else filter(" ")
-                    return false
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (p0.toString().isNotEmpty()) filter(p0.toString()) else filter(" ")
                 }
+
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+
             })
         }
         return binding.root
@@ -103,6 +108,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
         super.onResume()
         val unixTime = System.currentTimeMillis()
         viewModel.getAllCurrencyData(unixTime.toString())
+        initSearchView()
         binding.apply {
             iconName.tag = true
             iconValue.tag = true
@@ -159,6 +165,28 @@ class CurrencyFragment : Fragment(), OnClickListener {
             }
         }
         onAddButtonClicked(icon!!)
+    }
+    private fun initSearchView() {
+        binding.currencySearchView.currencySearchView.apply {
+            addTextChangedListener {
+                if (!this.text.isNullOrEmpty()) {
+                    binding.currencySearchView.btnClear.visibility = View.VISIBLE
+                } else
+                    binding.currencySearchView.btnClear.visibility = View.GONE
+            }
+            binding.currencySearchView.btnClear.setOnClickListener {
+                if (!this.text.isNullOrEmpty()) {
+                    this.text?.clear()
+                    this.clearFocus()
+                } else {
+                    binding.currencySearchView.btnClear.visibility = View.GONE
+                    this.clearFocus()
+                }
+            }
+            binding.currencySearchView.btnSearch.setOnClickListener {
+                binding.currencySearchView.currencySearchView.requestFocus()
+            }
+        }
     }
 }
 
