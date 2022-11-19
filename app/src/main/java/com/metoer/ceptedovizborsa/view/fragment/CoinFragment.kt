@@ -121,7 +121,10 @@ class CoinFragment : Fragment() {
                             }
                             selectedFilterTab(selectedTabPosition)
                             statusSortType =
-                                if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                                if (isClicked[tab?.position!!]) FilterEnum.DESC else{
+                                    isClicked[tab.position] = true
+                                    FilterEnum.ASC
+                                }
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
