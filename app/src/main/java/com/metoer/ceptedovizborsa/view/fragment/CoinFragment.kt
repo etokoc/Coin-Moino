@@ -93,7 +93,7 @@ class CoinFragment : Fragment() {
                     tabItem.imageView.tag = false
                     tabItemList.add(tabItem)
                 }
-                selectedFilterTab(tabItemList.size+1)
+                selectedFilterTab(tabItemList.size + 1)
                 var statusType = FilterEnum.NAME
                 var statusSortType: FilterEnum
                 val isClicked = arrayListOf(false, false, false, false)
@@ -167,7 +167,12 @@ class CoinFragment : Fragment() {
     private fun selectedFilterTab(position: Int) {
         tabItemList.forEachIndexed { index, tab ->
             if (index == position) {
-                tab.imageView.setColorFilter(ContextCompat.getColor(requireContext(),R.color.transparent))
+                tab.imageView.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.transparent
+                    )
+                )
                 if (tab.imageView.tag == true) {
                     tab.imageView.tag = false
                     tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortupicon))
@@ -175,13 +180,15 @@ class CoinFragment : Fragment() {
                     tab.imageView.tag = true
                     tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortdownicon))
                 }
-            } else
+            } else {
+                tab.imageView.tag = false
                 tab.imageView.setColorFilter(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.appGray
                     )
                 )
+            }
         }
     }
 
