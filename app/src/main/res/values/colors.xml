@@ -20,5 +20,6 @@
     <color name="coinValueRise">#019875</color>
     <color name="coinValueDrop">#B8293D</color>
     <color name="forested_gray">#D8E6E6E6</color>
+    <color name="sortgray">#B3B3B3</color>
 
 </resources>
