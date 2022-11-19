@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -79,6 +80,12 @@ class CoinFragment : Fragment() {
                 headerList.forEachIndexed { index, s ->
                     val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
                     tabItem.tvTabItem.text = headerList[index]
+                    val layout =
+                        (this.getChildAt(0) as LinearLayout).getChildAt(3) as LinearLayout
+                    val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.weight = 1.5f // e.g. 0.5f
+
+                    layout.layoutParams = layoutParams
                     this.getTabAt(index)?.customView = tabItem.root
                 }
 

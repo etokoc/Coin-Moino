@@ -59,7 +59,7 @@
     <!--for text -->
     <style name="SortItemTextAppearence" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="textAllCaps">false</item>
+        <item name="textAllCaps">true</item>
         <item name="android:textColor">@color/black</item>
     </style>
 </resources>
