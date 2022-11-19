@@ -10,10 +10,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
-import com.metoer.ceptedovizborsa.util.DiffUtil
-import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
-import com.metoer.ceptedovizborsa.util.StaticCoinList
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 
 
@@ -112,6 +109,15 @@ class CoinPageAdapter(
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
         notifyItemRangeChanged(0, itemList.size)
+    }
+
+    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
+        val newList = SortListUtil()
+        setData(
+            newList.sortedForCoinList(
+                itemList, listSortType, listSortItem
+            )
+        )
     }
 
     override fun getItemCount(): Int {
