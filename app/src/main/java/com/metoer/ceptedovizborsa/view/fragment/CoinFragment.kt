@@ -80,6 +80,9 @@ class CoinFragment : Fragment() {
 
             binding.tablayoutFilter.apply {
                 val headerList = arrayListOf("Ad", "Hacim", "Fiyat", "24s Değişim")
+                headerList.forEach {
+                    this.addTab(this.newTab())
+                }
                 headerList.forEachIndexed { index, s ->
                     val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
                     tabItem.tvTabItem.text = headerList[index]
@@ -87,7 +90,6 @@ class CoinFragment : Fragment() {
                         (this.getChildAt(0) as LinearLayout).getChildAt(3) as LinearLayout
                     val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
                     layoutParams.weight = 1.5f // e.g. 0.5f
-
                     layout.layoutParams = layoutParams
                     this.getTabAt(index)?.customView = tabItem.root
                     tabItem.imageView.tag = false
@@ -170,10 +172,10 @@ class CoinFragment : Fragment() {
                 tab.imageView.setColorFilter(ContextCompat.getColor(requireContext(),R.color.transparent))
                 if (tab.imageView.tag == true) {
                     tab.imageView.tag = false
-                    tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortupicon))
+                    tab.imageView.setImageResource(R.drawable.sortupicon)
                 } else {
                     tab.imageView.tag = true
-                    tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortdownicon))
+                    tab.imageView.setImageResource(R.drawable.sortdownicon)
                 }
             } else
                 tab.imageView.setColorFilter(
