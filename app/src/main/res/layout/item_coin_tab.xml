@@ -14,11 +14,11 @@
     android:text="" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="3dp"
         android:src="@drawable/sortdownicon"
-        android:tint="@color/sortgray"
         app:layout_constraintBottom_toBottomOf="@id/tv_tabItem"
         app:layout_constraintLeft_toRightOf="@id/tv_tabItem"
         app:layout_constraintTop_toTopOf="parent" />

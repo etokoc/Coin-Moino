@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.databinding.ItemCoinTabBinding
@@ -27,6 +29,7 @@ class CoinFragment : Fragment() {
         get() = _binding!!
     private val viewModel: CoinViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
+    val tabItemList = ArrayList<ItemCoinTabBinding>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,8 +90,10 @@ class CoinFragment : Fragment() {
 
                     layout.layoutParams = layoutParams
                     this.getTabAt(index)?.customView = tabItem.root
+                    tabItem.imageView.tag = false
+                    tabItemList.add(tabItem)
                 }
-
+                selectedFilterTab(tabItemList.size+1)
                 var statusType = FilterEnum.NAME
                 var statusSortType: FilterEnum
                 val isClicked = arrayListOf(false, false, false, false)
@@ -112,6 +117,7 @@ class CoinFragment : Fragment() {
 
                                 }
                             }
+                            selectedFilterTab(selectedTabPosition)
                             statusSortType =
                                 if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
                             sharedViewModel.filterStatus.value =
@@ -143,6 +149,7 @@ class CoinFragment : Fragment() {
 
                                 }
                             }
+                            selectedFilterTab(selectedTabPosition)
                             statusSortType =
                                 if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
                             sharedViewModel.filterStatus.value =
@@ -154,6 +161,27 @@ class CoinFragment : Fragment() {
                     })
                 }
             }
+        }
+    }
+
+    private fun selectedFilterTab(position: Int) {
+        tabItemList.forEachIndexed { index, tab ->
+            if (index == position) {
+                tab.imageView.setColorFilter(ContextCompat.getColor(requireContext(),R.color.transparent))
+                if (tab.imageView.tag == true) {
+                    tab.imageView.tag = false
+                    tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortupicon))
+                } else {
+                    tab.imageView.tag = true
+                    tab.imageView.setImageDrawable(resources.getDrawable(R.drawable.sortdownicon))
+                }
+            } else
+                tab.imageView.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.appGray
+                    )
+                )
         }
     }
 
