@@ -50,7 +50,7 @@ class CoinFragment : Fragment() {
     private fun initTabLayout() {
         binding.tabLayout.apply {
             val coinPageAdapter =
-                ViewPagerAdapter(requireActivity().supportFragmentManager, lifecycle)
+                ViewPagerAdapter(childFragmentManager, lifecycle)
             binding.coinViewPager.adapter = coinPageAdapter
             TabLayoutMediator(this, binding.coinViewPager) { tab, position ->
                 when (position) {
