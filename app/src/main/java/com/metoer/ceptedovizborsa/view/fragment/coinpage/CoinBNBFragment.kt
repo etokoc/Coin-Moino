@@ -50,6 +50,10 @@ class CoinBNBFragment : Fragment() {
             binding.recylerview.adapter = adapter
         }
 
+        sharedViewModel.filterStatus.observe(viewLifecycleOwner) {
+            adapter.sortList(it.second, it.first)
+            binding.recylerview.scrollToPosition(0)
+        }
         sharedViewModel.coinList.observe(viewLifecycleOwner){
             filter(it)
         }

@@ -47,6 +47,10 @@ class CoinUSDTFragment : Fragment() {
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
         }
+        sharedViewModel.filterStatus.observe(viewLifecycleOwner) {
+            adapter.sortList(it.second, it.first)
+            binding.recylerview.scrollToPosition(0)
+        }
         sharedViewModel.coinList.observe(viewLifecycleOwner) {
             filter(it)
         }
@@ -58,7 +62,8 @@ class CoinUSDTFragment : Fragment() {
         for (item in coinList) {
             if (item.baseSymbol.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))!!
-                || item.baseId.lowercase (Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!
+                || item.baseId.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault()))!!
             ) {
                 filterlist.add(item)
             }
