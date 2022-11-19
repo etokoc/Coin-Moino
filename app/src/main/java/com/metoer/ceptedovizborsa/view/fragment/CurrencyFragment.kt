@@ -168,6 +168,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
     }
     private fun initSearchView() {
         binding.currencySearchView.currencySearchView.apply {
+            hint = getString(R.string.search_currency_name)
             addTextChangedListener {
                 if (!this.text.isNullOrEmpty()) {
                     binding.currencySearchView.btnClear.visibility = View.VISIBLE
