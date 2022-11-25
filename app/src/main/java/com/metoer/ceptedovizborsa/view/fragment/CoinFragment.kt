@@ -78,6 +78,19 @@ class CoinFragment : Fragment() {
                 }
             }.attach()
 
+            binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    selectedFilterTab(tabItemList.size+1)
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
+
             binding.tablayoutFilter.apply {
                 val headerList = arrayListOf("Ad", "Hacim", "Fiyat", "24s Değişim")
                 headerList.forEach {
