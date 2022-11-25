@@ -121,16 +121,14 @@ class CoinFragment : Fragment() {
                             }
                             selectedFilterTab(selectedTabPosition)
                             statusSortType =
-                                if (isClicked[tab?.position!!]) FilterEnum.DESC else{
-                                    isClicked[tab.position] = true
-                                    FilterEnum.ASC
+                                if (tabItemList[tab!!.position].imageView.tag.toString().toBoolean()) FilterEnum.ASC else{
+                                    FilterEnum.DESC
+
                                 }
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
-                            isClicked[tab.position] = !isClicked[tab.position]
-
                         }
 
                         override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -156,12 +154,11 @@ class CoinFragment : Fragment() {
                             }
                             selectedFilterTab(selectedTabPosition)
                             statusSortType =
-                                if (isClicked[tab?.position!!]) FilterEnum.DESC else FilterEnum.ASC
+                                if (tabItemList[tab!!.position].imageView.tag.toString().toBoolean()) FilterEnum.ASC else FilterEnum.DESC
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
-                            isClicked[tab.position] = !isClicked[tab.position]
                         }
                     })
                 }

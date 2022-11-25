@@ -48,6 +48,7 @@ class CoinPageAdapter(
                 coinExchangeValueText.text =
                     NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
                 val parcent = caltulateMainCoin(currentItem.baseSymbol)
+                itemList[position].percentExchangeVolume = parcent.toString()
                 if (parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
