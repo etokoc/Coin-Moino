@@ -40,7 +40,7 @@ class CoinPageAdapter(
         holder.binding.apply {
             if (currentItem.priceQuote.toDouble() != 0.0) {
                 coinExchangeNameText.text = currentItem.baseId.uppercase()
-                coinExchangeSembolText.text = currentItem.baseSymbol
+                coinExchangeSembolText.text = "$position  " + currentItem.baseSymbol
                 coinQuoteSembolText.text = "/${currentItem.quoteSymbol}"
                 coinVolumeExchangeText.text =
                     MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
@@ -107,21 +107,24 @@ class CoinPageAdapter(
     fun setData(newItemList: List<MarketData>) {
         val diffUtil = DiffUtil(itemList, newItemList)
         val diffResult = calculateDiff(diffUtil)
+        itemList = listOf()
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(0, itemList.size)
+        notifyItemRangeChanged(0, getListSize())
     }
 
     fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
         val newList = SortListUtil()
         setData(
             newList.sortedForCoinList(
-                itemList, listSortType, listSortItem
+                getFilteredList(), listSortType, listSortItem
             )
         )
     }
+    private fun getFilteredList () = itemList.filter { it.priceQuote.toDouble() != 0.0 }
+    private fun getListSize() = getFilteredList().size
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return getListSize()
     }
 }
