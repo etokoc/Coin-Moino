@@ -15,7 +15,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/sort_menu_design"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +37,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="İsim"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <ImageView
@@ -46,7 +45,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/minus"
-                app:tint="@color/white" />
+                app:tint="@color/primary_color" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +63,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Değer"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <ImageView
@@ -72,7 +71,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/minus"
-                app:tint="@color/white" />
+                app:tint="@color/primary_color" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,7 +89,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Popülerlik"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <ImageView
@@ -98,7 +97,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/minus"
-                app:tint="@color/white" />
+                app:tint="@color/primary_color" />
         </LinearLayout>
 
     </LinearLayout>
