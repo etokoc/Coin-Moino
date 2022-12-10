@@ -44,6 +44,9 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        binding?.apply {
+            btnBuy.setBackgroundResource(R.drawable.buy_button_design)
+        }
     }
 
     override fun onResume() {

@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:src="?android:attr/actionModeWebSearchDrawable"
-            app:tint="@color/primary_color" />
+            app:tint="@color/sortgray" />
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/currencySearchView"
             android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -172,8 +173,10 @@ class CurrencyFragment : Fragment(), OnClickListener {
             addTextChangedListener {
                 if (!this.text.isNullOrEmpty()) {
                     binding.currencySearchView.btnClear.visibility = View.VISIBLE
+                    binding.currencySearchView.btnSearch.setColorFilter(resources.getColor(R.color.primary_color))
                 } else
                     binding.currencySearchView.btnClear.visibility = View.GONE
+                binding.currencySearchView.btnSearch.setColorFilter(resources.getColor(R.color.sortgray))
             }
             binding.currencySearchView.btnClear.setOnClickListener {
                 if (!this.text.isNullOrEmpty()) {

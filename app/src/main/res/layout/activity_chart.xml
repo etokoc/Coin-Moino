@@ -140,6 +140,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewLowestPrice" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.github.mikephil.charting.charts.CandleStickChart
@@ -151,26 +152,71 @@
         android:layout_marginEnd="2dp"
         android:scrollbars="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
- <ProgressBar
-     android:id="@+id/progressBar"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:visibility="invisible"
-     app:layout_constraintLeft_toLeftOf="@id/coinDataChart"
-     app:layout_constraintRight_toRightOf="@id/coinDataChart"
-     app:layout_constraintTop_toTopOf="@id/coinDataChart"
-     app:layout_constraintBottom_toBottomOf="@id/coinDataChart"/>
-    <TextView
-        android:id="@+id/textView"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/topstartendradiusbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coinDataChart">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/buy_button_design"
+            android:backgroundTint="@color/white"
+            android:hint="Miktar"
+            app:layout_constraintEnd_toStartOf="@+id/editText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:hint="Toplam"
+            android:padding="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/buy_button_design"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/buy_button_design"
+            android:backgroundTint="@color/primary_color"
+            android:text="Satın Al"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/coinDataChart"
+        app:layout_constraintLeft_toLeftOf="@id/coinDataChart"
+        app:layout_constraintRight_toRightOf="@id/coinDataChart"
+        app:layout_constraintTop_toTopOf="@id/coinDataChart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

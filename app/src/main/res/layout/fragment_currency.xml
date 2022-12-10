@@ -42,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/iconName"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/minus"
                 app:tint="@color/primary_color" />
         </LinearLayout>
@@ -68,8 +68,8 @@
 
             <ImageView
                 android:id="@+id/iconValue"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/minus"
                 app:tint="@color/primary_color" />
         </LinearLayout>
@@ -94,8 +94,8 @@
 
             <ImageView
                 android:id="@+id/iconIncrase"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/minus"
                 app:tint="@color/primary_color" />
         </LinearLayout>

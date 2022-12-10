@@ -76,6 +76,7 @@ class CoinFragment : Fragment() {
                         tab.text = "ETH"
                     }
                 }
+
             }.attach()
 
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{

@@ -61,9 +61,9 @@ class CoinUSDTFragment : Fragment() {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))!!
+                    .contains(text.lowercase(Locale.getDefault()))
                 || item.baseId.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault()))!!
+                    .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filterlist.add(item)
             }

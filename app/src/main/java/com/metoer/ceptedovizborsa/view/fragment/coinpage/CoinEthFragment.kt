@@ -22,13 +22,13 @@ class CoinEthFragment : Fragment() {
     private val binding
         get() = _binding!!
     private var adapter = CoinPageAdapter("ETH")
-    private val viewModel : CoinPageViewModel by viewModels ()
-    private val sharedViewModel:SharedViewModel by viewModels()
+    private val viewModel: CoinPageViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,7 +40,7 @@ class CoinEthFragment : Fragment() {
 
 
     fun initListener() {
-        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner){
+        viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it)
             coinList.clear()
@@ -51,7 +51,7 @@ class CoinEthFragment : Fragment() {
             adapter.sortList(it.second, it.first)
             binding.recylerview.scrollToPosition(0)
         }
-        sharedViewModel.coinList.observe(viewLifecycleOwner){
+        sharedViewModel.coinList.observe(viewLifecycleOwner) {
             filter(it)
         }
     }
@@ -61,8 +61,9 @@ class CoinEthFragment : Fragment() {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))!!
-                || item.baseId.lowercase (Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!
+                    .contains(text.lowercase(Locale.getDefault()))
+                || item.baseId.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filterlist.add(item)
             }
