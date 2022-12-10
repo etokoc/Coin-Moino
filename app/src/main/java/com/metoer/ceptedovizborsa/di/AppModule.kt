@@ -1,14 +1,19 @@
 package com.metoer.ceptedovizborsa.di
 
+import android.content.Context
 import android.util.Log
+import androidx.room.Room
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.QualifiedTypeConverterFactory
+import com.metoer.ceptedovizborsa.data.db.CoinBuyDao
+import com.metoer.ceptedovizborsa.data.db.CoinBuyDatabase
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -52,7 +57,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit (providesOkHttpClient: OkHttpClient.Builder) : Retrofit{
+    fun providesRetrofit(providesOkHttpClient: OkHttpClient.Builder): Retrofit {
         val retrofit = Retrofit
             .Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -71,7 +76,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesAppApi(retrofit: Retrofit) =retrofit.create(AppApi::class.java)
+    fun providesAppApi(retrofit: Retrofit) = retrofit.create(AppApi::class.java)
 
+    @Provides
+    @Singleton
+    fun providesCoinDatabase(@ApplicationContext context: Context) =
+        Room.databaseBuilder(context, CoinBuyDatabase::class.java,"coin_buy_db").build()
 
+    @Provides
+    @Singleton
+    fun provideYourDao(db: CoinBuyDatabase) = db.getCoinBuyDao()
 }

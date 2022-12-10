@@ -1,0 +1,22 @@
+package com.metoer.ceptedovizborsa.data.db
+
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Completable
+import io.reactivex.Single
+
+@AndroidEntryPoint
+interface CoinBuyDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun upsert(item: CoinBuyItem): Completable
+
+    @Delete
+    fun delete(item: CoinBuyItem): Completable
+
+    @Query("SELECT * FROM CoinBuyTable")
+    fun getAllCoinBuyData(): Single<List<CoinBuyItem>>
+
+}
