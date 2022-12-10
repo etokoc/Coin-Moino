@@ -12,13 +12,38 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRepository) {
     protected val compositeDisposable = CompositeDisposable()
+
     fun gelAllCoinBuyData(): MutableLiveData<List<CoinBuyItem>> {
+        val data = MutableLiveData<List<CoinBuyItem>>()
         repository.getAllCoinItems().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 if (!it.isNullOrEmpty()) {
-
+                    data.value = it
                 }
+            }, {
+
+            }).let {
+                compositeDisposable.add(it)
+            }
+        return data
+    }
+
+    fun upsertCoinBuyItem(item: CoinBuyItem) {
+        repository.updateAdd(item).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+
+            }, {
+
+            }).let {
+                compositeDisposable.add(it)
+            }
+    }
+
+    fun delete(item: CoinBuyItem){
+        repository.delete(item).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+
             }, {
 
             }).let {
