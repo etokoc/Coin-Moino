@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.viewmodel.fragment
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.repository.RoomRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,8 +11,8 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRepository) {
-    protected val compositeDisposable = CompositeDisposable()
+class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRepository):ViewModel() {
+      val compositeDisposable = CompositeDisposable()
 
     fun gelAllCoinBuyData(): MutableLiveData<List<CoinBuyItem>> {
         val data = MutableLiveData<List<CoinBuyItem>>()

@@ -167,7 +167,7 @@
         app:layout_constraintTop_toBottomOf="@+id/coinDataChart">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editText"
+            android:id="@+id/edittext_unit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -177,12 +177,12 @@
             android:background="@drawable/buy_button_design"
             android:backgroundTint="@color/white"
             android:hint="Miktar"
-            app:layout_constraintEnd_toStartOf="@+id/editText2"
+            app:layout_constraintEnd_toStartOf="@+id/edittext_total"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editText2"
+            android:id="@+id/edittext_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -192,7 +192,7 @@
             android:background="@drawable/buy_button_design"
             android:backgroundTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintStart_toEndOf="@+id/edittext_unit"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -206,7 +206,7 @@
             android:text="Satın Al"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/edittext_unit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

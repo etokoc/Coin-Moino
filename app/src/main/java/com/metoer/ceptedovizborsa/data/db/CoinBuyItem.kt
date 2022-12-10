@@ -13,7 +13,7 @@ data class CoinBuyItem(
     @ColumnInfo(name = "coin_unit")
     var coinUnit: Int? = null,
     @ColumnInfo(name = "coin_taked_value")
-    var coinTakedValue: Int? = null,
+    var coinTakedValue: Double? = null,
     @ColumnInfo(name = "coin_taked_time")
     var coinTakedTime: Long? = null
 ) {

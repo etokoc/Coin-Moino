@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -22,11 +21,14 @@ import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_chart.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +41,10 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var dataMarket: MarketData
     private val binding
         get() = _binding
+
     private val viewModel: ChartViewModel by viewModels()
+    private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -61,6 +66,24 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         binding.apply { }
         setCandelStickChart()
         viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
+
+        //Coin Buy Click
+        btnBuy.setOnClickListener {
+            var coinUnit = 0
+            edittext_unit?.let {
+                coinUnit = it.text.toString().toInt()
+            }
+            dataMarket.apply {
+                val coinBuyItem = CoinBuyItem(
+                    baseSymbol,
+                    baseId,
+                    coinUnit,
+                    priceQuote.toDouble(),
+                    System.currentTimeMillis()
+                )
+                coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+            }
+        }
 
     }
 
@@ -133,7 +156,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
                     areaCount.add(getDate(candleData.period)!!)
-                    Log.i("valueobserve", ""+candleData.close)
+                    Log.i("valueobserve", "" + candleData.close)
                     candlestickentry.add(
                         CandleEntry(
                             sayac,
@@ -283,6 +306,11 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     //Listen to spinner
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coinPortfolioViewModel.compositeDisposable.clear()
     }
 
 }
