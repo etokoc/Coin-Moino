@@ -36,7 +36,7 @@
                 android:drawableTint="@color/white"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:text="İsim"
+                android:text="@string/name"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:text="Değer"
+                android:text="@string/deger"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

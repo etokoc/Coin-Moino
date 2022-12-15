@@ -6,6 +6,7 @@ import java.text.NumberFormat
 import java.util.*
 
 object MoneyCalculateUtil {
+
     fun moneyConverter(
         currencyList: ArrayList<Currency>,
         money: Double,
@@ -23,8 +24,9 @@ object MoneyCalculateUtil {
         val d = number.toDouble()
         return d
     }
+
     fun volumeShortConverter(value: Double): String {
-        var simplfy = ""
+        val simplfy: String
         if ((value / 1000000000) >= 1) {
             simplfy =
                 "Hacim " + DecimalFormat("0.##").format(value / 1000000000) + " milyar"

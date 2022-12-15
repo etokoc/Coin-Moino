@@ -166,7 +166,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coinDataChart">
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:id="@+id/edittext_unit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -176,18 +176,18 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/buy_button_design"
             android:backgroundTint="@color/white"
-            android:hint="Miktar"
+            android:inputType="numberDecimal"
             app:layout_constraintEnd_toStartOf="@+id/edittext_total"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:id="@+id/edittext_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:hint="Toplam"
             android:padding="10dp"
+            android:inputType="numberDecimal"
             android:layout_marginTop="16dp"
             android:background="@drawable/buy_button_design"
             android:backgroundTint="@color/white"

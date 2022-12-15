@@ -3,6 +3,8 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -25,11 +27,13 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_chart.*
 import java.text.DateFormat
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,9 +42,9 @@ import java.util.*
 class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private var _binding: ActivityChartBinding? = null
-    private lateinit var dataMarket: MarketData
     private val binding
-        get() = _binding
+        get() = _binding!!
+    private lateinit var dataMarket: MarketData
 
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
@@ -48,18 +52,25 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-        binding?.apply {
-            btnBuy.setBackgroundResource(R.drawable.buy_button_design)
+        setContentView(binding.root)
+        binding.apply {
+
         }
     }
 
     override fun onResume() {
         super.onResume()
         dataMarket = intent.getSerializableExtra("send") as MarketData
+        binding.apply {
+            edittextTotal.filters = editTextFilter()
+            edittextUnit.filters = editTextFilter()
+            edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
+            edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
+        }
         initTabLayout()
         initSpinner()
         initListeners()
+        calculateCoin()
     }
 
     private fun initListeners() {
@@ -76,6 +87,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             dataMarket.apply {
                 val coinBuyItem = CoinBuyItem(
                     baseSymbol,
+                    quoteSymbol,
                     baseId,
                     coinUnit,
                     priceQuote.toDouble(),
@@ -100,16 +112,15 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             getString(R.string.coin_time_1_week),
         )
 
-        binding?.spinnerCoinMoreItems.apply {
-            this?.adapter =
+        binding.spinnerCoinMoreItems.apply {
+            this.adapter =
                 ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
         }
     }
 
     var interval = "m15"
     private fun initTabLayout() {
-        binding?.apply {
-//            setCandelStickChart("m15", dataMarket.baseId, dataMarket.quoteId)
+        binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when (tab?.position) {
@@ -121,7 +132,6 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                         }
                         2 -> {
                             interval = "h4"
-
                         }
                         3 -> {
                             interval = "d1"
@@ -129,7 +139,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     }
                     progressBar.show()
                     viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
-                    textViewVolume.text = "${tab?.text} Hacim"
+                    textViewVolume.text = getString(R.string.volume_text, tab?.text)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -144,7 +154,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
     private fun setCandelStickChart() {
-        binding!!.apply {
+        binding.apply {
             val candlestickentry = ArrayList<CandleEntry>()
             candlestickentry.clear()
             val areaCount = ArrayList<String>()
@@ -168,7 +178,6 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     )
                     sayac++
                 }
-                Log.i("MYLOG", "2: ")
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
                 coinValueTextView.text =
                     NumberDecimalFormat.numberDecimalFormat(
@@ -191,7 +200,6 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                         it.last().low,
                         "###,###,###,###.######"
                     )
-                Log.i("MYLOG", "3: ")
 
                 candledataset.apply {
                     color = Color.rgb(80, 80, 80)
@@ -269,6 +277,82 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     moveViewToX(candlestickentry.size.toFloat()) //last item than view
                 }
             }
+        }
+    }
+
+    private fun calculateCoin() {
+        var money: Double
+        binding.apply {
+            var editControl = false
+            var editControl2 = false
+            edittextUnit.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    p0: CharSequence?,
+                    p1: Int,
+                    p2: Int,
+                    p3: Int
+                ) {
+                    editControl = true
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (p0 != null && p0.isNotEmpty() && !edittext_unit.text.toString()
+                            .startsWith(',')
+                    ) {
+                        if (editControl && !editControl2) {
+                            money = MoneyCalculateUtil.doubleConverter(p0)
+                            val coinCalculate = dataMarket.priceQuote.toDouble() * money
+                            edittextTotal.setText(
+                                DecimalFormat("##.######").format(coinCalculate).toString()
+                            )
+                        }
+                    } else {
+                        edittext_unit.text?.clear()
+                        edittext_total.text?.clear()
+                    }
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    edittextUnit.setDefaultKeyListener(EditTextUtil.editTextSelectDigits(p0))
+                    editControl = false
+                }
+
+            })
+
+            edittextTotal.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    p0: CharSequence?,
+                    p1: Int,
+                    p2: Int,
+                    p3: Int
+                ) {
+                    editControl2 = true
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (p0 != null && p0.isNotEmpty() && !edittext_total.text.toString()
+                            .startsWith(',')
+                    ) {
+                        if (editControl2 && !editControl) {
+                            money = MoneyCalculateUtil.doubleConverter(p0)
+                            val coinCalculate = money / dataMarket.priceQuote.toDouble()
+                            edittextUnit.setText(
+                                DecimalFormat("##.######").format(coinCalculate).toString()
+                            )
+                        }
+                    } else {
+                        edittext_total.text?.clear()
+                        edittext_unit.text?.clear()
+                    }
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    edittext_total.setDefaultKeyListener(EditTextUtil.editTextSelectDigits(p0))
+                    editControl2 = false
+                }
+
+            })
+
         }
     }
 

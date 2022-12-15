@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.room.Room
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.QualifiedTypeConverterFactory
-import com.metoer.ceptedovizborsa.data.db.CoinBuyDao
 import com.metoer.ceptedovizborsa.data.db.CoinBuyDatabase
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.util.Constants

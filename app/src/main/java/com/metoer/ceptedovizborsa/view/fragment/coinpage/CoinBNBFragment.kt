@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
@@ -30,7 +28,7 @@ class CoinBNBFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -64,8 +62,8 @@ class CoinBNBFragment : Fragment() {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))!!
-                || item.baseId.lowercase (Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!
+                    .contains(text.lowercase(Locale.getDefault()))
+                || item.baseId.lowercase (Locale.getDefault()).contains(text.lowercase(Locale.getDefault()))
             ) {
                 filterlist.add(item)
             }

@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.adapter.ViewPagerAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.databinding.ItemCoinTabBinding
 import com.metoer.ceptedovizborsa.util.FilterEnum
+import com.metoer.ceptedovizborsa.util.SearchViewUtil
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,9 +80,9 @@ class CoinFragment : Fragment() {
 
             }.attach()
 
-            binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    selectedFilterTab(tabItemList.size+1)
+                    selectedFilterTab(tabItemList.size + 1)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -93,7 +94,12 @@ class CoinFragment : Fragment() {
             })
 
             binding.tablayoutFilter.apply {
-                val headerList = arrayListOf("Ad", "Hacim", "Fiyat", "24s Değişim")
+                val headerList = arrayListOf(
+                    getString(R.string.ad),
+                    getString(R.string.hacim),
+                    getString(R.string.fiyat),
+                    getString(R.string._24s_de_i_im)
+                )
                 headerList.forEach {
                     this.addTab(this.newTab())
                 }
@@ -112,7 +118,6 @@ class CoinFragment : Fragment() {
                 selectedFilterTab(tabItemList.size + 1)
                 var statusType = FilterEnum.NAME
                 var statusSortType: FilterEnum
-                val isClicked = arrayListOf(false, false, false, false)
                 binding.tablayoutFilter.apply {
                     this.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                         override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -135,7 +140,9 @@ class CoinFragment : Fragment() {
                             }
                             selectedFilterTab(selectedTabPosition)
                             statusSortType =
-                                if (tabItemList[tab!!.position].imageView.tag.toString().toBoolean()) FilterEnum.ASC else{
+                                if (tabItemList[tab!!.position].imageView.tag.toString()
+                                        .toBoolean()
+                                ) FilterEnum.ASC else {
                                     FilterEnum.DESC
 
                                 }
@@ -168,7 +175,9 @@ class CoinFragment : Fragment() {
                             }
                             selectedFilterTab(selectedTabPosition)
                             statusSortType =
-                                if (tabItemList[tab!!.position].imageView.tag.toString().toBoolean()) FilterEnum.ASC else FilterEnum.DESC
+                                if (tabItemList[tab!!.position].imageView.tag.toString()
+                                        .toBoolean()
+                                ) FilterEnum.ASC else FilterEnum.DESC
                             sharedViewModel.filterStatus.value =
                                 Pair(
                                     statusType, statusSortType
@@ -216,19 +225,10 @@ class CoinFragment : Fragment() {
         binding.currencySearchView.currencySearchView.apply {
             addTextChangedListener {
                 sharedViewModel.coinList.value = it.toString()
-                if (!this.text.isNullOrEmpty()) {
-                    binding.currencySearchView.btnClear.visibility = View.VISIBLE
-                } else
-                    binding.currencySearchView.btnClear.visibility = View.GONE
+                SearchViewUtil.searchViewTextChanged(binding.currencySearchView)
             }
             binding.currencySearchView.btnClear.setOnClickListener {
-                if (!this.text.isNullOrEmpty()) {
-                    this.text?.clear()
-                    this.clearFocus()
-                } else {
-                    binding.currencySearchView.btnClear.visibility = View.GONE
-                    this.clearFocus()
-                }
+                SearchViewUtil.searcViewClearBtnClicked(binding.currencySearchView)
             }
             binding.currencySearchView.btnSearch.setOnClickListener {
                 binding.currencySearchView.currencySearchView.requestFocus()

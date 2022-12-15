@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_navigation"
-    app:startDestination="@id/currencyFragment">
+    app:startDestination="@id/stockFragment">
 
     <fragment
         android:id="@+id/currencyFragment"
@@ -20,4 +20,9 @@
         android:name="com.metoer.ceptedovizborsa.view.fragment.CoinFragment"
         android:label="fragment_stock"
         tools:layout="@layout/fragment_coin" />
+    <fragment
+        android:id="@+id/coinPortfolioFragment"
+        android:name="com.metoer.ceptedovizborsa.view.fragment.CoinPortfolioFragment"
+        android:label="fragment_coin_portfolio"
+        tools:layout="@layout/fragment_coin_portfolio" />
 </navigation>
