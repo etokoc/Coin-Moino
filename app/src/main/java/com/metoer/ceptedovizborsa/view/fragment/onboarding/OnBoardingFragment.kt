@@ -47,7 +47,6 @@ class OnBoardingFragment : Fragment() {
         binding.apply {
             btnNext.setOnClickListener {
                 if (tabPosition < onBoardingList.size - 1) {
-                    btnNext.text = "Sonraki"
                     tabPosition += 1
                     btnPrevius.show()
                     tabDots.selectTab(tabDots.getTabAt(tabPosition))
@@ -56,7 +55,6 @@ class OnBoardingFragment : Fragment() {
                     goToApp()
                 }
                 if (tabPosition == onBoardingList.size - 1) {
-                    btnNext.text = "Uygulamaya Gir"
                     tabPosition += 1
                 }
             }
@@ -69,6 +67,9 @@ class OnBoardingFragment : Fragment() {
                 if (tabPosition < 0 || tabPosition == 0) {
                     btnPrevius.invs()
                 }
+            }
+            btnSkip.setOnClickListener {
+                goToApp()
             }
         }
     }
