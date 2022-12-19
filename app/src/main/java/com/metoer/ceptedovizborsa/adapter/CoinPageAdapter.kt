@@ -41,7 +41,10 @@ class CoinPageAdapter(
             if (currentItem.priceQuote.toDouble() != 0.0) {
                 coinExchangeNameText.text = currentItem.baseId.uppercase()
                 coinExchangeSembolText.text = currentItem.baseSymbol
-                coinQuoteSembolText.text = "/${currentItem.quoteSymbol}"
+                coinQuoteSembolText.text = holder.itemView.context.getString(
+                    R.string.quote_symbol,
+                    currentItem.quoteSymbol
+                )
                 coinVolumeExchangeText.text =
                     MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
                 val value = currentItem.priceQuote
@@ -71,7 +74,10 @@ class CoinPageAdapter(
                     )
                 }
                 coinExchangeParcentText.text =
-                    NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##") + "%"
+                    holder.itemView.context.getString(
+                        R.string.coin_exchange_parcent_text,
+                        NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"), "%"
+                    )
             }
             itemRow.setOnClickListener {
                 it.apply {
@@ -83,7 +89,7 @@ class CoinPageAdapter(
         }
     }
 
-    val coinList = StaticCoinList.coinList
+    private val coinList = StaticCoinList.coinList
     private fun caltulateMainCoin(baseSymbol: String): Double {
         val usdt = coinList.filter { x -> x.symbol == baseId }.first()
         val otherCoin = coinList.filter { x -> x.symbol == baseSymbol }.firstOrNull() ?: CoinData(

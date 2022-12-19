@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey
 data class CoinBuyItem(
     @ColumnInfo(name = "coin_symbol")
     var coinSymbol: String? = null,
+    @ColumnInfo(name = "coin_symbol_quote")
+    var coinSymbolQuote: String? = null,
     @ColumnInfo(name = "coin_name")
     var coinName: String? = null,
     @ColumnInfo(name = "coin_unit")

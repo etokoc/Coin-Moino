@@ -36,11 +36,16 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
                 MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble())
             val value = currentItem.priceUsd
             coinExchangeValueText.text =
-                "$" + NumberDecimalFormat.numberDecimalFormat(value!!, "###,###,###,###.######")
+                holder.itemView.context.getString(
+                    R.string.coin_exchange_value_text,
+                    NumberDecimalFormat.numberDecimalFormat(value!!, "###,###,###,###.######")
+                )
             val parcent = currentItem.changePercent24Hr?.toDouble()
             parcentBacgroundTint(parcent!!, coinExchangeParcentText, holder.itemView.context)
-            coinExchangeParcentText.text =
-                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##") + "%"
+            coinExchangeParcentText.text = holder.itemView.context.getString(
+                R.string.coin_exchange_parcent_text,
+                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"),"%"
+            )
         }
     }
 

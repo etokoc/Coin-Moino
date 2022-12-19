@@ -9,8 +9,6 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +17,7 @@ import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCurrencyBinding
 import com.metoer.ceptedovizborsa.util.ListSortEnum
+import com.metoer.ceptedovizborsa.util.SearchViewUtil
 import com.metoer.ceptedovizborsa.util.hide
 import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
@@ -53,7 +52,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
         _binding = FragmentCurrencyBinding.inflate(inflater, container, false)
         initListeners()
         binding.apply {
-            currencySearchView.currencySearchView.addTextChangedListener(object : TextWatcher{
+            currencySearchView.currencySearchView.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 }
@@ -167,30 +166,9 @@ class CurrencyFragment : Fragment(), OnClickListener {
         }
         onAddButtonClicked(icon!!)
     }
+
     private fun initSearchView() {
-        binding.currencySearchView.currencySearchView.apply {
-            hint = getString(R.string.search_currency_name)
-            addTextChangedListener {
-                if (!this.text.isNullOrEmpty()) {
-                    binding.currencySearchView.btnClear.visibility = View.VISIBLE
-                    binding.currencySearchView.btnSearch.setColorFilter(resources.getColor(R.color.primary_color))
-                } else
-                    binding.currencySearchView.btnClear.visibility = View.GONE
-                binding.currencySearchView.btnSearch.setColorFilter(resources.getColor(R.color.sortgray))
-            }
-            binding.currencySearchView.btnClear.setOnClickListener {
-                if (!this.text.isNullOrEmpty()) {
-                    this.text?.clear()
-                    this.clearFocus()
-                } else {
-                    binding.currencySearchView.btnClear.visibility = View.GONE
-                    this.clearFocus()
-                }
-            }
-            binding.currencySearchView.btnSearch.setOnClickListener {
-                binding.currencySearchView.currencySearchView.requestFocus()
-            }
-        }
+        SearchViewUtil.searchViewController(binding.currencySearchView)
     }
 }
 

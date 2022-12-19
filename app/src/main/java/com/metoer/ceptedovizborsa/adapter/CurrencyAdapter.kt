@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -32,8 +33,10 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
             moneyNameTextView.text = currentItems.Isim
             moneyCodeTextView.text = currentItems.CurrencyCode
             val result = currentItems.ForexBuying?.div(currentItems.Unit!!)!!
-            moneyValueTextView.text =
-                "₺" + NumberDecimalFormat.numberDecimalFormat(result.toString(), "0.####")
+            moneyValueTextView.text = holder.itemView.context.getString(
+                R.string.money_value,
+                NumberDecimalFormat.numberDecimalFormat(result.toString(), "0.####")
+            )
             Glide.with(this.root).load(
                 Constants.IMAGE_URL + "${
                     currentItems.CurrencyCode?.lowercase(

@@ -1,6 +1,5 @@
 package com.metoer.ceptedovizborsa.view.fragment.coinpage
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,7 +28,7 @@ class CoinBtcFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinPageBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -63,8 +62,9 @@ class CoinBtcFragment : Fragment() {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))!!
-                || item.baseId.lowercase (Locale.getDefault())?.contains(text.lowercase(Locale.getDefault()))!!
+                    .contains(text.lowercase(Locale.getDefault()))
+                || item.baseId.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filterlist.add(item)
             }

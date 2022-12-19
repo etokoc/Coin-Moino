@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Coin Moino</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="volume">Volume</string>
+    <string name="highest_price">Highest Price:</string>
+    <string name="lowest_price">Lowest Price:</string>
+    <string name="coin_time_15_minute">15m</string>
+    <string name="coin_time_1_hour">1h</string>
+    <string name="coin_time_4_hour">4h</string>
+    <string name="coin_time_1_day">1d</string>
+    <string name="coin_time_more">More</string>
+    <string name="coin_time_1_minute">1D</string>
+    <string name="coin_time_5_minute">5D</string>
+    <string name="coin_time_30_minute">30D</string>
+    <string name="coin_time_2_hour">2H</string>
+    <string name="coin_time_8_hour">8H</string>
+    <string name="coin_time_12_hour">12H</string>
+    <string name="coin_time_1_week">1W</string>
+    <string name="_24s_de_i_im">24s Change</string>
+    <string name="fiyat">Price</string>
+    <string name="hacim">Volume</string>
+    <string name="ad">Name</string>
+    <string name="name">Name</string>
+    <string name="deger">Price</string>
+    <string name="populerlik">Popularity</string>
+    <string name="search_currency_name">Currency</string>
+    <string name="coin_portfolio_price_str">%1$s %2$f</string>
+    <string name="portfolyo">Portfolio</string>
+    <string name="alimlar">Purchasing</string>
+    <string name="para_1">Money 1</string>
+    <string name="para_2">Money 2</string>
+    <string name="miktar">Unit (%1$s)</string>
+    <string name="toplam">Total (%1$s)</string>
+    <string name="coin_exchange_value_text">%1$s</string>
+    <string name="coin_exchange_parcent_text">%1$s%2$s</string>
+    <string name="quote_symbol">/%1$s</string>
+    <string name="money_value">₺%1$s</string>
+    <string name="volume_text">%1$s Volume</string>
+</resources>

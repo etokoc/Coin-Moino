@@ -65,7 +65,14 @@ class CallculationCurrencyFragment : Fragment() {
             currencyList = it
             initSpinners(currencyList)
         }
-
+        binding.apply {
+            /*MoneyCalculateUtil.crossRateCalculation(moneyValueEditText1,moneyValueEditText2,MoneyCalculateUtil.moneyConverter(
+                currencyList,
+                money,
+                moneyValueSpinner1.selectedItemPosition,
+                moneyValueSpinner2.selectedItemPosition
+            ))*/
+        }
         var money: Double
         binding.apply {
             var editControl = false
