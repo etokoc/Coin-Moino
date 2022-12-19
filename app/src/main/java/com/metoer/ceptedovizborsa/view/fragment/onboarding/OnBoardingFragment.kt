@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.invs
 import com.metoer.ceptedovizborsa.util.show
 import com.metoer.ceptedovizborsa.view.activity.MainActivity
+import kotlinx.android.synthetic.main.fragment_on_boarding.*
 
 class OnBoardingFragment : Fragment() {
 
@@ -48,7 +49,7 @@ class OnBoardingFragment : Fragment() {
             btnNext.setOnClickListener {
                 if (tabPosition < onBoardingList.size - 1) {
                     tabPosition += 1
-                    btnPrevius.show()
+                    constraint_btn_previus.show()
                     tabDots.selectTab(tabDots.getTabAt(tabPosition))
                 }
                 if (tabPosition > onBoardingList.size - 1) {
@@ -60,12 +61,12 @@ class OnBoardingFragment : Fragment() {
             }
             btnPrevius.setOnClickListener {
                 if (tabPosition > 0) {
-                    btnPrevius.show()
+                    constraint_btn_previus.show()
                     tabPosition -= 1
                     tabDots.selectTab(tabDots.getTabAt(tabPosition))
                 }
                 if (tabPosition < 0 || tabPosition == 0) {
-                    btnPrevius.invs()
+                    constraint_btn_previus.invs()
                 }
             }
             btnSkip.setOnClickListener {

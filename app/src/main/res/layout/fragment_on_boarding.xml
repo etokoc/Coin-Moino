@@ -46,6 +46,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:clipToPadding="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/constraint_btn_next">
 
@@ -64,8 +65,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:src="@drawable/arrow_back"
+            android:elevation="5dp"
+            android:rotationY="180"
+            android:src="@drawable/onboardingbuttonicon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -97,9 +99,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:rotationY="180"
-            android:src="@drawable/arrow_back"
+            android:elevation="5dp"
+            android:src="@drawable/onboardingbuttonicon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
