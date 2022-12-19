@@ -32,7 +32,7 @@
     <string name="para_2">Para 2</string>
     <string name="miktar">Miktar (%1$s)</string>
     <string name="toplam">Toplam (%1$s)</string>
-    <string name="coin_exchange_value_text">$ %1$s</string>
+    <string name="coin_exchange_value_text">$%1$s</string>
     <string name="coin_exchange_parcent_text">%1$s%2$s</string>
     <string name="quote_symbol">/%1$s</string>
     <string name="money_value">₺%1$s</string>
