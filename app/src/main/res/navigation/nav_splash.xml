@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_splash"
+    app:startDestination="@id/splashFragment2">
+    <fragment
+        android:id="@+id/splashFragment2"
+        tools:layout="@layout/fragment_splash"
+        android:name="com.metoer.ceptedovizborsa.view.fragment.SplashFragment"
+        android:label="SplashFragment" />
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        tools:layout="@layout/fragment_on_boarding"
+        android:name="com.metoer.ceptedovizborsa.view.fragment.onboarding.OnBoardingFragment"
+        android:label="OnBoardingFragment" />
+</navigation>
