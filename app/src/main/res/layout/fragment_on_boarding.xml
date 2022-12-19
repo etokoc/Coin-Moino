@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
     android:orientation="vertical">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager_onboarding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" >
+        android:layout_weight="2" />
 
 
-    </androidx.viewpager2.widget.ViewPager2>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_previus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:text="onceki" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:text="sonraki" />
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabDots"
-        android:layout_alignParentBottom="true"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tabdost_material"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@drawable/sc_indicator"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"
-        android:layout_alignTop="@id/btn_next"/>
-</RelativeLayout>
+        android:layout_weight="0"
+        app:cardBackgroundColor="@color/currency_light_gray"
+        app:cardCornerRadius="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_previus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="start"
+            android:background="@drawable/background_onboarding_btn"
+            android:elevation="3dp"
+            android:text="onceki" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/background_onboarding_btn"
+            android:elevation="3dp"
+            android:text="sonraki" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabDots"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            app:tabBackground="@drawable/sc_indicator"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

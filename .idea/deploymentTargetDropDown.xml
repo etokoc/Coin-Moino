@@ -7,7 +7,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErtugrulKoc\.android\avd\Pixel_3_XL_API_30.avd" />
+            <value value="C:\Users\ErtugrulKoc\.android\avd\Pixel_2_API_30_2.avd" />
           </Key>
         </deviceKey>
       </Target>
@@ -18,11 +18,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErtugrulKoc\.android\avd\Pixel_3_XL_API_30.avd" />
+            <value value="C:\Users\ErtugrulKoc\.android\avd\Pixel_2_API_30_2.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-12-19T10:16:04.222423200Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-12-19T13:55:21.190107Z" />
   </component>
 </project>

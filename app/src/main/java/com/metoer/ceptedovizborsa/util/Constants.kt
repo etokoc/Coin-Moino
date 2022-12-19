@@ -8,6 +8,8 @@ object Constants {
     const val SPINNER1_STATE_KEY = "mySpinner1"
     const val SPINNER2_STATE_KEY = "mySpinner2"
     const val COIN_BUNDLE_KEY_STRING = "coinData"
+    const val SHARED_PREFENCES_KEY = "coinmoinoSharedPref"
+    const val IS_FIRST_OPEN_APP = "is_first_open_app"
 
     const val API_KEY1 = "9be33ccd-1b0b-4009-ac01-0aed7af968f6"
     const val API_KEY2 = "822c604b-436a-40d7-920b-9274a4bb8040"
