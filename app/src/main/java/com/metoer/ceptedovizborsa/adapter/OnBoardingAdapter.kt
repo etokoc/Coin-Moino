@@ -20,7 +20,7 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.ListViewHolder>
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.binding.apply {
-            onboardingImageview.setImageDrawable(currentItem)
+//            onboardingImageview.setImageDrawable(currentItem)
         }
     }
 
