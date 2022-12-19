@@ -94,9 +94,13 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabDots"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_btn_next"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/constraint_btn_next"
         app:tabBackground="@drawable/sc_indicator"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />

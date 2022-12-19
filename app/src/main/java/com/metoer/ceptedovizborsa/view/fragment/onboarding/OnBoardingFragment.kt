@@ -1,7 +1,6 @@
 package com.metoer.ceptedovizborsa.view.fragment.onboarding
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.OnBoardingAdapter
+import com.metoer.ceptedovizborsa.data.response.onboarding.OnBoardingItem
 import com.metoer.ceptedovizborsa.databinding.FragmentOnBoardingBinding
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
@@ -23,7 +23,7 @@ class OnBoardingFragment : Fragment() {
     private var onBoardingAdapter: OnBoardingAdapter? = null
     val binding get() = _binding!!
     private var tabPosition = 0
-    private lateinit var onBoardingList: ArrayList<Drawable>
+    private lateinit var onBoardingList: ArrayList<OnBoardingItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -81,12 +81,33 @@ class OnBoardingFragment : Fragment() {
         requireActivity().finish()
     }
 
-    private fun initViewPager() {
+    private fun initOnBoarding() {
         onBoardingList = arrayListOf(
-            resources.getDrawable(R.drawable.onboarding1),
-            resources.getDrawable(R.drawable.onboarding2),
-            resources.getDrawable(R.drawable.onboarding3)
+            OnBoardingItem(
+                "Coin'ler artık daha kolay",
+                "Coin'leri takip etmek artık daha kolay. CoinMoino sizin için burada.",
+                R.drawable.coins
+            ),
+            OnBoardingItem(
+                "Dövizler hemen elinizin altında",
+                "Birçok döviz kurunu artık çok rahat bir şekilde takip edecek hatta istediğiniz para birimine dönüştürebileceksiniz.",
+                R.drawable.currency
+            ),
+            OnBoardingItem(
+                "Coin'lerde yükselişleri takip edin",
+                "Coin'leri grafik halinde görüntülemek isterseniz CoinMoino sizin için yapar.",
+                R.drawable.risepage
+            ),
+            OnBoardingItem(
+                "Para birimlerini dönüştür",
+                "Para birimlerini dönüştür hadi.",
+                R.drawable.currencyconverter
+            )
         )
+    }
+
+    private fun initViewPager() {
+        initOnBoarding()
         onBoardingAdapter?.setData(
             onBoardingList
         )
