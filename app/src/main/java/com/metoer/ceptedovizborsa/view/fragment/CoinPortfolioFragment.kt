@@ -1,5 +1,7 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
+import android.app.ActionBar
+import android.app.Dialog
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinPortfolioAdapter
+import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +35,35 @@ class CoinPortfolioFragment : Fragment() {
     ): View {
         _binding = FragmentCoinPortfolioBinding.inflate(layoutInflater, container, false)
         binding.apply {
+
+            textView3.setOnClickListener {
+                val dialog = Dialog(requireContext())
+                val bindingDialog =
+                    CustomPortfolioDetailDialogBinding.inflate(
+                        LayoutInflater.from(container!!.context),
+                        container,
+                        false
+                    )
+                dialog.setContentView(bindingDialog.root)
+                dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+                val window = dialog.window
+                window?.attributes!!.windowAnimations = R.style.DialogAnimation
+                bindingDialog.apply {
+                    val tvCoinName = textViewPortfolioDialogCoinname
+                    val tvCoinProfit = textViewPortfolioDialogCoinprofit
+                    val tvChange = textViewPortfolioDialogCoinchange
+                    buttonPortfolioDialogClose.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+                dialog.setCancelable(true)
+                window.setLayout(
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT
+                )
+                dialog.show()
+            }
+
             imageViewPortfolioSettings.apply {
                 setBackgroundResource(R.drawable.setting_switch_animation_start)
             }

@@ -12,7 +12,9 @@ import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
 
-class CoinAdapter : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
+class CoinAdapter(
+    val listener: onItemClickListener
+) : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -20,7 +22,11 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
         setData(filterList)
     }
 
-    private var itemList = emptyList<CoinData>()
+    interface onItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    var itemList = emptyList<CoinData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
             CoinBlockchainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -44,8 +50,11 @@ class CoinAdapter : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
             parcentBacgroundTint(parcent!!, coinExchangeParcentText, holder.itemView.context)
             coinExchangeParcentText.text = holder.itemView.context.getString(
                 R.string.coin_exchange_parcent_text,
-                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"),"%"
+                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"), "%"
             )
+        }
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
         }
     }
 
