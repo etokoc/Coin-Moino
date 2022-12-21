@@ -37,4 +37,5 @@
     <string name="quote_symbol">/%1$s</string>
     <string name="money_value">₺%1$s</string>
     <string name="volume_text">%1$s Hacim</string>
+    <string name="kapat">Kapat</string>
 </resources>
