@@ -23,7 +23,7 @@ class CoinAdapter(
     }
 
     interface onItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,parent: ViewGroup)
     }
 
     var itemList = emptyList<CoinData>()
@@ -54,7 +54,7 @@ class CoinAdapter(
             )
         }
         holder.itemView.setOnClickListener {
-            listener.onItemClick(position)
+            listener.onItemClick(position,holder.binding.root)
         }
     }
 

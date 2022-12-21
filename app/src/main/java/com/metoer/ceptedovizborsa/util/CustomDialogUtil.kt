@@ -30,6 +30,7 @@ class CustomDialogUtil(
         dialog?.setContentView(bindingDialog!!.root)
         dialog?.setCancelable(setCancelable)
         val window = dialog?.window
+        dialog!!.window?.setBackgroundDrawableResource(R.color.transparent)
         window?.attributes!!.windowAnimations = R.style.DialogAnimation
         window.setLayout(
             ActionBar.LayoutParams.WRAP_CONTENT,

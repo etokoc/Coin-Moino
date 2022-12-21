@@ -1,13 +1,8 @@
 package com.metoer.ceptedovizborsa.adapter
 
-import android.app.AlertDialog
-import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CoinPortfolioItemBinding
@@ -53,26 +48,6 @@ class CoinPortfolioAdapter : RecyclerView.Adapter<CoinPortfolioAdapter.ListViewH
         calendar.timeInMillis = milliSeconds
         return formatter.format(calendar.time)
     }
-
-    /*val mAboutDialogView =
-        LayoutInflater.from(requireContext()).inflate(R.layout.about_dialog, null)
-    val mBuilder = AlertDialog.Builder(requireContext())
-        .setView(mAboutDialogView)
-    val mAlertDialog = mBuilder.show()
-    val tvTitle = mAboutDialogView.findViewById<TextView>(R.id.tv_dialog_title)
-    tvTitle.text = titleText
-    val tilText = mAboutDialogView.findViewById<TextInputLayout>(R.id.til_dialog_text)
-    tilText.hint = hintText
-    val etText = mAboutDialogView.findViewById<EditText>(R.id.et_dialog_text)
-    etText.setText(valueEditText.text.toString())
-
-
-    mAboutDialogView.findViewById<Button>(R.id.btn_dialog_about_save)
-    .setOnClickListener {
-        mAlertDialog.dismiss()
-
-    }*/
-
 
     fun setData(newItemList: List<CoinBuyItem>) {
         val diffUtil = DiffUtil(itemList, newItemList)

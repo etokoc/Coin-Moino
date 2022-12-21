@@ -1,17 +1,25 @@
 package com.metoer.ceptedovizborsa.view.fragment.coinpage
 
+import android.app.ActionBar
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
+import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
+import com.metoer.ceptedovizborsa.databinding.CustomCoinBuyDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
+import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.StaticCoinList
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +34,7 @@ class CoinAllFragment : Fragment(), CoinAdapter.onItemClickListener {
         get() = _binding!!
     private val viewModel: CoinViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
+    private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +52,7 @@ class CoinAllFragment : Fragment(), CoinAdapter.onItemClickListener {
         }
     }
 
-    fun initListener() {
+    private fun initListener() {
         viewModel.getAllCoinData().observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it)
@@ -77,8 +86,62 @@ class CoinAllFragment : Fragment(), CoinAdapter.onItemClickListener {
         }
     }
 
-    override fun onItemClick(position: Int) {
+    private fun showDialog(container: ViewGroup?, coinData: CoinData) {
+        val dialog = Dialog(requireContext())
+        val bindingDialog =
+            CustomCoinBuyDialogBinding.inflate(
+                LayoutInflater.from(container!!.context),
+                container,
+                false
+            )
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        val window = dialog.window
+        window?.attributes!!.windowAnimations = R.style.DialogAnimation
+        bindingDialog.apply {
+            edittextCoinbuyDialogUnit.filters = editTextFilter()
+            edittextCoinbuyDialogTotal.filters = editTextFilter()
+            edittextCoinbuyDialogUnit.hint = getString(R.string.miktar, coinData.symbol)
+            edittextCoinbuyDialogTotal.hint = getString(R.string.toplam, "USD")
+            MoneyCalculateUtil.coinConverter(
+                edittextCoinbuyDialogUnit,
+                edittextCoinbuyDialogTotal,
+                coinData.priceUsd.toString()
+            )
+            buttonCoinbuyDialog.setOnClickListener {
+                buyCoin(coinData, edittextCoinbuyDialogUnit)
+            }
+        }
+        dialog.setCancelable(true)
+        window.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    override fun onItemClick(position: Int, parent: ViewGroup) {
         val coinData = adapter.itemList[position]
-        Toast.makeText(requireContext(), "" + coinData.symbol, Toast.LENGTH_SHORT).show()
+        coinData.apply {
+            showDialog(parent, coinData)
+        }
+    }
+
+    private fun buyCoin(coinData: CoinData, editText: EditText) {
+        var coinUnit: Double
+        editText.let {
+            coinUnit = MoneyCalculateUtil.doubleConverter(it.text.toString())
+        }
+        coinData.apply {
+            val coinBuyItem = CoinBuyItem(
+                symbol,
+                "USD",
+                id,
+                coinUnit,
+                priceUsd!!.toDouble(),
+                System.currentTimeMillis()
+            )
+            coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+        }
     }
 }

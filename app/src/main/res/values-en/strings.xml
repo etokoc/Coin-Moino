@@ -38,4 +38,8 @@
     <string name="quote_symbol">/%1$s</string>
     <string name="money_value">₺%1$s</string>
     <string name="volume_text">%1$s Volume</string>
+    <string name="kapat">Kapat</string>
+    <string name="update_text_button">GÜNCELLE</string>
+    <string name="forced_update_message">Daha iyi deneyim için lütfen uygulamanızı güncelleyin</string>
+    <string name="warning_title">Uyarı</string>
 </resources>

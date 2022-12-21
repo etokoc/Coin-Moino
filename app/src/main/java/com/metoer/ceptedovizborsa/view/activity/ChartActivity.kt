@@ -3,8 +3,6 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -33,7 +31,6 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_chart.*
 import java.text.DateFormat
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -80,9 +77,9 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         //Coin Buy Click
         btnBuy.setOnClickListener {
-            var coinUnit = 0
+            var coinUnit:Double = 0.0
             edittext_unit?.let {
-                coinUnit = it.text.toString().toInt()
+                coinUnit = MoneyCalculateUtil.doubleConverter( it.text.toString())
             }
             dataMarket.apply {
                 val coinBuyItem = CoinBuyItem(
@@ -281,78 +278,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun calculateCoin() {
-        var money: Double
         binding.apply {
-            var editControl = false
-            var editControl2 = false
-            edittextUnit.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    p0: CharSequence?,
-                    p1: Int,
-                    p2: Int,
-                    p3: Int
-                ) {
-                    editControl = true
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty() && !edittext_unit.text.toString()
-                            .startsWith(',')
-                    ) {
-                        if (editControl && !editControl2) {
-                            money = MoneyCalculateUtil.doubleConverter(p0)
-                            val coinCalculate = dataMarket.priceQuote.toDouble() * money
-                            edittextTotal.setText(
-                                DecimalFormat("##.######").format(coinCalculate).toString()
-                            )
-                        }
-                    } else {
-                        edittext_unit.text?.clear()
-                        edittext_total.text?.clear()
-                    }
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    edittextUnit.setDefaultKeyListener(EditTextUtil.editTextSelectDigits(p0))
-                    editControl = false
-                }
-
-            })
-
-            edittextTotal.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    p0: CharSequence?,
-                    p1: Int,
-                    p2: Int,
-                    p3: Int
-                ) {
-                    editControl2 = true
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty() && !edittext_total.text.toString()
-                            .startsWith(',')
-                    ) {
-                        if (editControl2 && !editControl) {
-                            money = MoneyCalculateUtil.doubleConverter(p0)
-                            val coinCalculate = money / dataMarket.priceQuote.toDouble()
-                            edittextUnit.setText(
-                                DecimalFormat("##.######").format(coinCalculate).toString()
-                            )
-                        }
-                    } else {
-                        edittext_total.text?.clear()
-                        edittext_unit.text?.clear()
-                    }
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    edittext_total.setDefaultKeyListener(EditTextUtil.editTextSelectDigits(p0))
-                    editControl2 = false
-                }
-
-            })
-
+            MoneyCalculateUtil.coinConverter(edittextUnit, edittextTotal, dataMarket.priceQuote)
         }
     }
 
