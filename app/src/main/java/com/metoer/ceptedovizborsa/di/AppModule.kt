@@ -85,4 +85,5 @@ object AppModule {
     @Provides
     @Singleton
     fun provideYourDao(db: CoinBuyDatabase) = db.getCoinBuyDao()
+
 }
