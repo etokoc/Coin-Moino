@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "66566371265",
+    "project_id": "coinmoino",
+    "storage_bucket": "coinmoino.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66566371265:android:691e56ac4e13c5aad22140",
+        "android_client_info": {
+          "package_name": "com.metoer.ceptedovizborsa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66566371265-vvego3igl731dgs8mhvur23c1h67pt8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRyDH24toB3AkSB0qt7HMfKChQVYCxfqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66566371265-vvego3igl731dgs8mhvur23c1h67pt8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
