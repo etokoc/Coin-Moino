@@ -10,18 +10,21 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinPortfolioAdapter
+import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.util.CustomDialogUtil
+import com.metoer.ceptedovizborsa.util.onItemClickListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CoinPortfolioFragment : Fragment() {
+class CoinPortfolioFragment : Fragment(), onItemClickListener {
 
     private var _binding: FragmentCoinPortfolioBinding? = null
     private lateinit var settingAnimation: AnimationDrawable
     private lateinit var settingAnimationClose: AnimationDrawable
-    private var adapter = CoinPortfolioAdapter()
+    private var adapter = CoinPortfolioAdapter(this)
     private val binding
         get() = _binding!!
     private var clicked = false
@@ -87,6 +90,17 @@ class CoinPortfolioFragment : Fragment() {
                 LinearLayoutManager(requireContext())
             adapter.setData(it)
             binding.recylerViewCoinPortfolio.adapter = adapter
+        }
+    }
+
+    private fun showDialog(container: ViewGroup?,coinData: CoinBuyItem){
+
+    }
+
+    override fun onItemClick(position: Int, parent: ViewGroup) {
+        val coinData = adapter.itemList[position]
+        coinData.apply {
+            showDialog(parent, coinData)
         }
     }
 }
