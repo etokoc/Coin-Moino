@@ -22,10 +22,6 @@ class CoinAdapter(
         setData(filterList)
     }
 
-    interface onItemClickListener {
-        fun onItemClick(position: Int,parent: ViewGroup)
-    }
-
     var itemList = emptyList<CoinData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =

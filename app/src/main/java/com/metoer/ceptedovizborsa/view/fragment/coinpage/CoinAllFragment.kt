@@ -20,6 +20,7 @@ import com.metoer.ceptedovizborsa.util.EditTextUtil
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.StaticCoinList
+import com.metoer.ceptedovizborsa.util.onItemClickListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class CoinAllFragment : Fragment(), CoinAdapter.onItemClickListener {
+class CoinAllFragment : Fragment(), onItemClickListener {
 
     private var adapter = CoinAdapter(this)
     private var _binding: FragmentCoinPageBinding? = null
