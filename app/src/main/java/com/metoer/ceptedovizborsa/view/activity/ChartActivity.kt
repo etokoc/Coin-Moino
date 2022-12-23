@@ -77,20 +77,22 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         //Coin Buy Click
         btnBuy.setOnClickListener {
-            var coinUnit:Double = 0.0
-            edittext_unit?.let {
-                coinUnit = MoneyCalculateUtil.doubleConverter( it.text.toString())
-            }
-            dataMarket.apply {
-                val coinBuyItem = CoinBuyItem(
-                    baseSymbol,
-                    quoteSymbol,
-                    baseId,
-                    coinUnit,
-                    priceQuote.toDouble(),
-                    System.currentTimeMillis()
-                )
-                coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+            if (!edittext_unit.text.isNullOrEmpty()) {
+                var coinUnit: Double = 0.0
+                coinUnit = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
+                dataMarket.apply {
+                    val coinBuyItem = CoinBuyItem(
+                        baseSymbol,
+                        quoteSymbol,
+                        baseId,
+                        coinUnit,
+                        priceQuote.toDouble(),
+                        System.currentTimeMillis()
+                    )
+                    coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+                }
+            }else   {
+                //todo: dialog açılacak
             }
         }
 

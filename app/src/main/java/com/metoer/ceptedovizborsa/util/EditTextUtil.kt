@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.util
 
 import android.text.Editable
 import android.text.InputFilter
+import android.widget.EditText
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -28,5 +29,14 @@ object EditTextUtil {
             "0123456789" + selectSeperator()
         }
         return resultString
+    }
+
+    fun editTextCheckControl(edittextList: List<EditText>): Boolean {
+        edittextList.forEach {
+            if (it.equals("")) {
+                return false
+            }
+        }
+        return true
     }
 }

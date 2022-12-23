@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CustomCoinBuyDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.EditTextUtil
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.StaticCoinList
@@ -109,7 +110,12 @@ class CoinAllFragment : Fragment(), CoinAdapter.onItemClickListener {
                 coinData.priceUsd.toString()
             )
             buttonCoinbuyDialog.setOnClickListener {
-                buyCoin(coinData, edittextCoinbuyDialogUnit)
+                val edittextCheck = EditTextUtil.editTextCheckControl(listOf(edittextCoinbuyDialogUnit,edittextCoinbuyDialogTotal))
+                if (edittextCheck) {
+                    buyCoin(coinData, edittextCoinbuyDialogUnit)
+                } else {
+                    //todo: burada dialog açıcaz
+                }
             }
         }
         dialog.setCancelable(true)
