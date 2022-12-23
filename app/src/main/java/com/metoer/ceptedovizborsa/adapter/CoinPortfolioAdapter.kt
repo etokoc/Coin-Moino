@@ -7,6 +7,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CoinPortfolioItemBinding
 import com.metoer.ceptedovizborsa.util.DiffUtil
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,7 +34,7 @@ class CoinPortfolioAdapter : RecyclerView.Adapter<CoinPortfolioAdapter.ListViewH
                 currentItem.coinSymbolQuote,
                 currentItem.coinTakedValue
             )
-            textViewCoinPortUnit.text = currentItem.coinUnit.toString()
+            textViewCoinPortUnit.text = NumberDecimalFormat.numberDecimalFormat(currentItem.coinUnit.toString(), "###,###,###,###.######")
             textViewCoinPortDate.text = getDate(currentItem.coinTakedTime!!)
         }
     }
