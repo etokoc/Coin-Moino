@@ -41,4 +41,5 @@
     <string name="update_text_button">GÜNCELLE</string>
     <string name="forced_update_message">Daha iyi deneyim için lütfen uygulamanızı güncelleyin</string>
     <string name="warning_title">Uyarı</string>
+    <string name="your_process_is_success">İşleminiz Gerçekleşti</string>
 </resources>

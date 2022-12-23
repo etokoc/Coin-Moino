@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +17,8 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CustomCoinBuyDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
-import com.metoer.ceptedovizborsa.util.EditTextUtil
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
-import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
-import com.metoer.ceptedovizborsa.util.StaticCoinList
-import com.metoer.ceptedovizborsa.util.onItemClickListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -111,11 +109,18 @@ class CoinAllFragment : Fragment(), onItemClickListener {
                 coinData.priceUsd.toString()
             )
             buttonCoinbuyDialog.setOnClickListener {
-                val edittextCheck = EditTextUtil.editTextCheckControl(listOf(edittextCoinbuyDialogUnit,edittextCoinbuyDialogTotal))
+                val edittextCheck = EditTextUtil.editTextCheckControl(
+                    listOf(
+                        edittextCoinbuyDialogUnit,
+                        edittextCoinbuyDialogTotal
+                    )
+                )
                 if (edittextCheck) {
                     buyCoin(coinData, edittextCoinbuyDialogUnit)
+                    dialog.dismiss()
+                    CustomDialogUtil(requireContext(), container, false, false, true, true).showDialog()
                 } else {
-                    //todo: burada dialog açıcaz
+                    Toast.makeText(requireContext(), "girişleri kontrol et", Toast.LENGTH_SHORT).show()
                 }
             }
         }

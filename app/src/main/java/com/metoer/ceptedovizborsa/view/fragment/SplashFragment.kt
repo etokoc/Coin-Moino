@@ -45,7 +45,7 @@ class SplashFragment : Fragment() {
                             forForcedUpdate = true,
                             container = this.requireView() as ViewGroup,
                             setCancelable = false
-                        )
+                        , isSuccessDialog = false)
                         customDialogUtil.showDialog()
                         customDialogUtil.setOnClickListener {
                             goToGooglePlay()

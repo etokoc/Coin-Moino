@@ -9,23 +9,33 @@ import androidx.viewbinding.ViewBinding
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomUpdateAlertDialogBinding
+import com.metoer.ceptedovizborsa.databinding.SuccessDialogBinding
 
 class CustomDialogUtil(
     val context: Context,
     val container: ViewGroup,
     val attachToParent: Boolean = false,
     val forForcedUpdate: Boolean,
+    val isSuccessDialog: Boolean,
     val setCancelable: Boolean = true
 ) {
     private var bindingDialog: ViewBinding? = null
     private var dialog: Dialog? = null
 
     init {
-        bindingDialog = if (forForcedUpdate) CustomUpdateAlertDialogBinding.inflate(
-            LayoutInflater.from(container.context), container, attachToParent
-        ) else CustomPortfolioDetailDialogBinding.inflate(
-            LayoutInflater.from(container.context), container, attachToParent
-        )
+        if (forForcedUpdate)
+            bindingDialog = CustomUpdateAlertDialogBinding.inflate(
+                LayoutInflater.from(container.context), container, attachToParent
+            ) else if (isSuccessDialog) {
+            bindingDialog = SuccessDialogBinding.inflate(
+                LayoutInflater.from(container.context),
+                container,
+                attachToParent
+            )
+        } else
+            bindingDialog = CustomPortfolioDetailDialogBinding.inflate(
+                LayoutInflater.from(container.context), container, attachToParent
+            )
         dialog = Dialog(context)
         dialog?.setContentView(bindingDialog!!.root)
         dialog?.setCancelable(setCancelable)
@@ -61,6 +71,8 @@ class CustomDialogUtil(
     fun showDialog() {
         dialog?.show()
     }
+
+    fun getView() = dialog
 
     private var onClickListener: (() -> Unit)? = null
 

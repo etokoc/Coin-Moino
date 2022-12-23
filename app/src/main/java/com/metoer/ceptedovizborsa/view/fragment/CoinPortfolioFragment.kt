@@ -38,7 +38,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         binding.apply {
             textView3.setOnClickListener {
                 val customDialogUtil =
-                    CustomDialogUtil(requireContext(), this.root, forForcedUpdate = false)
+                    CustomDialogUtil(requireContext(), this.root, forForcedUpdate = false, isSuccessDialog = false  )
                 customDialogUtil.showDialog()
                 customDialogUtil.setOnClickListener {
                     customDialogUtil.dismiss()
