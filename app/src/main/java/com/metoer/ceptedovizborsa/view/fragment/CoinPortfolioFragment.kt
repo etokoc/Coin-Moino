@@ -36,15 +36,6 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
     ): View {
         _binding = FragmentCoinPortfolioBinding.inflate(layoutInflater, container, false)
         binding.apply {
-            textView3.setOnClickListener {
-                val customDialogUtil =
-                    CustomDialogUtil(requireContext(), this.root, forForcedUpdate = false, isSuccessDialog = false  )
-                customDialogUtil.showDialog()
-                customDialogUtil.setOnClickListener {
-                    customDialogUtil.dismiss()
-                }
-            }
-
             imageViewPortfolioSettings.apply {
                 setBackgroundResource(R.drawable.setting_switch_animation_start)
             }
@@ -93,8 +84,15 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    private fun showDialog(container: ViewGroup?,coinData: CoinBuyItem){
-
+    private fun showDialog(container: ViewGroup?,coinBuyItem: CoinBuyItem){
+        val customDialogUtil =
+            CustomDialogUtil(requireContext(), container!!, forForcedUpdate = false, isSuccessDialog = false  )
+        customDialogUtil.showDialog()
+        customDialogUtil.setOnClickListener {
+            viewModel.delete(coinBuyItem)
+            //adapter.delete(viewModel,coinBuyItem)
+            customDialogUtil.dismiss()
+        }
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
