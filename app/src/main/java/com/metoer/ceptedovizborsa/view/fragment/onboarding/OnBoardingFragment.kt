@@ -124,6 +124,10 @@ class OnBoardingFragment : Fragment() {
                 "Para birimlerini dönüştür",
                 "Para birimlerini dönüştür hadi.",
                 R.drawable.currencyconverter
+            ), OnBoardingItem(
+                "Mum grafiği teknolojisi",
+                "Coin'lerinizin verilerini mum grafiği teknolojisi kullanarak artık daha rahat takip edebilirsiniz.",
+                R.drawable.chartactivity
             )
         )
     }
