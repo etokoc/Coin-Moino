@@ -90,9 +90,15 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                         System.currentTimeMillis()
                     )
                     coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+                    CustomDialogUtil(
+                        this@ChartActivity,
+                        container = binding.root,
+                        isSuccessDialog = true,
+                        forForcedUpdate = false
+                    ).showDialog()
                 }
-            }else   {
-                //todo: dialog açılacak
+            } else {
+                showToastShort("girişleri kontrol et")
             }
         }
 
