@@ -101,10 +101,8 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     getString(R.string.coin_taked_value, coinTakedValue, 34f)
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
-                    adapter.setData(coinBuyItemList.filterIndexed { index, coinBuyItem ->
-                        index != position
-                    })
                     coinBuyItemList.removeAt(position)
+                    adapter.setData(coinBuyItemList)
                     customDialogUtil.dismiss()
                 }
             }
