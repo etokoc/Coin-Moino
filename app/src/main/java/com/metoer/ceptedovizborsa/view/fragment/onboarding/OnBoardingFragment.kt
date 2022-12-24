@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.OnBoardingAdapter
 import com.metoer.ceptedovizborsa.data.response.onboarding.OnBoardingItem
 import com.metoer.ceptedovizborsa.databinding.FragmentOnBoardingBinding
-import com.metoer.ceptedovizborsa.util.Constants
-import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
-import com.metoer.ceptedovizborsa.util.invs
-import com.metoer.ceptedovizborsa.util.show
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.view.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_on_boarding.*
 
@@ -30,8 +28,7 @@ class OnBoardingFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentOnBoardingBinding.inflate(LayoutInflater.from(context))
         return binding.root
@@ -68,11 +65,37 @@ class OnBoardingFragment : Fragment() {
                 if (tabPosition < 0 || tabPosition == 0) {
                     constraint_btn_previus.invs()
                 }
+                if (tabPosition == onBoardingList.size - 1) {
+                    tabPosition -= 1
+                    tabDots.selectTab(tabDots.getTabAt(tabPosition))
+                }
             }
+            /**
+             * Geç butonu
+             */
             btnSkip.setOnClickListener {
                 goToApp()
             }
         }
+
+        /**
+         * görünümler arası geçiş yaparken position'ı yakalamak için kullanılır
+         * Eğer sayfayı kaydırırsak geri butonu ona göre durum alır.
+         */
+        tabDots.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tabPosition = tab?.position ?: 0
+                if (tabPosition == 0) binding.constraintBtnPrevius.hide()
+                else if (tabPosition > 0) binding.constraintBtnPrevius.show()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
     }
 
     //When next to the app
@@ -89,18 +112,15 @@ class OnBoardingFragment : Fragment() {
                 "Coin'ler artık daha kolay",
                 "Coin'leri takip etmek artık daha kolay. CoinMoino sizin için burada.",
                 R.drawable.coins
-            ),
-            OnBoardingItem(
+            ), OnBoardingItem(
                 "Dövizler hemen elinizin altında",
                 "Birçok döviz kurunu artık çok rahat bir şekilde takip edecek hatta istediğiniz para birimine dönüştürebileceksiniz.",
                 R.drawable.currency
-            ),
-            OnBoardingItem(
+            ), OnBoardingItem(
                 "Coin'lerde yükselişleri takip edin",
                 "Coin'leri grafik halinde görüntülemek isterseniz CoinMoino sizin için yapar.",
                 R.drawable.risepage
-            ),
-            OnBoardingItem(
+            ), OnBoardingItem(
                 "Para birimlerini dönüştür",
                 "Para birimlerini dönüştür hadi.",
                 R.drawable.currencyconverter
