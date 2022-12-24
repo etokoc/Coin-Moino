@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.util
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
@@ -47,6 +48,14 @@ class CustomDialogUtil(
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         initOnClicks()
+        if (isSuccessDialog)
+            initTimer()
+    }
+
+    private fun initTimer() {
+        Handler().postDelayed({
+            dismiss()
+        },2000)
     }
 
     private fun initOnClicks() {
