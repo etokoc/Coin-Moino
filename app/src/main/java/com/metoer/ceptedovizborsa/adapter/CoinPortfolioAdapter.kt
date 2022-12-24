@@ -9,6 +9,7 @@ import com.metoer.ceptedovizborsa.databinding.CoinPortfolioItemBinding
 import com.metoer.ceptedovizborsa.util.DiffUtil
 import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 import com.metoer.ceptedovizborsa.util.onItemClickListener
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,6 +48,11 @@ class CoinPortfolioAdapter(
             listener.onItemClick(position, holder.binding.root)
         }
     }
+
+   /* fun delete(coinPortfolioViewModel: CoinPortfolioViewModel,coinBuyItem: CoinBuyItem){
+        coinPortfolioViewModel.delete(coinBuyItem)
+        setData(itemList)
+    }*/
 
     override fun getItemCount(): Int {
         return itemList.size
