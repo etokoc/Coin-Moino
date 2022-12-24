@@ -104,6 +104,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     adapter.setData(coinBuyItemList.filterIndexed { index, coinBuyItem ->
                         index != position
                     })
+                    coinBuyItemList.removeAt(position)
                     customDialogUtil.dismiss()
                 }
             }
