@@ -60,10 +60,7 @@ class CoinPortfolioAdapter(
     }
 
     fun setData(newItemList: List<CoinBuyItem>) {
-        val diffUtil = DiffUtil(itemList, newItemList)
-        val diffResult = androidx.recyclerview.widget.DiffUtil.calculateDiff(diffUtil)
         itemList = newItemList
-        diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(0, itemList.size)
+        notifyDataSetChanged()
     }
 }
