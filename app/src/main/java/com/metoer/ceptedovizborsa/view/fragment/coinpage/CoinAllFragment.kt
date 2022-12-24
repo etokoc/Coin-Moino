@@ -110,17 +110,22 @@ class CoinAllFragment : Fragment(), onItemClickListener {
             )
             buttonCoinbuyDialog.setOnClickListener {
                 val edittextCheck = EditTextUtil.editTextCheckControl(
-                    listOf(
-                        edittextCoinbuyDialogUnit,
-                        edittextCoinbuyDialogTotal
-                    )
+                    listOf(edittextCoinbuyDialogUnit)
                 )
                 if (edittextCheck) {
                     buyCoin(coinData, edittextCoinbuyDialogUnit)
                     dialog.dismiss()
-                    CustomDialogUtil(requireContext(), container, false, false, true, true).showDialog()
+                    CustomDialogUtil(
+                        requireContext(),
+                        container,
+                        false,
+                        false,
+                        true,
+                        true
+                    ).showDialog()
                 } else {
-                    Toast.makeText(requireContext(), "girişleri kontrol et", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "girişleri kontrol et", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

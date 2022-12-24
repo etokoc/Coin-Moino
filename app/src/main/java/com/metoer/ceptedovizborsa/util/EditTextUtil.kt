@@ -33,7 +33,7 @@ object EditTextUtil {
 
     fun editTextCheckControl(edittextList: List<EditText>): Boolean {
         edittextList.forEach {
-            if (it.equals("")) {
+            if (it.text.isNullOrEmpty()) {
                 return false
             }
         }
