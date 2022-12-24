@@ -81,7 +81,7 @@ class CustomDialogUtil(
         dialog?.show()
     }
 
-    fun getView() = dialog
+    fun getView() = bindingDialog
 
     private var onClickListener: (() -> Unit)? = null
 

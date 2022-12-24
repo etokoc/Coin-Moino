@@ -43,4 +43,5 @@
     <string name="warning_title">Uyarı</string>
     <string name="your_process_is_success">İşleminiz Gerçekleşti</string>
     <string name="check_inputs">girişleri kontrol et</string>
+    <string name="coin_taked_value">%1$f -> %2$f</string>
 </resources>

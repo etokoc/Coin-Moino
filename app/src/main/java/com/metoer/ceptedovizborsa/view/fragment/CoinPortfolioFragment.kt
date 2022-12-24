@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinPortfolioAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
-import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
+import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.util.CustomDialogUtil
 import com.metoer.ceptedovizborsa.util.onItemClickListener
@@ -74,31 +74,50 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-
+    var coinBuyItemList = ArrayList<CoinBuyItem>()
     private fun initListeners() {
         viewModel.gelAllCoinBuyData().observe(viewLifecycleOwner) {
             binding.recylerViewCoinPortfolio.layoutManager =
                 LinearLayoutManager(requireContext())
             adapter.setData(it)
+            coinBuyItemList.addAll(it)
             binding.recylerViewCoinPortfolio.adapter = adapter
         }
     }
 
-    private fun showDialog(container: ViewGroup?,coinBuyItem: CoinBuyItem){
-        val customDialogUtil =
-            CustomDialogUtil(requireContext(), container!!, forForcedUpdate = false, isSuccessDialog = false  )
-        customDialogUtil.showDialog()
-        customDialogUtil.setOnClickListener {
-            viewModel.delete(coinBuyItem)
-            //adapter.delete(viewModel,coinBuyItem)
-            customDialogUtil.dismiss()
+    private fun showDialog(container: ViewGroup?, coinBuyItem: CoinBuyItem, position: Int) {
+        coinBuyItem.apply {
+            val customDialogUtil =
+                CustomDialogUtil(
+                    requireContext(),
+                    container!!,
+                    forForcedUpdate = false,
+                    isSuccessDialog = false
+                )
+            customDialogUtil.showDialog()
+            (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
+                this.textViewPortfolioDialogCoinname.text = coinName
+                this.textviewDescription.text =
+                    getString(R.string.coin_taked_value, coinTakedValue, 34f)
+                this.buttonDelete.setOnClickListener {
+                    viewModel.delete(coinBuyItem)
+                    adapter.setData(coinBuyItemList.filterIndexed { index, coinBuyItem ->
+                        index != position
+                    })
+                    customDialogUtil.dismiss()
+                }
+            }
+            customDialogUtil.setOnClickListener {
+                //adapter.delete(viewModel,coinBuyItem)
+                customDialogUtil.dismiss()
+            }
         }
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
         val coinData = adapter.itemList[position]
         coinData.apply {
-            showDialog(parent, coinData)
+            showDialog(parent, coinData, position)
         }
     }
 }
