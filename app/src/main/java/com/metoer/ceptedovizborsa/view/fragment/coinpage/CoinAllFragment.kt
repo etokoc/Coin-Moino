@@ -123,7 +123,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
                         true
                     ).showDialog()
                 } else {
-                    requireContext().showToastShort("girişleri kontrol et")
+                    requireContext().showToastShort(getString(R.string.check_inputs))
                 }
             }
         }

@@ -98,7 +98,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     ).showDialog()
                 }
             } else {
-                showToastShort("girişleri kontrol et")
+                showToastShort(getString(R.string.check_inputs))
             }
         }
 
