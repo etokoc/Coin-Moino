@@ -38,11 +38,13 @@
     <string name="money_value">₺%1$s</string>
     <string name="volume_text">%1$s Hacim</string>
     <string name="kapat">Kapat</string>
-    <string name="update_text_button">GÜNCELLE</string>
+    <string name="update_text_button">Güncelle</string>
     <string name="forced_update_message">Daha iyi deneyim için lütfen uygulamanızı güncelleyin</string>
     <string name="warning_title">Uyarı</string>
     <string name="your_process_is_success">İşleminiz Gerçekleşti</string>
-    <string name="check_inputs">girişleri kontrol et</string>
+    <string name="check_inputs">Girişleri kontrol et</string>
     <string name="coin_taked_value">%1$f -> %2$f</string>
+    <string name="close">Close</string>
+    <string name="open">Open</string>
     <string name="coin_profit">Kar %1$s</string>
 </resources>

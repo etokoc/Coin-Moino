@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Ayarlar">
+        <menu>
+            <item
+                android:id="@+id/setting_menu"
+                android:icon="@drawable/settings_awitch"
+                android:title="Dil" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/about_menu"
+        android:icon="@drawable/settings_awitch"
+        android:title="Hakkında" />
+
+    <item
+        android:id="@+id/contact_menu"
+        android:icon="@drawable/settings_awitch"
+        android:title="Bizi Takip Edin" />
+</menu>
