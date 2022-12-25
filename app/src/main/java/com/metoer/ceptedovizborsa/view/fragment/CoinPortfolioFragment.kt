@@ -14,7 +14,10 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.util.CustomDialogUtil
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.StaticCoinList
 import com.metoer.ceptedovizborsa.util.onItemClickListener
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +28,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
     private lateinit var settingAnimation: AnimationDrawable
     private lateinit var settingAnimationClose: AnimationDrawable
     private var adapter = CoinPortfolioAdapter(this)
+    private val coinMarketViewModel: CoinPageViewModel by viewModels()
     private val binding
         get() = _binding!!
     private var clicked = false
@@ -85,7 +89,12 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    private fun showDialog(container: ViewGroup?, coinBuyItem: CoinBuyItem, position: Int) {
+    private fun showDialog(
+        container: ViewGroup?,
+        coinBuyItem: CoinBuyItem,
+        position: Int,
+        currentValueOfCoin: Float?
+    ) {
         coinBuyItem.apply {
             val customDialogUtil =
                 CustomDialogUtil(
@@ -97,8 +106,14 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             customDialogUtil.showDialog()
             (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
                 this.textViewPortfolioDialogCoinname.text = coinName
+                val value = (currentValueOfCoin!! - coinTakedValue!!) * coinUnit!!
+                this.textViewPortfolioDialogCoinprofit.text = calculatePrice(value)
                 this.textviewDescription.text =
-                    getString(R.string.coin_taked_value, coinTakedValue, 34f)
+                    getString(
+                        R.string.coin_taked_value,
+                        coinTakedValue,
+                        currentValueOfCoin
+                    )
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
                     coinBuyItemList.removeAt(position)
@@ -107,16 +122,35 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                 }
             }
             customDialogUtil.setOnClickListener {
-                //adapter.delete(viewModel,coinBuyItem)
                 customDialogUtil.dismiss()
             }
         }
     }
 
+    fun calculatePrice(value: Double): String {
+        val result = NumberDecimalFormat.numberDecimalFormat(
+            value.toString(), "###,###,###,###.######"
+        )
+        return getString(R.string.coin_profit,result)
+    }
+
     override fun onItemClick(position: Int, parent: ViewGroup) {
         val coinData = adapter.itemList[position]
         coinData.apply {
-            showDialog(parent, coinData, position)
+            if (this.coinSymbolQuote == "USD") {
+                val currentValueOfCoin =
+                    StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
+                showDialog(parent, coinData, position, currentValueOfCoin)
+            } else {
+                this.coinSymbolQuote?.let {
+                    coinMarketViewModel.getAllMarketsCoinData(it)
+                        .observe(viewLifecycleOwner) { value ->
+                            val currentValueOfCoin =
+                                value?.find { it.baseSymbol == coinData.coinSymbol }?.priceQuote?.toFloat()
+                            showDialog(parent, coinData, position, currentValueOfCoin)
+                        }
+                }
+            }
         }
     }
 }

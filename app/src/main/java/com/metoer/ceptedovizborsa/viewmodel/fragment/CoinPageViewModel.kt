@@ -13,10 +13,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    private val coinLiveMarketCoinData = MutableLiveData<List<MarketData>>()
+    private val coinLiveMarketCoinData = MutableLiveData<List<MarketData>?>()
     fun getAllMarketsCoinData(
         quoteSymbol: String
-    ): MutableLiveData<List<MarketData>> {
+    ): MutableLiveData<List<MarketData>?> {
         currencyRepository.getAllMarketsCoinDataFromApi(CreateApiKeyUtil.getKey(), quoteSymbol)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -28,5 +28,9 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
 
             }
         return coinLiveMarketCoinData
+    }
+
+    fun clearAllMarketCoinData() {
+        coinLiveMarketCoinData.value = null
     }
 }

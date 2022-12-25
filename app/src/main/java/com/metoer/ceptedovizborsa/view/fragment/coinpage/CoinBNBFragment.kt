@@ -42,7 +42,7 @@ class CoinBNBFragment : Fragment() {
     fun initListener() {
         viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it)
+            adapter.setData(it!!)
             coinList.clear()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
