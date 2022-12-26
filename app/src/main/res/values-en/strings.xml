@@ -38,12 +38,14 @@
     <string name="quote_symbol">/%1$s</string>
     <string name="money_value">₺%1$s</string>
     <string name="volume_text">%1$s Volume</string>
-    <string name="kapat">Kapat</string>
-    <string name="update_text_button">GÜNCELLE</string>
-    <string name="forced_update_message">Daha iyi deneyim için lütfen uygulamanızı güncelleyin</string>
-    <string name="warning_title">Uyarı</string>
-    <string name="your_process_is_success">İşleminiz Gerçekleşti</string>
-    <string name="check_inputs">girişleri kontrol et</string>
+    <string name="kapat">Close</string>
+    <string name="update_text_button">Update</string>
+    <string name="forced_update_message">Please update your app for better experience</string>
+    <string name="warning_title">Warning</string>
+    <string name="your_process_is_success">Your transaction is complate</string>
+    <string name="check_inputs">Check entries</string>
     <string name="coin_taked_value">%1$f -> %2$f</string>
+    <string name="close">Close</string>
+    <string name="open">Open</string>
     <string name="coin_profit">Kar %1$s</string>
 </resources>
