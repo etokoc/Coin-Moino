@@ -35,7 +35,7 @@ class CoinAdapter(
             coinExchangeNameText.text = currentItem.name
             coinExchangeSembolText.text = currentItem.symbol
             coinVolumeExchangeText.text =
-                MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble())
+                MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble(),holder.itemView.context)
             val value = currentItem.priceUsd
             coinExchangeValueText.text =
                 holder.itemView.context.getString(

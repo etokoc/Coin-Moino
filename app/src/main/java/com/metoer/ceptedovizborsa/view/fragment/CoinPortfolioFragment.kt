@@ -103,7 +103,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
                 this.textViewPortfolioDialogCoinname.text = coinName
                 val value = (currentValueOfCoin!! - coinTakedValue!!) * coinUnit!!
-                this.textViewPortfolioDialogCoinprofit.text = calculatePrice(value)
+                this.textViewPortfolioDialogCoinprofit.text = calculatePrice(value,coinSymbolQuote!!)
                 this.textviewDescription.text =
                     getString(
                         R.string.coin_taked_value,
@@ -124,11 +124,11 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    fun calculatePrice(value: Double): String {
+    fun calculatePrice(value: Double,priceQuote:String): String {
         val result = NumberDecimalFormat.numberDecimalFormat(
             value.toString(), "###,###,###,###.######"
         )
-        return getString(R.string.coin_profit, result)
+        return getString(R.string.coin_profit,result,priceQuote)
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {

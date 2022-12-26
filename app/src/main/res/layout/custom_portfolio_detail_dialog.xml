@@ -89,7 +89,7 @@
                 android:layout_marginEnd="0dp"
                 android:background="@drawable/portfolio_closedialogbutton_background"
                 android:backgroundTint="@color/forested_gray"
-                android:text="Sil"
+                android:text="@string/delete"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </RelativeLayout>
