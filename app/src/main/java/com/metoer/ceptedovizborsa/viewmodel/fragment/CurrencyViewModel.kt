@@ -34,9 +34,6 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
                         }
                 }
                 currencyMutableList.postValue(it.Currency)
-                it.Currency?.let { currencyList ->
-                    CurrencyListSingleton.setList(currencyList as ArrayList<Currency>)
-                }
             }, {
 
             }, {

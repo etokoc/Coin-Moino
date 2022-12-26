@@ -18,7 +18,7 @@ import com.metoer.ceptedovizborsa.util.EditTextUtil
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
 import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
-import com.metoer.ceptedovizborsa.viewmodel.fragment.CallculationCurrencyViewModel
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
 import java.util.*
@@ -30,7 +30,7 @@ class CallculationCurrencyFragment : Fragment() {
     private var spinner1Position = 0
     private var spinner2Position = 0
 
-    private val viewmodel: CallculationCurrencyViewModel by viewModels()
+    private val viewmodel: CurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private val binding
         get() = _binding!!
@@ -53,7 +53,8 @@ class CallculationCurrencyFragment : Fragment() {
     private var currencyList = ArrayList<Currency>()
     override fun onResume() {
         super.onResume()
-        viewmodel.getSpinnerList()
+        val unixTime = System.currentTimeMillis()
+        viewmodel.getAllCurrencyData(unixTime.toString())
         binding.moneyValueEditText1.filters = editTextFilter()
         binding.moneyValueEditText2.filters = editTextFilter()
         initListener()
@@ -62,8 +63,8 @@ class CallculationCurrencyFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
-        viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
-            currencyList = it
+        viewmodel.currencyMutableList.observe(viewLifecycleOwner) {
+            currencyList = it as ArrayList<Currency>
             initSpinners(currencyList)
         }
         var money: Double
