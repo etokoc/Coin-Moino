@@ -82,4 +82,5 @@
     <string name="tr">TURKISH LIRA</string>
     <string name="delete">Delete</string>
     <string name="is_not_avaible_value">Güncel Veriye Erişilemedi</string>
+    <string name="ayarlar">Settings</string>
 </resources>

@@ -3,11 +3,12 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.app.ActionBar
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -15,6 +16,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
+import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,10 +52,35 @@ class MainActivity : AppCompatActivity() {
             mainNav.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.setting_menu -> {
-                        languageDialog(binding.root)
+                        languageDialog()
                     }
                     R.id.about_menu -> {
 
+                    }
+                    R.id.instagram_menu -> {
+                        fallowDialog(
+                            "https://www.instagram.com/omerseyfettinyavuzyigit/",
+                            "https://www.instagram.com/ertugrul.koc.06/",
+                            "/omerseyfettinyavuzyigit",
+                            "/ertugrul.koc.06",
+                            R.drawable.instagram_icon
+                        )
+                    }
+                    R.id.twitter_menu -> {
+                        fallowDialog(
+                            "https://twitter.com/yavuzyigit_omer",
+                            "https://twitter.com/koc_etoertugrul",
+                            "@yavuzyigit_omer",
+                            "@koc_etoertugrul",
+                            R.drawable.twitter_icon
+                        )
+                    }
+                    R.id.linkedin_menu -> {
+                        fallowDialog(
+                            "https://www.linkedin.com/in/%C3%B6mer-yavuzyi%C4%9Fit-12a079223/",
+                            "https://www.linkedin.com/in/ertugrul-koc/",
+                            "/omer_yavuzyigit", "/ertugrul_koc", R.drawable.linkedin_icon
+                        )
                     }
                 }
                 true
@@ -61,12 +88,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun languageDialog(container: ViewGroup) {
+    private fun fallowDialog(
+        url1: String,
+        url2: String,
+        text1: String,
+        text2: String,
+        drawable: Int
+    ) {
+        val dialog = Dialog(this)
+        val bindingDialog =
+            CustomFallowDialogBinding.inflate(
+                LayoutInflater.from(binding.root.context),
+                binding.root,
+                false
+            )
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        val window = dialog.window
+        window?.attributes!!.windowAnimations = R.style.DialogAnimation
+        bindingDialog.apply {
+            buttonFallowDialogUrl1.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
+            buttonFallowDialogUrl2.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
+            buttonFallowDialogUrl1.text = text1
+            buttonFallowDialogUrl2.text = text2
+            buttonFallowDialogUrl1.setOnClickListener {
+                val i = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(url1)
+                )
+                startActivity(i)
+            }
+            buttonFallowDialogUrl2.setOnClickListener {
+                val i = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(url2)
+                )
+                startActivity(i)
+            }
+        }
+        dialog.setCancelable(true)
+        window.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    private fun languageDialog() {
         val dialog = Dialog(this)
         val bindingDialog =
             CustomLanguageDialogBinding.inflate(
-                LayoutInflater.from(container.context),
-                container,
+                LayoutInflater.from(binding.root.context),
+                binding.root,
                 false
             )
         dialog.setContentView(bindingDialog.root)

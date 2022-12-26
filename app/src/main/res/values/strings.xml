@@ -81,4 +81,5 @@
     <string name="tr">TÜRK LİRASI</string>
     <string name="delete">Sil</string>
     <string name="is_not_avaible_value">Güncel Veriye Erişilemedi</string>
+    <string name="ayarlar">Ayarlar</string>
 </resources>
