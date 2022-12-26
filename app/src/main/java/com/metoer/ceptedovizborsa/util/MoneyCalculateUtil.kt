@@ -1,8 +1,10 @@
 package com.metoer.ceptedovizborsa.util
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -10,7 +12,7 @@ import java.util.*
 
 object MoneyCalculateUtil {
 
-    fun coinConverter(edittextUnit:EditText,edittextTotal:EditText,price:String){
+    fun coinConverter(edittextUnit: EditText, edittextTotal: EditText, price: String) {
         var money: Double
         var editControl = false
         var editControl2 = false
@@ -108,17 +110,21 @@ object MoneyCalculateUtil {
         return d
     }
 
-    fun volumeShortConverter(value: Double): String {
+    fun volumeShortConverter(value: Double, context: Context): String {
         val simplfy: String
         if ((value / 1000000000) >= 1) {
-            simplfy =
-                "Hacim " + DecimalFormat("0.##").format(value / 1000000000) + " milyar"
+            simplfy = context.getString(
+                R.string.hacim_calculate,
+                DecimalFormat("0.##").format(value / 1000000000)
+            )
         } else if ((value / 1000000) >= 1) {
-            simplfy =
-                "Hacim " + DecimalFormat("0.##").format(value / 1000000) + " milyon"
+            simplfy = context.getString(
+                R.string.hacim_calculate2,
+                DecimalFormat("0.##").format(value / 1000000)
+            )
         } else {
             simplfy =
-                "Hacim " + DecimalFormat("0.##").format(value)
+                context.getString(R.string.hacim_calculate3, DecimalFormat("0.##").format(value))
         }
         return simplfy
     }

@@ -114,7 +114,7 @@ class OnBoardingFragment : Fragment() {
                 R.drawable.coins
             ), OnBoardingItem(
                 "Dövizler hemen elinizin altında",
-                "Birçok döviz kurunu artık çok rahat bir şekilde takip edecek hatta istediğiniz para birimine dönüştürebileceksiniz.",
+                "Birçok döviz kurunu artık çok rahat bir şekilde takip edecebilecek ve istediğiniz para birimine dönüştürebileceksiniz.",
                 R.drawable.currency
             ), OnBoardingItem(
                 "Coin'lerde yükselişleri takip edin",

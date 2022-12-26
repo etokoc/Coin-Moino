@@ -30,7 +30,15 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItems = itemList[position]
         holder.binding.apply {
-            moneyNameTextView.text = currentItems.Isim
+            if (currentItems.Kod!!.trim().lowercase() != "try") {
+                val resId: Int = holder.itemView.resources.getIdentifier(
+                    currentItems.Kod!!.trim().lowercase(),
+                    "string", holder.itemView.context.packageName
+                )
+                moneyNameTextView.text = holder.itemView.context.getString(resId)
+            } else {
+                moneyNameTextView.text = holder.itemView.context.getString(R.string.tr)
+            }
             moneyCodeTextView.text = currentItems.CurrencyCode
             val result = currentItems.ForexBuying?.div(currentItems.Unit!!)!!
             moneyValueTextView.text = holder.itemView.context.getString(

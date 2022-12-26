@@ -46,7 +46,7 @@ class CoinPageAdapter(
                     currentItem.quoteSymbol
                 )
                 coinVolumeExchangeText.text =
-                    MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble())
+                    MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble(),holder.itemView.context)
                 val value = currentItem.priceQuote
                 coinExchangeValueText.text =
                     NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")

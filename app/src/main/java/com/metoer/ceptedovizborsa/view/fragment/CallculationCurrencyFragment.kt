@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import com.metoer.ceptedovizborsa.util.Constants
@@ -64,14 +65,6 @@ class CallculationCurrencyFragment : Fragment() {
         viewmodel.currencyLiveData.observe(viewLifecycleOwner) {
             currencyList = it
             initSpinners(currencyList)
-        }
-        binding.apply {
-            /*MoneyCalculateUtil.crossRateCalculation(moneyValueEditText1,moneyValueEditText2,MoneyCalculateUtil.moneyConverter(
-                currencyList,
-                money,
-                moneyValueSpinner1.selectedItemPosition,
-                moneyValueSpinner2.selectedItemPosition
-            ))*/
         }
         var money: Double
         binding.apply {
@@ -160,15 +153,21 @@ class CallculationCurrencyFragment : Fragment() {
             ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                currencyList.map { currency -> currency.Isim })
+                currencyList.map { currency ->
+                    if (currency.Kod!!.trim().lowercase() != "try") {
+                        val resId: Int = resources.getIdentifier(
+                            currency.Kod!!.trim().lowercase(),
+                            "string", requireContext().packageName
+                        )
+                        getString(resId)
+                    } else {
+                        getString(R.string.tr)
+                    }
+                })
         binding.moneyValueSpinner1.adapter = arrayAdapter
         binding.moneyValueSpinner2.adapter = arrayAdapter
         binding.moneyValueSpinner1.setSelection(spinner1Position)
         binding.moneyValueSpinner2.setSelection(spinner2Position)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
