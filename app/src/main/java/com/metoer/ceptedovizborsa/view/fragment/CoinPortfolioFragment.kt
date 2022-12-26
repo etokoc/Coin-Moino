@@ -147,7 +147,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                             currentValueOfCoin?.let {
                                 showDialog(binding.root, coinData, position, currentValueOfCoin)
                             }?: kotlin.run {
-                                requireContext().showToastShort("Güncel Veriye Erişilemedi")
+                                requireContext().showToastShort(requireContext().getString(R.string.is_not_avaible_value))
                             }
                         }
                 }
