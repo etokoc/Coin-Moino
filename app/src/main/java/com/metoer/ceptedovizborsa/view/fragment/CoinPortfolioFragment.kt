@@ -13,10 +13,7 @@ import com.metoer.ceptedovizborsa.adapter.CoinPortfolioAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
-import com.metoer.ceptedovizborsa.util.CustomDialogUtil
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
-import com.metoer.ceptedovizborsa.util.StaticCoinList
-import com.metoer.ceptedovizborsa.util.onItemClickListener
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,7 +100,6 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     forForcedUpdate = false,
                     isSuccessDialog = false
                 )
-            customDialogUtil.showDialog()
             (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
                 this.textViewPortfolioDialogCoinname.text = coinName
                 val value = (currentValueOfCoin!! - coinTakedValue!!) * coinUnit!!
@@ -120,6 +116,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     adapter.setData(coinBuyItemList)
                     customDialogUtil.dismiss()
                 }
+                customDialogUtil.showDialog()
             }
             customDialogUtil.setOnClickListener {
                 customDialogUtil.dismiss()
@@ -131,7 +128,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         val result = NumberDecimalFormat.numberDecimalFormat(
             value.toString(), "###,###,###,###.######"
         )
-        return getString(R.string.coin_profit,result)
+        return getString(R.string.coin_profit, result)
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
@@ -140,14 +137,18 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             if (this.coinSymbolQuote == "USD") {
                 val currentValueOfCoin =
                     StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
-                showDialog(parent, coinData, position, currentValueOfCoin)
+                showDialog(container = this@CoinPortfolioFragment.binding.root, coinData, position, currentValueOfCoin)
             } else {
                 this.coinSymbolQuote?.let {
                     coinMarketViewModel.getAllMarketsCoinData(it)
-                        .observe(viewLifecycleOwner) { value ->
+                        .observeOnce(viewLifecycleOwner) { value ->
                             val currentValueOfCoin =
                                 value?.find { it.baseSymbol == coinData.coinSymbol }?.priceQuote?.toFloat()
-                            showDialog(parent, coinData, position, currentValueOfCoin)
+                            currentValueOfCoin?.let {
+                                showDialog(binding.root, coinData, position, currentValueOfCoin)
+                            }?: kotlin.run {
+                                requireContext().showToastShort("Güncel Veriye Erişilemedi")
+                            }
                         }
                 }
             }

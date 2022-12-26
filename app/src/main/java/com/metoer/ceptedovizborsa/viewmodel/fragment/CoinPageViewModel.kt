@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    private val coinLiveMarketCoinData = MutableLiveData<List<MarketData>?>()
+    val coinLiveMarketCoinData = MutableLiveData<List<MarketData>?>()
     fun getAllMarketsCoinData(
         quoteSymbol: String
     ): MutableLiveData<List<MarketData>?> {

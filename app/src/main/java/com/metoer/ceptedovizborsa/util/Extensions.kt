@@ -9,6 +9,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 fun View.hide() {
     this.visibility = View.GONE
@@ -47,6 +50,14 @@ fun getColorful(context: Context, id: Int): Int {
 }
 
 fun ImageView.setTintColor(@ColorRes color: Int) {
-    this.setColorFilter(ContextCompat.getColor(context,color))
+    this.setColorFilter(ContextCompat.getColor(context, color))
 }
 
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
+}
