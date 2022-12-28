@@ -49,8 +49,33 @@
         <item name="android:backgroundTint">@color/customDialog</item>
     </style>
 
+    <!-- Callculation Screen thema -->
     <style name="CalculationBackground">
+        <item name="android:backgroundTint">@color/customDialog</item>
+    </style>
+
+    <style name="CalculationBackgroundEditText" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="android:backgroundTint">@color/customDialog</item>
+        <item name="boxStrokeColor">@color/customDialogEditTextColor</item>
+        <item name="hintTextColor">@color/customDialogEditTextColor</item>
+        <item name="android:textColorHint">@color/customDialogEditTextColor</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox
+        </item>
+    </style>
+
+    <!-- ChartBuyThema -->
+    <style name="ChartBuyBackground">
         <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+    </style>
+
+    <style name="ChartBuyEditText">
+        <item name="android:backgroundTint">@color/backgrounBlack</item>
+        <item name="android:textColor">@color/customDialogEditTextColor</item>
     </style>
 
     <style name="CalculationSpinnerBackground">

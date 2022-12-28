@@ -1,6 +1,5 @@
 package com.metoer.ceptedovizborsa.view.activity
 
-import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -207,7 +207,6 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     )
 
                 candledataset.apply {
-                    color = Color.rgb(80, 80, 80)
                     shadowColor = getColorful(this@ChartActivity, R.color.green)
                     shadowWidth = 1f
                     setDrawValues(false)
@@ -270,6 +269,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                         }
                     }
                     val xval = coinDataChart.xAxis
+                    axisLeft.textColor=(ContextCompat.getColor(this@ChartActivity, R.color.white))
+                    //xval.textColor=(AppCompatResources.getColorStateList(context,R.style.TextColor))
                     xval.position = XAxis.XAxisPosition.BOTTOM
                     xval.setDrawGridLines(true)
                     xval.valueFormatter = IndexAxisValueFormatter(areaCount)

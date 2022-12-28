@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BackgrounScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.ChartActivity">
@@ -12,6 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/arrow_back"
+        style="@style/CustomDialogCancelButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,8 +102,7 @@
             android:id="@+id/volumeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/black"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/black"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewHighest" />
 
@@ -137,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/black"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewLowestPrice" />
 
@@ -157,6 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/ChartBuyBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -168,15 +170,15 @@
 
         <EditText
             android:id="@+id/edittext_unit"
+            style="@style/ChartBuyEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:padding="10dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/buy_button_design"
-            android:backgroundTint="@color/white"
             android:inputType="numberDecimal"
+            android:padding="10dp"
             app:layout_constraintEnd_toStartOf="@+id/edittext_total"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -185,12 +187,12 @@
             android:id="@+id/edittext_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:padding="10dp"
-            android:inputType="numberDecimal"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            style="@style/ChartBuyEditText"
             android:background="@drawable/buy_button_design"
-            android:backgroundTint="@color/white"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/edittext_unit"
             app:layout_constraintTop_toTopOf="parent" />

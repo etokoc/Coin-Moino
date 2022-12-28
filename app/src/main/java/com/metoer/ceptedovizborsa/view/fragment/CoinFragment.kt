@@ -106,6 +106,7 @@ class CoinFragment : Fragment() {
                 headerList.forEachIndexed { index, s ->
                     val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
                     tabItem.tvTabItem.text = headerList[index]
+                    tabItem.tvTabItem.setTextAppearance(R.style.SortItemTextAppearence)
                     val layout =
                         (this.getChildAt(0) as LinearLayout).getChildAt(3) as LinearLayout
                     val layoutParams = layout.layoutParams as LinearLayout.LayoutParams

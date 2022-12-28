@@ -53,14 +53,38 @@
         <item name="tint">@color/black</item>
     </style>
 
+    <!-- Callculation Screen thema -->
     <style name="CalculationBackground">
         <item name="background">@drawable/converter_constraint_background</item>
+    </style>
+
+    <style name="CalculationBackgroundEditText" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="android:backgroundTint">@color/customDialog</item>
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/appGray</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox
+        </item>
     </style>
 
     <style name="CalculationSpinnerBackground">
         <item name="android:popupBackground">@color/white</item>
     </style>
 
+    <!-- ChartBuyThema -->
+    <style name="ChartBuyBackground">
+        <item name="android:backgroundTint">@color/forested_gray</item>
+    </style>
+
+    <style name="ChartBuyEditText">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/customDialogEditTextColor</item>
+    </style>
 
     <style name="ImageViewColor">
         <item name="android:tint">@color/black</item>
@@ -112,7 +136,7 @@
     <!--for text -->
     <style name="SortItemTextAppearence" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="textAllCaps">true</item>
+        <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

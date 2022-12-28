@@ -55,18 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/para_1"
-            android:textColorHint="@color/appGray"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="@color/black"
             app:boxStrokeWidth="2dp"
-            app:hintTextColor="@color/black"
+            android:scrollbars=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconTint="@color/black">
+            app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/money_value_edit_text_1"
@@ -75,7 +68,7 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:text=""
-                style="@style/LightGrayEditText" />
+                style="@style/TextColor" />
             />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,16 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/para_2"
-            android:textColorHint="@color/appGray"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="@color/black"
             app:boxStrokeWidth="2dp"
-            app:hintTextColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconTint="@color/black"
             tools:layout_editor_absoluteX="24dp">
 
             <EditText
@@ -122,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                style="@style/TextColor"
                 android:inputType="numberDecimal"
                 android:text="" />
             />
