@@ -101,13 +101,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun recreate() {
-        finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        super.recreate()
-    }
+//    override fun recreate() {
+//        finish()
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+//        startActivity(intent)
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+//        super.recreate()
+//    }
 
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
         val prefs = getSharedPreferences("Thema", Activity.MODE_PRIVATE)
