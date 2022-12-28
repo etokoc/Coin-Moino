@@ -8,12 +8,12 @@
     tools:context=".view.activity.ChartActivity">
 
     <ImageView
+        style="@style/CustomDialogCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/arrow_back"
-        style="@style/CustomDialogCancelButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,9 +100,9 @@
 
         <TextView
             android:id="@+id/volumeTextView"
+            style="@style/TextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,10 +117,10 @@
 
         <TextView
             android:id="@+id/highestPriceTextView"
+            style="@style/TextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewHighest" />
 
@@ -135,10 +135,10 @@
 
         <TextView
             android:id="@+id/lowestPriceTextView"
+            style="@style/TextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewLowestPrice" />
 
@@ -185,11 +185,11 @@
 
         <EditText
             android:id="@+id/edittext_total"
+            style="@style/ChartBuyEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            style="@style/ChartBuyEditText"
             android:background="@drawable/buy_button_design"
             android:inputType="numberDecimal"
             android:padding="10dp"
