@@ -14,10 +14,10 @@ class SplashActivity : AppCompatActivity() {
     var _binding: ActivitySplashBinding? = null
     val binding get() = _binding
     override fun onCreate(savedInstanceState: Bundle?) {
+        getDarkAndLightThema()
         super.onCreate(savedInstanceState)
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(_binding!!.root)
-        getDarkAndLightThema()
         FireBaseAnaliyticsUtil(applicationContext).startAnalytics()
     }
 
