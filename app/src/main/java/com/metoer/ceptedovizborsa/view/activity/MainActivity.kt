@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -21,6 +22,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
+import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -54,13 +56,16 @@ class MainActivity : AppCompatActivity() {
             toggle.syncState()
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             drawerSwitch.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    setDarkAndLightThema(true)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    setDarkAndLightThema(false)
-                }
+                Handler().postDelayed({
+                    if (isChecked) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        setDarkAndLightThema(true)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        setDarkAndLightThema(false)
+                    }
+                 showToastShort(getString(R.string.thema_change_message))
+                }, 500)
             }
             mainNav.setNavigationItemSelectedListener {
                 when (it.itemId) {
@@ -101,23 +106,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    override fun recreate() {
-//        finish()
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-//        startActivity(intent)
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-//        super.recreate()
-//    }
 
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
         val prefs = getSharedPreferences("Thema", Activity.MODE_PRIVATE)
         val thema = prefs.getBoolean("night", false)
-        if (thema){
-            switchCompat.isChecked=true
+        if (thema) {
+            switchCompat.isChecked = true
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
-        else {
-            switchCompat.isChecked=false
+        } else {
+            switchCompat.isChecked = false
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
