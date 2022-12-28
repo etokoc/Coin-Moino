@@ -13,6 +13,7 @@
             android:layout_width="350dp"
             android:layout_height="170dp"
             android:layout_alignParentBottom="true"
+            style="@style/CustomDialogBackground"
             android:layout_centerHorizontal="true"
             android:background="@drawable/portfolio_detail_dialog">
 
@@ -30,7 +31,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/buy_button_design"
-                    android:backgroundTint="@color/forested_gray"
+                    style="@style/LightGrayEditText"
                     android:inputType="numberDecimal"
                     android:padding="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/edittextCoinbuyDialogTotal"
@@ -44,7 +45,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/buy_button_design"
-                    android:backgroundTint="@color/forested_gray"
+                    style="@style/LightGrayEditText"
                     android:inputType="numberDecimal"
                     android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.CepteDovizBorsa" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -11,10 +11,113 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/backgrounBlack</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="TextColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BackgrounScreen">
+        <item name="android:background">@color/backgrounBlack</item>
+    </style>
+
+    <style name="RecyclerViewScreen">
+        <item name="android:background">@color/backgrounBlack</item>
+    </style>
+
+    <style name="LightGrayButton">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="LightGrayEditText">
+        <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+        <item name="android:textColor">@color/customDialogEditTextColor</item>
+    </style>
+
+    <style name="LightGrayEditTextNull">
+        <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+        <item name="android:textColor">@color/customDialogEditTextColor</item>
+    </style>
+
+    <style name="CustomDialogBackground">
+        <item name="android:backgroundTint">@color/customDialog</item>
+    </style>
+
+    <style name="CalculationBackground">
+        <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+    </style>
+
+    <style name="CalculationSpinnerBackground">
+        <item name="android:popupBackground">@color/customDialogEditTextBackground</item>
+    </style>
+
+    <style name="CustomDialogCancelButton">
+        <item name="tint">@color/lightGray</item>
+    </style>
+
+    <style name="ImageViewColor">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="CoinSybolText">
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CoinTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicator">@drawable/custom_divider</item>
+        <item name="tabIndicatorColor">@color/primary_color</item>
+        <item name="tabIndicatorGravity">top</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorAnimationDuration">300</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CustomTablayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicator">@null</item>
+        <item name="rippleColor">@color/transparent</item>
+        <item name="tabTextAppearance">@style/ItemTextAppearence</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabBackground">@drawable/sc_tablayout</item>
+    </style>
+    <!--for text -->
+    <style name="ItemTextAppearence" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SortTablayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicator">@null</item>
+        <item name="rippleColor">@color/transparent</item>
+        <item name="tabTextAppearance">@style/SortItemTextAppearence</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+    </style>
+    <!--for text -->
+    <style name="SortItemTextAppearence" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+
 </resources>

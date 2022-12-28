@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="@string/ayarlar">
         <menu>
@@ -7,6 +8,11 @@
                 android:id="@+id/setting_menu"
                 android:icon="@drawable/language"
                 android:title="@string/language" />
+            <item
+                android:id="@+id/thema_menu"
+                app:actionViewClass="androidx.appcompat.widget.SwitchCompat"
+                android:icon="@drawable/dark_mode"
+                android:title="@string/tema" />
         </menu>
     </item>
 

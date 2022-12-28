@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.CepteDovizBorsa" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -16,6 +16,59 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="TextColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BackgrounScreen">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="RecyclerViewScreen">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="LightGrayButton">
+        <item name="android:backgroundTint">@color/sortgray</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="LightGrayEditText">
+        <item name="android:backgroundTint">@color/forested_gray</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="LightGrayEditTextNull">
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CustomDialogBackground">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="CustomDialogCancelButton">
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="CalculationBackground">
+        <item name="background">@drawable/converter_constraint_background</item>
+    </style>
+
+    <style name="CalculationSpinnerBackground">
+        <item name="android:popupBackground">@color/white</item>
+    </style>
+
+
+    <style name="ImageViewColor">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="CoinSybolText">
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="CoinTabLayout" parent="Widget.Design.TabLayout">

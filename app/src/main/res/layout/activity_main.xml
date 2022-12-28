@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
+            style="@style/BackgrounScreen"
             app:elevation="0dp"
             app:itemRippleColor="@color/white"
             app:itemIconTint="@drawable/bottom_navigation_selector"

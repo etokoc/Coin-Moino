@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -21,6 +24,7 @@ import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -37,18 +41,27 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(R.id.home_fragment)
             bottomMenuBar.setupWithNavController(navController)
             setSupportActionBar(appBar)
-
             toggle = ActionBarDrawerToggle(
                 this@MainActivity,
                 mainDrawerLayout,
                 R.string.open,
                 R.string.close
             )
+            val drawerSwitch: SwitchCompat =
+                binding.mainNav.menu.findItem(R.id.thema_menu).actionView as SwitchCompat
+            getDarkAndLightThema(drawerSwitch)
             mainDrawerLayout.addDrawerListener(toggle)
             toggle.syncState()
-
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+            drawerSwitch.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    setDarkAndLightThema(true)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    setDarkAndLightThema(false)
+                }
+            }
             mainNav.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.setting_menu -> {
@@ -88,6 +101,40 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun recreate() {
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        super.recreate()
+    }
+
+    private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
+        val prefs = getSharedPreferences("Thema", Activity.MODE_PRIVATE)
+        val thema = prefs.getBoolean("night", false)
+        if (thema){
+            switchCompat.isChecked=true
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        else {
+            switchCompat.isChecked=false
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    private fun setDarkAndLightThema(b: Boolean) {
+        val sharedPreferences = getSharedPreferences("Thema", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor
+        if (b) {
+            editor = sharedPreferences.edit()
+            editor.putBoolean("night", true)
+        } else {
+            editor = sharedPreferences.edit()
+            editor.putBoolean("night", false)
+        }
+        editor.apply()
+    }
+
     private fun fallowDialog(
         url1: String,
         url2: String,
@@ -117,6 +164,7 @@ class MainActivity : AppCompatActivity() {
                     Uri.parse(url1)
                 )
                 startActivity(i)
+                dialog.dismiss()
             }
             buttonFallowDialogUrl2.setOnClickListener {
                 val i = Intent(
@@ -124,6 +172,10 @@ class MainActivity : AppCompatActivity() {
                     Uri.parse(url2)
                 )
                 startActivity(i)
+                dialog.dismiss()
+            }
+            imageViewFallowCancel.setOnClickListener {
+                dialog.dismiss()
             }
         }
         dialog.setCancelable(true)

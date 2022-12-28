@@ -10,30 +10,32 @@
         android:layout_centerInParent="true">
 
         <RelativeLayout
+            style="@style/CustomDialogBackground"
             android:layout_width="350dp"
             android:layout_height="180dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
             android:background="@drawable/portfolio_detail_dialog">
 
             <TextView
                 android:id="@+id/textView_title"
+                style="@style/TextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:text="@string/warning_title"
-                android:textColor="@color/black" />
+                android:text="@string/warning_title" />
 
 
             <TextView
                 android:id="@+id/textView_description"
+                style="@style/TextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_title"
@@ -45,20 +47,18 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:lines="2"
-                android:text="@string/forced_update_message"
-                android:textColor="@color/black" />
+                android:text="@string/forced_update_message" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonPortfolioDialogClose"
+                style="@style/LightGrayButton"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/portfolio_closedialogbutton_background"
-                android:backgroundTint="@color/sortgray"
                 android:text="@string/update_text_button"
-                android:textColor="@color/white"
                 android:textStyle="bold" />
         </RelativeLayout>
 

@@ -7,50 +7,62 @@
 
     <RelativeLayout
         android:layout_width="350dp"
-        android:layout_height="210dp"
+        android:layout_height="220dp"
         android:layout_centerInParent="true">
 
         <RelativeLayout
+            style="@style/CustomDialogBackground"
             android:layout_width="350dp"
-            android:layout_height="170dp"
+            android:layout_height="180dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/portfolio_detail_dialog">
+
+            <ImageView
+                android:id="@+id/imageViewFallowCancel"
+                style="@style/CustomDialogCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/cancel" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="30dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/buttonFallowDialogUrl1"
+                    style="@style/LightGrayEditTextNull"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/buy_button_design"
-                    android:elevation="0dp"
                     android:drawableStart="@drawable/instagram_icon"
                     android:drawablePadding="10dp"
+                    android:elevation="0dp"
                     android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:text="/omerseyfettinyavuzyigit"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="@null"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/buttonFallowDialogUrl2"
+                    style="@style/LightGrayEditTextNull"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/buy_button_design"
-                    android:backgroundTint="@null"
                     android:drawableStart="@drawable/instagram_icon"
                     android:drawablePadding="10dp"
                     android:paddingStart="16dp"

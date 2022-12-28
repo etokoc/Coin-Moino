@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="10dp"
     android:background="@drawable/search_view_background"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
         <ImageButton
             android:id="@+id/btn_search"
-            android:layout_weight="0.5"
-            android:layout_marginStart="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:background="@color/transparent"
-            android:src="?android:attr/actionModeWebSearchDrawable" />
+            android:src="?android:attr/actionModeWebSearchDrawable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/currencySearchView"
-            android:layout_width="match_parent"
-            android:background="@color/transparent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="4dp"
-            android:layout_weight="0.1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/transparent"
             android:hint="Coin"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_clear"
+            app:layout_constraintStart_toEndOf="@+id/btn_search"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btn_clear"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="0.5"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/transparent"
-            android:src="@drawable/close_delete"
-            android:visibility="gone" />
+            android:src="@drawable/cancel"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

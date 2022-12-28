@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/RecyclerViewScreen"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,7 +14,7 @@
         android:background="@drawable/coin_exchange_sembol_text"
         android:padding="5dp"
         android:text="AAPL"
-        android:textColor="@color/white"
+        style="@style/CoinSybolText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +30,7 @@
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
         android:text="Apple, Inc."
-        android:textColor="@color/black"
+        style="@style/TextColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/coinVolumeExchangeText"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_medium"
         android:text="₺ 1684.91"
-        android:textColor="@color/black"
+        style="@style/TextColor"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
@@ -72,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text=""
-        android:textColor="@color/black"
+        style="@style/TextColor"
         app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
         app:layout_constraintTop_toBottomOf="@+id/coinExchangeValueText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

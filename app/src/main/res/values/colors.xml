@@ -8,6 +8,7 @@
     <color name="primary_color">#147DC7</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="backgrounBlack">#151516</color>
     <color name="green">#1BB61B</color>
     <color name="currency_light_gray">#F8F7F7</color>
     <color name="appGray">#A8A8A8</color>
@@ -21,6 +22,9 @@
     <color name="coinValueRise">#019875</color>
     <color name="coinValueDrop">#B8293D</color>
     <color name="forested_gray">#D8E6E6E6</color>
+    <color name="very_light_gray_text">#F1EDED</color>
     <color name="sortgray">#B3B3B3</color>
-
+    <color name="customDialog">#333333</color>
+    <color name="customDialogEditTextBackground">#555555</color>
+    <color name="customDialogEditTextColor">#999999</color>
 </resources>
