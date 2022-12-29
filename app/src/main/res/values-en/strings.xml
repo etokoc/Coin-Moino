@@ -85,4 +85,9 @@
     <string name="ayarlar">Settings</string>
     <string name="tema">Thema</string>
     <string name="thema_change_message">Theme is changing</string>
+    <string name="about_me">Who are we?\n
+As two friends who are developing themselves in the field of software, we are implementing the CoinMoino project, which can closely follow the developments in the financial sector, the most popular sector of the agenda, and reach all audiences.
+We know that the more determined we are, the closer we will be to success.
+The future excites us very much.\n
+The masterminds of CoinMoino</string>
 </resources>

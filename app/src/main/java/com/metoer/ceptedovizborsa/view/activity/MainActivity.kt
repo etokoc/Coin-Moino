@@ -20,9 +20,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
+import com.metoer.ceptedovizborsa.databinding.CustomAboutDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
-import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                         setDarkAndLightThema(false)
                     }
-                 showToastShort(getString(R.string.thema_change_message))
+                    showToastShort(getString(R.string.thema_change_message))
                 }, 500)
             }
             mainNav.setNavigationItemSelectedListener {
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                         languageDialog()
                     }
                     R.id.about_menu -> {
-
+                        aboutDialog()
                     }
                     R.id.instagram_menu -> {
                         fallowDialog(
@@ -172,6 +172,31 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             imageViewFallowCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.setCancelable(true)
+        window.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    private fun aboutDialog() {
+        val dialog = Dialog(this)
+        val bindingDialog =
+            CustomAboutDialogBinding.inflate(
+                LayoutInflater.from(binding.root.context),
+                binding.root,
+                false
+            )
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        val window = dialog.window
+        window?.attributes!!.windowAnimations = R.style.DialogAnimation
+        bindingDialog.apply {
+            imageViewAboutCancel.setOnClickListener {
                 dialog.dismiss()
             }
         }
