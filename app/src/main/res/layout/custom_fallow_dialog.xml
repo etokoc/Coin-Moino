@@ -36,7 +36,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/buttonFallowDialogUrl1"
-                    style="@style/LightGrayEditTextNull"
+                    style="@style/LightGrayButtonNull"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -57,7 +57,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/buttonFallowDialogUrl2"
-                    style="@style/LightGrayEditTextNull"
+                    style="@style/LightGrayButtonNull"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

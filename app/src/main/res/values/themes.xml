@@ -19,10 +19,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- All app textcolor -->
     <style name="TextColor">
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- All app backgrouncolor -->
     <style name="BackgrounScreen">
         <item name="android:background">@color/white</item>
     </style>
@@ -36,12 +38,20 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- App in light gray edittext -->
     <style name="LightGrayEditText">
         <item name="android:backgroundTint">@color/forested_gray</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- App in light gray edittext but not background tint -->
     <style name="LightGrayEditTextNull">
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- App in light gray appcompatbutton but not background tint -->
+    <style name="LightGrayButtonNull">
         <item name="android:backgroundTint">@null</item>
         <item name="android:textColor">@color/black</item>
     </style>
@@ -57,6 +67,10 @@
     <!-- Callculation Screen thema -->
     <style name="CalculationBackground">
         <item name="background">@drawable/converter_constraint_background</item>
+    </style>
+
+    <style name="RadioButtonColor">
+        <item name="buttonTint">@color/primary_color</item>
     </style>
 
     <style name="CalculationBackgroundEditText" parent="Base.Widget.MaterialComponents.TextInputLayout">

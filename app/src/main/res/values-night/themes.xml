@@ -13,16 +13,18 @@
         <!-- Status bar color. -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/backgrounBlack</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- All app textcolor -->
     <style name="TextColor">
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- All app backgrouncolor -->
     <style name="BackgrounScreen">
         <item name="android:background">@color/backgrounBlack</item>
     </style>
@@ -36,14 +38,22 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- App in light gray edittext -->
     <style name="LightGrayEditText">
         <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
         <item name="android:textColor">@color/forested_gray</item>
     </style>
 
+    <!-- App in light gray edittext but not background tint -->
     <style name="LightGrayEditTextNull">
         <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
         <item name="android:textColor">@color/customDialogEditTextColor</item>
+    </style>
+
+    <!-- App in light gray appcompatbutton but not background tint -->
+    <style name="LightGrayButtonNull">
+        <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+        <item name="android:textColor">@color/lightGray</item>
     </style>
 
     <style name="CustomDialogBackground">
@@ -53,6 +63,10 @@
     <!-- Callculation Screen thema -->
     <style name="CalculationBackground">
         <item name="android:backgroundTint">@color/customDialog</item>
+    </style>
+
+    <style name="RadioButtonColor">
+        <item name="buttonTint">@color/primary_color</item>
     </style>
 
     <style name="MyCustomSwitchTheme">

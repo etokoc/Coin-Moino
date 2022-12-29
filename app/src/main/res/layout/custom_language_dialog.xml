@@ -37,6 +37,7 @@
 
                     <RadioButton
                         android:id="@+id/radioButtonTurkish"
+                        style="@style/RadioButtonColor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layoutDirection="rtl"
@@ -44,6 +45,7 @@
 
                     <RadioButton
                         android:id="@+id/radioButtonEnglish"
+                        style="@style/RadioButtonColor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layoutDirection="rtl"
