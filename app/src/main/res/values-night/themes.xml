@@ -38,7 +38,7 @@
 
     <style name="LightGrayEditText">
         <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
-        <item name="android:textColor">@color/customDialogEditTextColor</item>
+        <item name="android:textColor">@color/forested_gray</item>
     </style>
 
     <style name="LightGrayEditTextNull">
@@ -53,6 +53,17 @@
     <!-- Callculation Screen thema -->
     <style name="CalculationBackground">
         <item name="android:backgroundTint">@color/customDialog</item>
+    </style>
+
+    <style name="MyCustomSwitchTheme">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/primary_color</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/forested_gray</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f</item>
     </style>
 
     <style name="CalculationBackgroundEditText" parent="Base.Widget.MaterialComponents.TextInputLayout">
@@ -76,7 +87,7 @@
 
     <style name="ChartBuyEditText">
         <item name="android:backgroundTint">@color/backgrounBlack</item>
-        <item name="android:textColor">@color/customDialogEditTextColor</item>
+        <item name="android:textColor">@color/forested_gray</item>
     </style>
 
     <style name="CalculationSpinnerBackground">

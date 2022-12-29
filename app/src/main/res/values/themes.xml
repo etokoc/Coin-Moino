@@ -38,7 +38,7 @@
 
     <style name="LightGrayEditText">
         <item name="android:backgroundTint">@color/forested_gray</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="LightGrayEditTextNull">
@@ -84,7 +84,7 @@
 
     <style name="ChartBuyEditText">
         <item name="android:backgroundTint">@color/white</item>
-        <item name="android:textColor">@color/customDialogEditTextColor</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ImageViewColor">
@@ -94,6 +94,17 @@
     <style name="CoinSybolText">
         <item name="android:backgroundTint">@color/black</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MyCustomSwitchTheme">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/primary_color</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/forested_gray</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f</item>
     </style>
 
     <style name="CoinTabLayout" parent="Widget.Design.TabLayout">
