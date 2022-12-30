@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -103,13 +105,15 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
                 this.textViewPortfolioDialogCoinname.text = coinName
                 val value = (currentValueOfCoin!! - coinTakedValue!!) * coinUnit!!
-                this.textViewPortfolioDialogCoinprofit.text = calculatePrice(value,coinSymbolQuote!!)
+                this.textViewPortfolioDialogCoinprofit.text =
+                    calculatePrice(value, coinSymbolQuote!!)
                 this.textviewDescription.text =
                     getString(
                         R.string.coin_taked_value,
                         coinTakedValue,
                         currentValueOfCoin
                     )
+                this.textViewPortfolioDialogCoinchange.text=calculatePercent(coinTakedValue!!,currentValueOfCoin,this.textViewPortfolioDialogCoinchange)
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
                     coinBuyItemList.removeAt(position)
@@ -124,11 +128,43 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    fun calculatePrice(value: Double,priceQuote:String): String {
+    private fun calculatePercent(firstPrice: Double, currentPrice:Float,textView: TextView): String {
+        val percent = ((currentPrice - firstPrice)/currentPrice) * 100
+        percentBacgroundTint(percent,textView)
+        val result = getString(R.string.coin_exchange_parcent_text,NumberDecimalFormat.numberDecimalFormat(percent.toString(),"0.##"),"%")
+        return result
+    }
+
+    private fun percentBacgroundTint(parcent: Double, textView: TextView) {
+        if (parcent > 0) {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.coinValueRise
+                )
+            )
+        } else if (parcent < 0) {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.coinValueDrop
+                )
+            )
+        } else {
+            textView.background.setTint(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.appGray
+                )
+            )
+        }
+    }
+
+    fun calculatePrice(value: Double, priceQuote: String): String {
         val result = NumberDecimalFormat.numberDecimalFormat(
             value.toString(), "###,###,###,###.######"
         )
-        return getString(R.string.coin_profit,result,priceQuote)
+        return getString(R.string.coin_profit, result, priceQuote)
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
@@ -137,7 +173,12 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             if (this.coinSymbolQuote == "USD") {
                 val currentValueOfCoin =
                     StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
-                showDialog(container = this@CoinPortfolioFragment.binding.root, coinData, position, currentValueOfCoin)
+                showDialog(
+                    container = this@CoinPortfolioFragment.binding.root,
+                    coinData,
+                    position,
+                    currentValueOfCoin
+                )
             } else {
                 this.coinSymbolQuote?.let {
                     coinMarketViewModel.getAllMarketsCoinData(it)
@@ -146,7 +187,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                                 value?.find { it.baseSymbol == coinData.coinSymbol }?.priceQuote?.toFloat()
                             currentValueOfCoin?.let {
                                 showDialog(binding.root, coinData, position, currentValueOfCoin)
-                            }?: kotlin.run {
+                            } ?: kotlin.run {
                                 requireContext().showToastShort(requireContext().getString(R.string.is_not_avaible_value))
                             }
                         }
