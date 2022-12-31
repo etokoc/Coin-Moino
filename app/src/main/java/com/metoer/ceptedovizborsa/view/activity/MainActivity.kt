@@ -1,10 +1,8 @@
 package com.metoer.ceptedovizborsa.view.activity
 
 import android.app.ActionBar
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +21,7 @@ import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
 import com.metoer.ceptedovizborsa.databinding.CustomAboutDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
+import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -108,9 +107,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
-        val prefs = getSharedPreferences("Thema", Activity.MODE_PRIVATE)
-        val thema = prefs.getBoolean("night", false)
-        if (thema) {
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val thema = prefs.getLocal("night", false) as? Boolean
+        if (thema == true) {
             switchCompat.isChecked = true
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
@@ -120,16 +119,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDarkAndLightThema(b: Boolean) {
-        val sharedPreferences = getSharedPreferences("Thema", MODE_PRIVATE)
-        val editor: SharedPreferences.Editor
+        val prefs = SharedPrefencesUtil(applicationContext)
         if (b) {
-            editor = sharedPreferences.edit()
-            editor.putBoolean("night", true)
+            prefs.addLocal("night", true)
         } else {
-            editor = sharedPreferences.edit()
-            editor.putBoolean("night", false)
+            prefs.addLocal("night", false)
         }
-        editor.apply()
     }
 
     private fun fallowDialog(
@@ -257,15 +252,14 @@ class MainActivity : AppCompatActivity() {
             configuration,
             baseContext.resources.displayMetrics
         )
-        val editor = getSharedPreferences("Language", MODE_PRIVATE).edit()
-        editor.putString("My_Lang", language)
-        editor.apply()
+        val sharedPref = SharedPrefencesUtil(applicationContext)
+        sharedPref.addLocal("My_Lang", language)
     }
 
     private fun loadLocaleString(): String {
-        val prefs = getSharedPreferences("Language", Activity.MODE_PRIVATE)
-        val language = prefs.getString("My_Lang", "")
-        return language!!
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val language = prefs.getLocal("My_Lang", String)
+        return language.toString()
     }
 
     private fun loadLocale() {
