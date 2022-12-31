@@ -61,8 +61,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         super.onResume()
         dataMarket = intent.getSerializableExtra("send") as MarketData
         binding.apply {
-            /*edittextTotal.filters = editTextFilter()
-            edittextUnit.filters = editTextFilter()*/
+            edittextTotal.filters = editTextFilter()
+            edittextUnit.filters = editTextFilter()
             edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
             edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
         }
