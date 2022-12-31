@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.metoer.ceptedovizborsa.databinding.ActivitySplashBinding
 import com.metoer.ceptedovizborsa.util.FireBaseAnaliyticsUtil
+import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 
 class SplashActivity : AppCompatActivity() {
     var _binding: ActivitySplashBinding? = null
@@ -34,9 +35,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun getDarkAndLightThema() {
-        val prefs = getSharedPreferences("Thema", Activity.MODE_PRIVATE)
-        val thema = prefs.getBoolean("night", false)
-        if (thema) {
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val thema = prefs.getLocal("night", Boolean)
+        if (thema == true) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
