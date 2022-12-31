@@ -61,8 +61,8 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         super.onResume()
         dataMarket = intent.getSerializableExtra("send") as MarketData
         binding.apply {
-            edittextTotal.filters = editTextFilter()
-            edittextUnit.filters = editTextFilter()
+            /*edittextTotal.filters = editTextFilter()
+            edittextUnit.filters = editTextFilter()*/
             edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
             edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
         }
@@ -73,37 +73,36 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun initListeners() {
-        binding.apply { }
-        setCandelStickChart()
-        viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
-
-        //Coin Buy Click
-        btnBuy.setOnClickListener {
-            if (!edittext_unit.text.isNullOrEmpty()) {
-                val coinUnit: Double
-                coinUnit = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
-                dataMarket.apply {
-                    val coinBuyItem = CoinBuyItem(
-                        baseSymbol,
-                        quoteSymbol,
-                        baseId,
-                        coinUnit,
-                        priceQuote.toDouble(),
-                        System.currentTimeMillis()
-                    )
-                    coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
-                    CustomDialogUtil(
-                        this@ChartActivity,
-                        container = binding.root,
-                        isSuccessDialog = true,
-                        forForcedUpdate = false
-                    ).showDialog()
+        binding.apply {
+            setCandelStickChart()
+            viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
+            //Coin Buy Click
+            btnBuy.setOnClickListener {
+                if (!edittext_unit.text.isNullOrEmpty()) {
+                    val coinUnit: Double
+                    coinUnit = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
+                    dataMarket.apply {
+                        val coinBuyItem = CoinBuyItem(
+                            baseSymbol,
+                            quoteSymbol,
+                            baseId,
+                            coinUnit,
+                            priceQuote.toDouble(),
+                            System.currentTimeMillis()
+                        )
+                        coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
+                        CustomDialogUtil(
+                            this@ChartActivity,
+                            container = binding.root,
+                            isSuccessDialog = true,
+                            forForcedUpdate = false
+                        ).showDialog()
+                    }
+                } else {
+                    showToastShort(getString(R.string.check_inputs))
                 }
-            } else {
-                showToastShort(getString(R.string.check_inputs))
             }
         }
-
     }
 
     private fun initSpinner() {
@@ -273,10 +272,14 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     val xval = coinDataChart.xAxis
                     val typedValue = TypedValue()
                     val theme: Resources.Theme = context.theme
-                    theme.resolveAttribute(androidx.constraintlayout.widget.R.attr.textFillColor,typedValue,true)
+                    theme.resolveAttribute(
+                        androidx.constraintlayout.widget.R.attr.textFillColor,
+                        typedValue,
+                        true
+                    )
                     @ColorInt val color = typedValue.data
-                    axisLeft.textColor=color
-                    xval.textColor=color
+                    axisLeft.textColor = color
+                    xval.textColor = color
                     xval.position = XAxis.XAxisPosition.BOTTOM
                     xval.setDrawGridLines(true)
                     xval.valueFormatter = IndexAxisValueFormatter(areaCount)
