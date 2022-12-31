@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -81,7 +80,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         //Coin Buy Click
         btnBuy.setOnClickListener {
             if (!edittext_unit.text.isNullOrEmpty()) {
-                var coinUnit: Double = 0.0
+                val coinUnit: Double
                 coinUnit = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
                 dataMarket.apply {
                     val coinBuyItem = CoinBuyItem(
