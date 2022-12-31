@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
         val prefs = SharedPrefencesUtil(applicationContext)
-        val thema = prefs.getLocal("night", false) as? Boolean
+        val thema = prefs.getLocal("night", Boolean)
         if (thema == true) {
             switchCompat.isChecked = true
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
