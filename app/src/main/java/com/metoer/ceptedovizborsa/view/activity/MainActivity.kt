@@ -33,7 +33,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadLocale()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.apply {
@@ -109,10 +108,8 @@ class MainActivity : BaseActivity() {
         val thema = prefs.getLocal("night", Boolean)
         if (thema == true) {
             switchCompat.isChecked = true
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             switchCompat.isChecked = false
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 
@@ -252,10 +249,6 @@ class MainActivity : BaseActivity() {
         return language.toString()
     }
 
-    private fun loadLocale() {
-        setLocale(loadLocaleString())
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
@@ -267,7 +260,6 @@ class MainActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
     override fun onResume() {
         super.onResume()
         supportLocale()

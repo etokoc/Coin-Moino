@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.view.activity
 
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import java.util.*
 
@@ -17,5 +18,13 @@ open class BaseActivity : AppCompatActivity() {
             configuration, baseContext.resources.displayMetrics
         )
     }
-
+    fun supportThema(){
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val thema = prefs.getLocal("night", Boolean)
+        if (thema == true) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
 }
