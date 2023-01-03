@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinCandlesResponse(
     @SerializedName("data")
-    var data: List<CandlesData>,
+    var data: List<CandlesData>?,
     @SerializedName("timestamp")
-    var timestamp: Long
+    var timestamp: Long?
 )

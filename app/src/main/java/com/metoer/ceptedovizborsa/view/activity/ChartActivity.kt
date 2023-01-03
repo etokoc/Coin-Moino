@@ -103,7 +103,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             setCandelStickChart()
             dataMarket?.baseId?.let {
                 dataMarket.quoteId?.let { it1 ->
-                    viewModel.getAllCandlesData(interval,
+                    viewModel.getAllCandlesData(
+                        interval,
                         it, it1
                     )
                 }
@@ -178,7 +179,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     progressBar.show()
                     dataMarket.baseId?.let {
                         dataMarket.quoteId?.let { it1 ->
-                            viewModel.getAllCandlesData(interval,
+                            viewModel.getAllCandlesData(
+                                interval,
                                 it, it1
                             )
                         }
@@ -209,41 +211,60 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 var sayac = 0f
                 Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
-                    areaCount.add(getDate(candleData.period)!!)
+                    candleData.period?.let { it1 -> getDate(it1) }
+                        ?.let { it2 -> areaCount.add(it2) }
                     Log.i("valueobserve", "" + candleData.close)
-                    candlestickentry.add(
-                        CandleEntry(
-                            sayac,
-                            candleData.high.toFloat(),
-                            candleData.low.toFloat(),
-                            candleData.open.toFloat(),
-                            candleData.close.toFloat()
+                    candleData.high?.toFloat()?.let { it1 ->
+                        candleData.low?.toFloat()?.let { it2 ->
+                            candleData.open?.toFloat()?.let { it3 ->
+                                candleData.close?.toFloat()?.let { it4 ->
+                                    CandleEntry(
+                                        sayac,
+                                        it1,
+                                        it2,
+                                        it3,
+                                        it4
+                                    )
+                                }
+                            }
+                        }
+                    }?.let { it2 ->
+                        candlestickentry.add(
+                            it2
                         )
-                    )
+                    }
                     sayac++
                 }
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
                 coinValueTextView.text =
-                    NumberDecimalFormat.numberDecimalFormat(
-                        it.last().close,
-                        "###,###,###,###.######"
-                    )
+                    it.last().close?.let { it1 ->
+                        NumberDecimalFormat.numberDecimalFormat(
+                            it1,
+                            "###,###,###,###.######"
+                        )
+                    }
                 volumeTextView.text =
-                    NumberDecimalFormat.numberDecimalFormat(
-                        it.last().volume,
-                        "###,###,###,###.##"
-                    )
+                    it.last().volume?.let { it1 ->
+                        NumberDecimalFormat.numberDecimalFormat(
+                            it1,
+                            "###,###,###,###.##"
+                        )
+                    }
                 highestPriceTextView.text =
-                    NumberDecimalFormat.numberDecimalFormat(
-                        it.last().high,
-                        "###,###,###,###.######"
-                    )
+                    it.last().high?.let { it1 ->
+                        NumberDecimalFormat.numberDecimalFormat(
+                            it1,
+                            "###,###,###,###.######"
+                        )
+                    }
 
                 lowestPriceTextView.text =
-                    NumberDecimalFormat.numberDecimalFormat(
-                        it.last().low,
-                        "###,###,###,###.######"
-                    )
+                    it.last().low?.let { it1 ->
+                        NumberDecimalFormat.numberDecimalFormat(
+                            it1,
+                            "###,###,###,###.######"
+                        )
+                    }
 
                 candledataset.apply {
                     shadowColor = getColorful(this@ChartActivity, R.color.green)
@@ -336,7 +357,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun calculateCoin() {
         binding.apply {
             dataMarket.priceQuote?.let {
-                MoneyCalculateUtil.coinConverter(edittextUnit, edittextTotal,
+                MoneyCalculateUtil.coinConverter(
+                    edittextUnit, edittextTotal,
                     it
                 )
             }
