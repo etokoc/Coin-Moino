@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -22,7 +23,6 @@ import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
             toggle.syncState()
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             drawerSwitch.setOnCheckedChangeListener { _, isChecked ->
-                Handler().postDelayed({
+                Handler(Looper.getMainLooper()).postDelayed({
                     if (isChecked) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         setDarkAndLightThema(true)
@@ -103,17 +103,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {
         val prefs = SharedPrefencesUtil(applicationContext)
         val thema = prefs.getLocal("night", Boolean)
-        if (thema == true) {
-            switchCompat.isChecked = true
-        } else {
-            switchCompat.isChecked = false
-        }
+        switchCompat.isChecked = thema == true
     }
-
     private fun setDarkAndLightThema(b: Boolean) {
         val prefs = SharedPrefencesUtil(applicationContext)
         if (b) {
