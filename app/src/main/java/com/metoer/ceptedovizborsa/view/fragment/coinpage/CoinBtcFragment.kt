@@ -61,10 +61,10 @@ class CoinBtcFragment : Fragment() {
     private fun filter(text: String) {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
-            if (item.baseSymbol.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))
-                || item.baseId.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))
+            if (item.baseSymbol?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault())) == true
+                || item.baseId?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
                 filterlist.add(item)
             }

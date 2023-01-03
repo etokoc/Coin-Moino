@@ -101,7 +101,13 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initListeners() {
         binding.apply {
             setCandelStickChart()
-            viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
+            dataMarket?.baseId?.let {
+                dataMarket.quoteId?.let { it1 ->
+                    viewModel.getAllCandlesData(interval,
+                        it, it1
+                    )
+                }
+            }
             //Coin Buy Click
             btnBuy.setOnClickListener {
                 if (!edittext_unit.text.isNullOrEmpty()) {
@@ -113,7 +119,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                             quoteSymbol,
                             baseId,
                             coinUnit,
-                            priceQuote.toDouble(),
+                            priceQuote?.toDouble(),
                             System.currentTimeMillis()
                         )
                         coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
@@ -170,7 +176,13 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         }
                     }
                     progressBar.show()
-                    viewModel.getAllCandlesData(interval, dataMarket.baseId, dataMarket.quoteId)
+                    dataMarket.baseId?.let {
+                        dataMarket.quoteId?.let { it1 ->
+                            viewModel.getAllCandlesData(interval,
+                                it, it1
+                            )
+                        }
+                    }
                     textViewVolume.text = getString(R.string.volume_text, tab?.text)
                 }
 
@@ -323,7 +335,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private fun calculateCoin() {
         binding.apply {
-            MoneyCalculateUtil.coinConverter(edittextUnit, edittextTotal, dataMarket.priceQuote)
+            dataMarket.priceQuote?.let {
+                MoneyCalculateUtil.coinConverter(edittextUnit, edittextTotal,
+                    it
+                )
+            }
         }
     }
 

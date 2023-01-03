@@ -38,27 +38,38 @@ class CoinPageAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.binding.apply {
-            if (currentItem.priceQuote.toDouble() != 0.0) {
-                coinExchangeNameText.text = currentItem.baseId.uppercase()
+            if (currentItem.priceQuote?.toDouble() != 0.0) {
+                coinExchangeNameText.text = currentItem.baseId?.uppercase()
                 coinExchangeSembolText.text = currentItem.baseSymbol
                 coinQuoteSembolText.text = holder.itemView.context.getString(
                     R.string.quote_symbol,
                     currentItem.quoteSymbol
                 )
                 coinVolumeExchangeText.text =
-                    MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr.toDouble(),holder.itemView.context)
+                    currentItem.volumeUsd24Hr?.toDouble()
+                        ?.let {
+                            MoneyCalculateUtil.volumeShortConverter(
+                                it,
+                                holder.itemView.context
+                            )
+                        }
                 val value = currentItem.priceQuote
                 coinExchangeValueText.text =
-                    NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
-                val parcent = caltulateMainCoin(currentItem.baseSymbol)
-                if (parcent > 0) {
+                    value?.let {
+                        NumberDecimalFormat.numberDecimalFormat(
+                            it,
+                            "###,###,###,###.######"
+                        )
+                    }
+                val parcent = currentItem.baseSymbol?.let { caltulateMainCoin(it) }
+                if (parcent != null && parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
                             R.color.coinValueRise
                         )
                     )
-                } else if (parcent < 0) {
+                } else if (parcent !=null && parcent < 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
@@ -114,7 +125,7 @@ class CoinPageAdapter(
         val diffResult = calculateDiff(diffUtil)
         itemList = listOf()
         newItemList.forEach {
-            it.percentExchangeVolume = caltulateMainCoin(it.baseSymbol).toString()
+            it.percentExchangeVolume = it.baseSymbol?.let { it1 -> caltulateMainCoin(it1).toString() }
         }
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
@@ -130,7 +141,7 @@ class CoinPageAdapter(
         )
     }
 
-    private fun getFilteredList() = itemList.filter { it.priceQuote.toDouble() != 0.0 }
+    private fun getFilteredList() = itemList.filter { it.priceQuote?.toDouble() != 0.0 }
     private fun getListSize() = getFilteredList().size
 
     override fun getItemCount(): Int {

@@ -6,27 +6,27 @@ import java.io.Serializable
 
 data class MarketData(
     @SerializedName("baseId")
-    var baseId: String,
+    var baseId: String?,
     @SerializedName("baseSymbol")
-    var baseSymbol: String,
+    var baseSymbol: String?,
     @SerializedName("exchangeId")
-    var exchangeId: String,
+    var exchangeId: String?,
     @SerializedName("percentExchangeVolume")
-    var percentExchangeVolume: String,
+    var percentExchangeVolume: String?,
     @SerializedName("priceQuote")
-    var priceQuote: String,
+    var priceQuote: String?,
     @SerializedName("priceUsd")
-    var priceUsd: String,
+    var priceUsd: String?,
     @SerializedName("quoteId")
-    var quoteId: String,
+    var quoteId: String?,
     @SerializedName("quoteSymbol")
-    var quoteSymbol: String,
+    var quoteSymbol: String?,
     @SerializedName("rank")
-    var rank: String,
+    var rank: String?,
     @SerializedName("tradesCount24Hr")
-    var tradesCount24Hr: String,
+    var tradesCount24Hr: String?,
     @SerializedName("updated")
-    var updated: Long,
+    var updated: Long?,
     @SerializedName("volumeUsd24Hr")
-    var volumeUsd24Hr: String
+    var volumeUsd24Hr: String?
 ): Serializable
