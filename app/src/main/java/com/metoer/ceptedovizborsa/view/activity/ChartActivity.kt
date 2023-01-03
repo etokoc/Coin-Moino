@@ -1,5 +1,6 @@
 package com.metoer.ceptedovizborsa.view.activity
 
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Paint
 import android.os.Bundle
@@ -57,6 +58,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     override fun onResume() {
+        loadLocale()
         super.onResume()
         supportLocale()
         dataMarket = intent.getSerializableExtra("send") as MarketData
@@ -70,6 +72,30 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         initSpinner()
         initListeners()
         calculateCoin()
+    }
+
+    private fun setLocale(language: String) {
+        val locale = Locale(language)
+
+        Locale.setDefault(locale)
+        val configuration = Configuration()
+        configuration.locale = locale
+        baseContext.resources.updateConfiguration(
+            configuration,
+            baseContext.resources.displayMetrics
+        )
+        val sharedPref = SharedPrefencesUtil(applicationContext)
+        sharedPref.addLocal("My_Lang", language)
+    }
+
+    private fun loadLocaleString(): String {
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val language = prefs.getLocal("My_Lang", String)
+        return language.toString()
+    }
+
+    private fun loadLocale() {
+        setLocale(loadLocaleString())
     }
 
     private fun initListeners() {
