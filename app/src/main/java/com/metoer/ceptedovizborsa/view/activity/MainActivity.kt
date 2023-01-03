@@ -3,14 +3,12 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.GravityCompat
@@ -28,7 +26,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
@@ -243,15 +241,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLocale(language: String) {
-        val locale = Locale(language)
-
-        Locale.setDefault(locale)
-        val configuration = Configuration()
-        configuration.locale = locale
-        baseContext.resources.updateConfiguration(
-            configuration,
-            baseContext.resources.displayMetrics
-        )
+        supportLocale()
         val sharedPref = SharedPrefencesUtil(applicationContext)
         sharedPref.addLocal("My_Lang", language)
     }
@@ -280,6 +270,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        supportLocale()
     }
 }

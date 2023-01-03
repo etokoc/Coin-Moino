@@ -35,7 +35,10 @@ class CoinAdapter(
             coinExchangeNameText.text = currentItem.name
             coinExchangeSembolText.text = currentItem.symbol
             coinVolumeExchangeText.text =
-                MoneyCalculateUtil.volumeShortConverter(currentItem.volumeUsd24Hr!!.toDouble(),holder.itemView.context)
+                MoneyCalculateUtil.volumeShortConverter(
+                    currentItem.volumeUsd24Hr!!.toDouble(),
+                    holder.itemView.context
+                )
             val value = currentItem.priceUsd
             coinExchangeValueText.text =
                 holder.itemView.context.getString(
@@ -43,14 +46,16 @@ class CoinAdapter(
                     NumberDecimalFormat.numberDecimalFormat(value!!, "###,###,###,###.######")
                 )
             val parcent = currentItem.changePercent24Hr?.toDouble()
-            parcentBacgroundTint(parcent!!, coinExchangeParcentText, holder.itemView.context)
-            coinExchangeParcentText.text = holder.itemView.context.getString(
-                R.string.coin_exchange_parcent_text,
-                NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"), "%"
-            )
+            parcent?.let {
+                parcentBacgroundTint(it, coinExchangeParcentText, holder.itemView.context)
+                coinExchangeParcentText.text = holder.itemView.context.getString(
+                    R.string.coin_exchange_parcent_text,
+                    NumberDecimalFormat.numberDecimalFormat(parcent.toString(), "0.##"), "%"
+                )
+            }
         }
         holder.itemView.setOnClickListener {
-            listener.onItemClick(position,holder.binding.root)
+            listener.onItemClick(position, holder.binding.root)
         }
     }
 

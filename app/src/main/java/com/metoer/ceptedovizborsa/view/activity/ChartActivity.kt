@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -38,7 +37,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
+class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private var _binding: ActivityChartBinding? = null
     private val binding
@@ -59,6 +58,7 @@ class ChartActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
+        supportLocale()
         dataMarket = intent.getSerializableExtra("send") as MarketData
         binding.apply {
             edittextTotal.filters = editTextFilter()
