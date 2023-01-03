@@ -33,6 +33,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadLocale()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.apply {
@@ -247,6 +248,10 @@ class MainActivity : BaseActivity() {
         val prefs = SharedPrefencesUtil(applicationContext)
         val language = prefs.getLocal("My_Lang", String)
         return language.toString()
+    }
+
+    private fun loadLocale() {
+        setLocale(loadLocaleString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
