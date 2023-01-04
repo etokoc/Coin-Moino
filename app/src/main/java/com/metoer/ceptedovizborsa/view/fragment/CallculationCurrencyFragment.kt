@@ -55,8 +55,12 @@ class CallculationCurrencyFragment : Fragment() {
         super.onResume()
         val unixTime = System.currentTimeMillis()
         viewmodel.getAllCurrencyData(unixTime.toString())
-        binding.moneyValueEditText1.filters = editTextFilter()
-        binding.moneyValueEditText2.filters = editTextFilter()
+        binding.apply {
+            moneyValueEditText1.filters = editTextFilter()
+            moneyValueEditText2.filters = editTextFilter()
+            moneyValueEditText1.hint = requireContext().getString(R.string.para_1)
+            moneyValueEditText2.hint = requireContext().getString(R.string.para_2)
+        }
         initListener()
     }
 
