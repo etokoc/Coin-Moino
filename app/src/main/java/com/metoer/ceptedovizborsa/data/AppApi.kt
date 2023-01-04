@@ -17,7 +17,7 @@ interface AppApi {
     @QualifiedTypeConverterFactory.Xml
     fun getCurrencyData(@Query(Constants.HEADER_DATA) timeUnix: String): Observable<TarihDate>
 
-    @GET(Constants.COIN_MARKET_URL + "?limit=250")
+    @GET(Constants.COIN_MARKET_URL + "?limit=250")//100
     @QualifiedTypeConverterFactory.Json
     @Headers("Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6")
     fun getAllCoinData(): Observable<CoinResponse>
