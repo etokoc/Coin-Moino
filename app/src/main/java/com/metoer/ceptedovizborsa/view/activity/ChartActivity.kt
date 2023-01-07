@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.navigation.findNavController
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -134,6 +135,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 } else {
                     showToastShort(getString(R.string.check_inputs))
                 }
+            }
+
+            //Önceki ekrana dönme
+            char_back_button.setOnClickListener {
+                onBackPressed()
             }
         }
     }
