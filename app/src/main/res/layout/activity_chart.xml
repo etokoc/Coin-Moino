@@ -204,7 +204,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/buy_button_design"
             android:backgroundTint="@color/primary_color"
-            android:text="Satın Al"
+            android:text="@string/buy_coin_text"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_unit" />
