@@ -7,10 +7,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
+import java.util.*
 
 class CoinAdapter(
     val listener: onItemClickListener
@@ -39,6 +41,13 @@ class CoinAdapter(
                     currentItem.volumeUsd24Hr!!.toDouble(),
                     holder.itemView.context
                 )
+            Glide.with(this.root).load(
+                "https://assets.coincap.io/assets/icons/" + "${
+                    currentItem.symbol?.lowercase(
+                        Locale.ENGLISH
+                    )
+                }@2x.png"
+            ).into(coinImageView)
             val value = currentItem.priceUsd
             coinExchangeValueText.text =
                 holder.itemView.context.getString(

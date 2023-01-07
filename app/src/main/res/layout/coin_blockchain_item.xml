@@ -8,32 +8,34 @@
 
     <TextView
         android:id="@+id/coinExchangeSembolText"
+        style="@style/CoinSybolText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/coin_exchange_sembol_text"
         android:padding="5dp"
         android:text="AAPL"
-        style="@style/CoinSybolText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/coinImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/coinExchangeNameText"
+        style="@style/TextColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:padding="1dp"
-        android:maxLines="1"
-        android:autoSizeMinTextSize="6sp"
+        android:layout_marginEnd="3dp"
         android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="6sp"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="1"
+        android:padding="1dp"
         android:text="Apple, Inc."
-        style="@style/TextColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/coinVolumeExchangeText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/coinExchangeSembolText"
         app:layout_constraintTop_toBottomOf="@id/coinExchangeSembolText" />
 
     <TextView
@@ -76,4 +78,13 @@
         style="@style/TextColor"
         app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
         app:layout_constraintTop_toBottomOf="@+id/coinExchangeValueText" />
+
+    <ImageView
+        android:id="@+id/coinImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/coinExchangeNameText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeSembolText"
+        app:srcCompat="@drawable/ic_money_off" />
 </androidx.constraintlayout.widget.ConstraintLayout>

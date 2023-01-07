@@ -12,11 +12,12 @@
         style="@style/CoinSybolText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/coin_exchange_sembol_text"
         android:padding="5dp"
         android:text="AAPL"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/coinMarketImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -46,8 +47,7 @@
         android:text="Apple, Inc."
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/coinVolumeExchangeText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/coinExchangeSembolText"
         app:layout_constraintTop_toBottomOf="@id/coinExchangeSembolText" />
 
     <TextView
@@ -89,4 +89,12 @@
         style="@style/TextColor"
         app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
         app:layout_constraintTop_toBottomOf="@+id/coinExchangeValueText" />
+    <ImageView
+        android:id="@+id/coinMarketImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/coinExchangeNameText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coinExchangeSembolText"
+        app:srcCompat="@drawable/ic_money_off" />
 </androidx.constraintlayout.widget.ConstraintLayout>

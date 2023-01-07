@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
+import java.util.*
 
 
 class CoinPageAdapter(
@@ -41,6 +43,14 @@ class CoinPageAdapter(
             if (currentItem.priceQuote?.toDouble() != 0.0) {
                 coinExchangeNameText.text = currentItem.baseId?.uppercase()
                 coinExchangeSembolText.text = currentItem.baseSymbol
+                Glide.with(this.root).load(
+                    "https://assets.coincap.io/assets/icons/" + "${
+                        currentItem.baseSymbol?.lowercase(
+                            Locale.ENGLISH
+                        )
+                    }@2x.png"
+                ).into(coinMarketImageView)
+                //https://coinicons-api.vercel.app/api/icon/btc
                 coinQuoteSembolText.text = holder.itemView.context.getString(
                     R.string.quote_symbol,
                     currentItem.quoteSymbol
