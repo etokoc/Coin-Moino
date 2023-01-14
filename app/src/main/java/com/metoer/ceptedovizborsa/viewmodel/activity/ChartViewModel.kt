@@ -3,7 +3,7 @@ package com.metoer.ceptedovizborsa.viewmodel.activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
-import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
+import com.metoer.ceptedovizborsa.data.response.coin.candles.*
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,6 +36,21 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
             }).let {
 
+            }
+    }
+    val chartBinanceLiveData = MutableLiveData<BinanceRoot>()
+    fun getChartFromBinanceData(
+        symbol: String,
+        quote: String,
+        interval: String
+    ){
+        repository.getChartFromBinanceApi(symbol + quote, interval).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                chartBinanceLiveData.value = it
+            }, {
+
+            }).let {
             }
     }
 }

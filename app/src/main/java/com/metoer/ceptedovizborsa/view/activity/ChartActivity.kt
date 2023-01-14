@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
-import androidx.navigation.findNavController
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -48,7 +46,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
-
+    private var binanceData = Any()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -102,12 +100,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initListeners() {
         binding.apply {
             setCandelStickChart()
-            dataMarket?.baseId?.let {
-                dataMarket.quoteId?.let { it1 ->
-                    viewModel.getAllCandlesData(
-                        interval,
-                        it, it1
-                    )
+            dataMarket?.baseSymbol?.let { base ->
+                dataMarket.quoteSymbol?.let { quote ->
+                    viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
                 }
             }
             //Coin Buy Click
@@ -163,31 +158,30 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
-    var interval = "m15"
+    var interval = "15m"
     private fun initTabLayout() {
         binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when (tab?.position) {
                         0 -> {
-                            interval = "m15"
+                            interval = "15m"
                         }
                         1 -> {
-                            interval = "h1"
+                            interval = "1h"
                         }
                         2 -> {
-                            interval = "h4"
+                            interval = "4h"
                         }
                         3 -> {
-                            interval = "d1"
+                            interval = "1d"
                         }
                     }
                     progressBar.show()
-                    dataMarket.baseId?.let {
-                        dataMarket.quoteId?.let { it1 ->
-                            viewModel.getAllCandlesData(
-                                interval,
-                                it, it1
+                    dataMarket.baseSymbol?.let { base ->
+                        dataMarket.quoteSymbol?.let { quote ->
+                            viewModel.getChartFromBinanceData(
+                                base, quote, interval
                             )
                         }
                     }
@@ -210,64 +204,51 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             val candlestickentry = ArrayList<CandleEntry>()
             candlestickentry.clear()
             val areaCount = ArrayList<String>()
-            viewModel.coinCanslesData.observe(this@ChartActivity) {
+            viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
                 progressBar.hide()
                 candlestickentry.clear()
                 areaCount.clear()
                 var sayac = 0f
-                Log.i("MYLOG", "1: ")
                 it.forEach { candleData ->
-                    candleData.period?.let { it1 -> getDate(it1) }
-                        ?.let { it2 -> areaCount.add(it2) }
-                    Log.i("valueobserve", "" + candleData.close)
-                    candleData.high?.toFloat()?.let { it1 ->
-                        candleData.low?.toFloat()?.let { it2 ->
-                            candleData.open?.toFloat()?.let { it3 ->
-                                candleData.close?.toFloat()?.let { it4 ->
-                                    CandleEntry(
-                                        sayac,
-                                        it1,
-                                        it2,
-                                        it3,
-                                        it4
-                                    )
-                                }
-                            }
-                        }
-                    }?.let { it2 ->
-                        candlestickentry.add(
-                            it2
+                    areaCount.add(getDate((candleData.get(0) as Double).toLong())?:"")
+                    candlestickentry.add(
+                        CandleEntry(
+                            sayac,
+                            candleData.get(2).toString().toFloat(),
+                            candleData.get(3).toString().toFloat(),
+                            candleData.get(1).toString().toFloat(),
+                            candleData.get(4).toString().toFloat()
                         )
-                    }
+                    )
                     sayac++
                 }
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
                 coinValueTextView.text =
-                    it.last().close?.let { it1 ->
+                    it.last()[4].let { it1 ->
                         NumberDecimalFormat.numberDecimalFormat(
-                            it1,
+                            it1 as String,
                             "###,###,###,###.######"
                         )
                     }
                 volumeTextView.text =
-                    it.last().volume?.let { it1 ->
+                    it.last()[5].let { it1 ->
                         NumberDecimalFormat.numberDecimalFormat(
-                            it1,
+                            it1 as String,
                             "###,###,###,###.##"
                         )
                     }
                 highestPriceTextView.text =
-                    it.last().high?.let { it1 ->
+                    it.last()[2].let { it1 ->
                         NumberDecimalFormat.numberDecimalFormat(
-                            it1,
+                            it1 as String,
                             "###,###,###,###.######"
                         )
                     }
 
                 lowestPriceTextView.text =
-                    it.last().low?.let { it1 ->
+                    it.last()[3].let { it1 ->
                         NumberDecimalFormat.numberDecimalFormat(
-                            it1,
+                            it1 as String,
                             "###,###,###,###.######"
                         )
                     }
