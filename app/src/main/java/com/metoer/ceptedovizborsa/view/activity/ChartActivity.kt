@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.charts.CandleStickChart
@@ -47,6 +48,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var binanceData = Any()
+    private var moreTimeList = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -140,7 +142,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun initSpinner() {
-        val moreTimeList = arrayListOf(
+        moreTimeList = arrayListOf(
             getString(R.string.coin_time_1_minute),
             getString(R.string.coin_time_5_minute),
             getString(
@@ -150,11 +152,34 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             getString(R.string.coin_time_8_hour),
             getString(R.string.coin_time_12_hour),
             getString(R.string.coin_time_1_week),
+            getString(R.string.coin_time_1_month),
         )
 
         binding.spinnerCoinMoreItems.apply {
             this.adapter =
                 ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
+        }
+        binding.spinnerCoinMoreItems.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val intervalList = arrayListOf("1m","5m","30m","2h","8h","12h","1w","1M")
+                interval = moreTimeList.get(position)
+                if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
+                    viewModel.getChartFromBinanceData(
+                        dataMarket.baseSymbol!!,
+                        dataMarket.quoteSymbol!!,
+                        intervalList[position]
+                    )
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
         }
     }
 
@@ -210,7 +235,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 areaCount.clear()
                 var sayac = 0f
                 it.forEach { candleData ->
-                    areaCount.add(getDate((candleData.get(0) as Double).toLong())?:"")
+                    areaCount.add(getDate((candleData.get(0) as Double).toLong()) ?: "")
                     candlestickentry.add(
                         CandleEntry(
                             sayac,
@@ -383,9 +408,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
-    //Listen to spinner
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
     }
 
     override fun onDestroy() {
