@@ -2,7 +2,9 @@ package com.metoer.ceptedovizborsa.viewmodel.activity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
+import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.*
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,12 +40,13 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
             }
     }
+
     val chartBinanceLiveData = MutableLiveData<BinanceRoot>()
     fun getChartFromBinanceData(
         symbol: String,
         quote: String,
         interval: String
-    ){
+    ) {
         repository.getChartFromBinanceApi(symbol + quote, interval).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -52,5 +55,23 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
             }).let {
             }
+    }
+
+    fun getTickerFromBinanceData(
+        symbol: String,
+        quote: String,
+        windowSize: String,
+    ): MutableLiveData<CoinTickerResponse> {
+        val data = MutableLiveData<CoinTickerResponse>()
+        repository.getTickerFromBinanceApi(symbol + quote, windowSize).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                data.value = it
+            }, {
+
+            }).let {
+
+            }
+        return data
     }
 }

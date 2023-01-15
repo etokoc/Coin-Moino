@@ -57,6 +57,7 @@
     <string name="hacim_calculate">Hacim %1$s milyar</string>
     <string name="hacim_calculate2">Hacim %1$s milyon</string>
     <string name="hacim_calculate3">Hacim %1$s</string>
+    <string name="hacim_calculate4">Hacim %1$s trilyon</string>
     <string name="usd">ABD DOLARI</string>
     <string name="aud">AVUSTRALYA DOLARI</string>
     <string name="dkk">DANİMARKA KRONU</string>
@@ -91,4 +92,8 @@ Gelecek bizi çok heyecanlandırıyor.\n
 CoinMoino Fikir Babaları</string>
     <string name="currency_converter">Kur çevirici</string>
     <string name="buy_coin_text">Satın Al</string>
+    <string name="volume_base_text">24s Hacim(%1$s)\n%2$s</string>
+    <string name="volume_quote_text">24s Hacim(%1$s)\n%2$s</string>
+    <string name="high_price_text">En Yüksek Fiyat\n%1$s</string>
+    <string name="low_price_text">En Düşük Fiyat\n%1$s</string>
 </resources>

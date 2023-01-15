@@ -58,6 +58,7 @@
     <string name="hacim_calculate">Volume %1$s billion</string>
     <string name="hacim_calculate2">Volume %1$s million</string>
     <string name="hacim_calculate3">Volume %1$s</string>
+    <string name="hacim_calculate4">Volume %1$s trillion</string>
     <string name="usd">US DOLLAR</string>
     <string name="aud">AUSTRALIAN DOLLAR</string>
     <string name="dkk">DENMARK KRON</string>
@@ -93,4 +94,8 @@ The future excites us very much.\n
 The masterminds of CoinMoino</string>
     <string name="currency_converter">Currency converter</string>
     <string name="buy_coin_text">Buy</string>
+    <string name="volume_base_text">24h Volume(%1$s)\n%2$s</string>
+    <string name="volume_quote_text">24h Hacim(%1$s)\n%2$s</string>
+    <string name="high_price_text">Highest Price\n%1$s</string>
+    <string name="low_price_text">Lowest Price\n%1$s</string>
 </resources>

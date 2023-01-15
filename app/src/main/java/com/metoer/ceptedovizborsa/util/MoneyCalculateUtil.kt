@@ -112,7 +112,13 @@ object MoneyCalculateUtil {
 
     fun volumeShortConverter(value: Double, context: Context): String {
         val simplfy: String
-        if ((value / 1000000000) >= 1) {
+        if ((value / 1000000000000) >= 1) {
+            simplfy = context.getString(
+                R.string.hacim_calculate4,
+                DecimalFormat("0.##").format(value / 1000000000000)
+            )
+        }
+        else if ((value / 1000000000) >= 1) {
             simplfy = context.getString(
                 R.string.hacim_calculate,
                 DecimalFormat("0.##").format(value / 1000000000)
@@ -122,9 +128,10 @@ object MoneyCalculateUtil {
                 R.string.hacim_calculate2,
                 DecimalFormat("0.##").format(value / 1000000)
             )
-        } else {
+        }
+        else {
             simplfy =
-                context.getString(R.string.hacim_calculate3, DecimalFormat("0.##").format(value))
+                context.getString(R.string.hacim_calculate3, DecimalFormat("###,###,###.##").format(value))
         }
         return simplfy
     }

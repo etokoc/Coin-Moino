@@ -9,9 +9,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -47,7 +47,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
-    private var binanceData = Any()
     private var moreTimeList = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,9 +101,61 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initListeners() {
         binding.apply {
             setCandelStickChart()
-            dataMarket?.baseSymbol?.let { base ->
+            dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
+                    viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
+                        .observe(this@ChartActivity) { tickerData ->
+                            val percent = tickerData.priceChangePercent.toDouble()
+                            if (percent > 0) {
+                                textViewPercent.textColors(R.color.coinValueRise)
+                            } else if (percent < 0) {
+                                textViewPercent.textColors(R.color.coinValueDrop)
+                            } else {
+                                textViewPercent.textColors(R.color.appGray)
+                            }
+                            textViewPercent.text = getString(
+                                R.string.coin_exchange_parcent_text,
+                                NumberDecimalFormat.numberDecimalFormat(tickerData.priceChangePercent,"0.##"),
+                                "%"
+                            )
+                            coinValueTextView.text =
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.lastPrice,
+                                    "###,###,###,###.########"
+                                )
+                            textViewVolume.text = getString(
+                                R.string.volume_base_text,
+                                base.uppercase(),
+                                MoneyCalculateUtil.volumeShortConverter(
+                                    tickerData.volume.toDouble(),
+                                    this@ChartActivity
+                                )
+                            )
+                            textViewVolumeQuote.text = getString(
+                                R.string.volume_base_text,
+                                quote.uppercase(),
+                                MoneyCalculateUtil.volumeShortConverter(
+                                    tickerData.quoteVolume.toDouble(),
+                                    this@ChartActivity
+                                )
+                            )
+                            textViewHighest.text = getString(
+                                R.string.high_price_text,
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.highPrice,
+                                    "###,###,###,###.########"
+                                )
+                            )
+                            textViewLowestPrice.text = getString(
+                                R.string.low_price_text,
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.lowPrice,
+                                    "###,###,###,###.########"
+                                )
+                            )
+                        }
+
                 }
             }
             //Coin Buy Click
@@ -159,28 +210,29 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             this.adapter =
                 ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
         }
-        binding.spinnerCoinMoreItems.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val intervalList = arrayListOf("1m","5m","30m","2h","8h","12h","1w","1M")
-                interval = moreTimeList.get(position)
-                if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
-                    viewModel.getChartFromBinanceData(
-                        dataMarket.baseSymbol!!,
-                        dataMarket.quoteSymbol!!,
-                        intervalList[position]
-                    )
+        binding.spinnerCoinMoreItems.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
+                    interval = moreTimeList[position]
+                    if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
+                        viewModel.getChartFromBinanceData(
+                            dataMarket.baseSymbol!!,
+                            dataMarket.quoteSymbol!!,
+                            intervalList[position]
+                        )
+                    }
                 }
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
 
-        }
+            }
     }
 
     var interval = "15m"
@@ -210,7 +262,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                             )
                         }
                     }
-                    textViewVolume.text = getString(R.string.volume_text, tab?.text)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -235,7 +286,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 areaCount.clear()
                 var sayac = 0f
                 it.forEach { candleData ->
-                    areaCount.add(getDate((candleData.get(0) as Double).toLong()) ?: "")
+                    areaCount.add(getDate((candleData[0] as Double).toLong()) ?: "")
                     candlestickentry.add(
                         CandleEntry(
                             sayac,
@@ -248,36 +299,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     sayac++
                 }
                 val candledataset = CandleDataSet(candlestickentry, "Coin")
-                coinValueTextView.text =
-                    it.last()[4].let { it1 ->
-                        NumberDecimalFormat.numberDecimalFormat(
-                            it1 as String,
-                            "###,###,###,###.######"
-                        )
-                    }
-                volumeTextView.text =
-                    it.last()[5].let { it1 ->
-                        NumberDecimalFormat.numberDecimalFormat(
-                            it1 as String,
-                            "###,###,###,###.##"
-                        )
-                    }
-                highestPriceTextView.text =
-                    it.last()[2].let { it1 ->
-                        NumberDecimalFormat.numberDecimalFormat(
-                            it1 as String,
-                            "###,###,###,###.######"
-                        )
-                    }
-
-                lowestPriceTextView.text =
-                    it.last()[3].let { it1 ->
-                        NumberDecimalFormat.numberDecimalFormat(
-                            it1 as String,
-                            "###,###,###,###.######"
-                        )
-                    }
-
                 candledataset.apply {
                     shadowColor = getColorful(this@ChartActivity, R.color.green)
                     shadowWidth = 1f

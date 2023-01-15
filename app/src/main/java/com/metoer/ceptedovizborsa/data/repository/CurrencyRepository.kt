@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.data.repository
 
 import com.metoer.ceptedovizborsa.data.AppApi
+import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRootSubList
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesBinaceRootResponse
@@ -15,6 +16,9 @@ class CurrencyRepository @Inject constructor(private val appApi: AppApi) {
         appApi.getAllMarketsCoinData(apiKey, quoteSymbol)
     fun getChartFromBinanceApi(symbol: String, interval: String, limit: Int = Constants.BINANCE_CHART_LIMIT): Observable<BinanceRoot> {
        return appApi.getChartFromBinanceData(symbol, interval, limit)
+    }
+    fun getTickerFromBinanceApi(symbol: String, windowSize: String): Observable<CoinTickerResponse> {
+        return appApi.getTickerFromBinanceData(symbol, windowSize)
     }
 
     fun getAllCoinCandlesDataFromApi(
