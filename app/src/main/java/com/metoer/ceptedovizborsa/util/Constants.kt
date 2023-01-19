@@ -20,4 +20,25 @@ object Constants {
     const val API_KEY3 = "cff18fc1-8a6e-4c99-906e-7eb3138cf36c"
     const val API_KEY4 = "ad334be6-0d70-4df5-90b8-75f6b5f9290a"
     const val API_KEY5 = "d471d0e3-c049-44bf-bdc9-dbd4bd590896"
+
+
+    const val TODAY_XML = "today.xml"
+    const val LIMIT_250 = "?limit=250"
+    const val AUTHORIZATION = "Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6"
+    const val MARKET_COIN_DATA = "markets?&limit=200&exchangeId=binance"
+    const val AUTHORIZATIN_HEADER = "Authorization"
+    const val QUERY_QUOTE_SYMBOL = "quoteSymbol"
+    const val CANDLES_COIN_DATA_GET_ENDPOINT = "candles?exchange=binance"
+    const val INTERVAL_QUERY = "interval"
+    const val BASE_ID_QUERY = "baseId"
+    const val QUOTE_ID = "quoteId"
+    const val LIMIT_QUERY = "limit"
+    const val TICKER_ENDPOINT = "api/v3/ticker?"
+    const val SYMBOL_QUERY = "symbol"
+    const val TICKER_WINDOWSSIZE = "windowSize"
+    const val CHART_BINANCE_ENDPOINT = "api/v3/uiKlines?"
+
+
+
+
 }
