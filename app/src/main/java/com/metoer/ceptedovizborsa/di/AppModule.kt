@@ -7,6 +7,7 @@ import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.QualifiedTypeConverterFactory
 import com.metoer.ceptedovizborsa.data.db.CoinBuyDatabase
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketListener
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.Module
@@ -29,7 +30,8 @@ object AppModule {
     @Provides
     @Singleton
     fun providesCurrencyRepository(appApi: AppApi): CurrencyRepository {
-        return CurrencyRepository(appApi)
+        return CurrencyRepository(
+            appApi, providesOkhttpClient(), providesBinanceSocket())
     }
 
     @Provides
@@ -80,10 +82,30 @@ object AppModule {
     @Provides
     @Singleton
     fun providesCoinDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, CoinBuyDatabase::class.java,"coin_buy_db").build()
+        Room.databaseBuilder(context, CoinBuyDatabase::class.java, "coin_buy_db").build()
 
     @Provides
     @Singleton
     fun provideYourDao(db: CoinBuyDatabase) = db.getCoinBuyDao()
 
+
+    @Provides
+    @Singleton
+    fun providesBinanceSocket() = BinanceWebSocketListener()
+
+    @Provides
+    @Singleton
+    fun providesOkhttpClient() = OkHttpClient()
+
+//    @Provides
+//    @Singleton
+//    fun providesWebSocket(
+//        baseSymbol: String,
+//        quoteSymbol: String,
+//        webSocketType: String,
+//        param: String = ""
+//    ): WebSocket {
+//
+//        return providesOkhttpClient().newWebSocket(request, providesBinanceSocket())
+//    }
 }

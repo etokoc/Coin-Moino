@@ -1,37 +1,23 @@
 package com.metoer.ceptedovizborsa.data.response.coin.Ticker
 
-
 import com.google.gson.annotations.SerializedName
 
 data class CoinTickerResponse(
-    @SerializedName("closeTime")
-    var closeTime: Long,
-    @SerializedName("count")
-    var count: Int,
-    @SerializedName("firstId")
-    var firstId: Long,
-    @SerializedName("highPrice")
-    var highPrice: String,
-    @SerializedName("lastId")
-    var lastId: Long,
-    @SerializedName("lastPrice")
-    var lastPrice: String,
-    @SerializedName("lowPrice")
-    var lowPrice: String,
-    @SerializedName("openPrice")
-    var openPrice: String,
-    @SerializedName("openTime")
-    var openTime: Long,
-    @SerializedName("priceChange")
-    var priceChange: String,
-    @SerializedName("priceChangePercent")
-    var priceChangePercent: String,
-    @SerializedName("quoteVolume")
-    var quoteVolume: String,
-    @SerializedName("symbol")
-    var symbol: String,
-    @SerializedName("volume")
-    var volume: String,
-    @SerializedName("weightedAvgPrice")
-    var weightedAvgPrice: String
+    @SerializedName("e") var e: String? = null,
+    @SerializedName("E") var E: Int? = null,
+    @SerializedName("s") var s: String? = null,
+    @SerializedName("p") var _p: String? = null,
+    @SerializedName("P") var priceChangePercent: String? = null,
+    @SerializedName("w") var w: String? = null,
+    @SerializedName("o") var o: String? = null,
+    @SerializedName("h") var highPrice: String? = null,
+    @SerializedName("l") var lowPrice: String? = null,
+    @SerializedName("c") var lastPrice: String? = null,
+    @SerializedName("v") var baseVolume: String? = null,
+    @SerializedName("q") var quoteVolume: String? = null,
+    @SerializedName("O") var O: Int? = null,
+    @SerializedName("C") var C: Int? = null,
+    @SerializedName("F") var F: Int? = null,
+    @SerializedName("L") var L: Int? = null,
+    @SerializedName("n") var n: Int? = null
 )
