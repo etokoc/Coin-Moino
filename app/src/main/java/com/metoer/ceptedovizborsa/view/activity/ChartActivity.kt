@@ -104,73 +104,74 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
                     binanceSocket =
                         viewModel.getBinanceTickerWebSocket(baseSymbol = base, quoteSymbol = quote)
-                    viewModel.getBinanceSocketListener()?.observe(this@ChartActivity) { tickerData ->
-                        val percent = tickerData?.priceChangePercent?.toDouble()
-                        if (percent != null) {
-                            if (percent > 0) {
-                                textViewPercent.textColors(R.color.coinValueRise)
-                            } else if (percent < 0) {
-                                textViewPercent.textColors(R.color.coinValueDrop)
-                            } else {
-                                textViewPercent.textColors(R.color.appGray)
+                    viewModel.getBinanceSocketListener()
+                        ?.observe(this@ChartActivity) { tickerData ->
+                            val percent = tickerData?.priceChangePercent?.toDouble()
+                            if (percent != null) {
+                                if (percent > 0) {
+                                    textViewPercent.textColors(R.color.coinValueRise)
+                                } else if (percent < 0) {
+                                    textViewPercent.textColors(R.color.coinValueDrop)
+                                } else {
+                                    textViewPercent.textColors(R.color.appGray)
+                                }
                             }
+                            textViewPercent.text = getString(
+                                R.string.coin_exchange_parcent_text,
+                                tickerData?.priceChangePercent?.let {
+                                    NumberDecimalFormat.numberDecimalFormat(
+                                        it,
+                                        "0.##"
+                                    )
+                                },
+                                "%"
+                            )
+                            coinValueTextView.text =
+                                tickerData?.lastPrice?.let {
+                                    NumberDecimalFormat.numberDecimalFormat(
+                                        it,
+                                        "###,###,###,###.########"
+                                    )
+                                }
+                            textViewVolume.text = getString(
+                                R.string.volume_base_text,
+                                base.uppercase(),
+                                tickerData?.baseVolume?.toDouble()?.let {
+                                    MoneyCalculateUtil.volumeShortConverter(
+                                        it,
+                                        this@ChartActivity
+                                    )
+                                }
+                            )
+                            textViewVolumeQuote.text = getString(
+                                R.string.volume_base_text,
+                                quote.uppercase(),
+                                tickerData?.quoteVolume?.toDouble()?.let {
+                                    MoneyCalculateUtil.volumeShortConverter(
+                                        it,
+                                        this@ChartActivity
+                                    )
+                                }
+                            )
+                            textViewHighest.text = getString(
+                                R.string.high_price_text,
+                                tickerData?.highPrice?.let {
+                                    NumberDecimalFormat.numberDecimalFormat(
+                                        it,
+                                        "###,###,###,###.########"
+                                    )
+                                }
+                            )
+                            textViewLowestPrice.text = getString(
+                                R.string.low_price_text,
+                                tickerData?.lowPrice?.let {
+                                    NumberDecimalFormat.numberDecimalFormat(
+                                        it,
+                                        "###,###,###,###.########"
+                                    )
+                                }
+                            )
                         }
-                        textViewPercent.text = getString(
-                            R.string.coin_exchange_parcent_text,
-                            tickerData?.priceChangePercent?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it,
-                                    "0.##"
-                                )
-                            },
-                            "%"
-                        )
-                        coinValueTextView.text =
-                            tickerData?.lastPrice?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it,
-                                    "###,###,###,###.########"
-                                )
-                            }
-                        textViewVolume.text = getString(
-                            R.string.volume_base_text,
-                            base.uppercase(),
-                            tickerData?.baseVolume?.toDouble()?.let {
-                                MoneyCalculateUtil.volumeShortConverter(
-                                    it,
-                                    this@ChartActivity
-                                )
-                            }
-                        )
-                        textViewVolumeQuote.text = getString(
-                            R.string.volume_base_text,
-                            quote.uppercase(),
-                            tickerData?.quoteVolume?.toDouble()?.let {
-                                MoneyCalculateUtil.volumeShortConverter(
-                                    it,
-                                    this@ChartActivity
-                                )
-                            }
-                        )
-                        textViewHighest.text = getString(
-                            R.string.high_price_text,
-                            tickerData?.highPrice?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it,
-                                    "###,###,###,###.########"
-                                )
-                            }
-                        )
-                        textViewLowestPrice.text = getString(
-                            R.string.low_price_text,
-                            tickerData?.lowPrice?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it,
-                                    "###,###,###,###.########"
-                                )
-                            }
-                        )
-                    }
                 }
 
             }
@@ -450,8 +451,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     override fun onDestroy() {
+        binanceSocket.cancel()
         super.onDestroy()
-        binanceSocket.close(Constants.WEBSOCKET_ID, "Stopping from ChartActivity")
         coinPortfolioViewModel.compositeDisposable.clear()
     }
 
