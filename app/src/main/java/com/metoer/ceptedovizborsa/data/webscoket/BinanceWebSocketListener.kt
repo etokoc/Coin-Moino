@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
+import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.Constants
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -13,7 +13,7 @@ import okhttp3.WebSocketListener
 class BinanceWebSocketListener : WebSocketListener() {
 
     companion object {
-        var data: MutableLiveData<CoinTickerResponse>? = MutableLiveData()
+        var data: MutableLiveData<CoinWebsocketTickerResponse>? = MutableLiveData()
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -29,7 +29,7 @@ class BinanceWebSocketListener : WebSocketListener() {
         writeToLog("Received: $text")
         if (text.isNotEmpty()) {
             val json = JsonParser.parseString(text)
-            data?.postValue(Gson().fromJson(json, CoinTickerResponse::class.java))
+            data?.postValue(Gson().fromJson(json, CoinWebsocketTickerResponse::class.java))
         } else {
             writeToLog("Received: text is null")
         }
@@ -48,7 +48,7 @@ class BinanceWebSocketListener : WebSocketListener() {
         Log.e("WEBSOCKET", "$text")
     }
 
-    fun getData(): MutableLiveData<CoinTickerResponse>? {
+    fun getData(): MutableLiveData<CoinWebsocketTickerResponse>? {
         return if (data != null) {
             data
         } else

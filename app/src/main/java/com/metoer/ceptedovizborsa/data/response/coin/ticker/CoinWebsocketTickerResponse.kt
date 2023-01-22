@@ -1,8 +1,8 @@
-package com.metoer.ceptedovizborsa.data.response.coin.Ticker
+package com.metoer.ceptedovizborsa.data.response.coin.ticker
 
 import com.google.gson.annotations.SerializedName
 
-data class CoinTickerResponse(
+data class CoinWebsocketTickerResponse(
     @SerializedName("e") var e: String? = null,
     @SerializedName("E") var E: Int? = null,
     @SerializedName("s") var s: String? = null,

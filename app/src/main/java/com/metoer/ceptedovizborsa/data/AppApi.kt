@@ -1,5 +1,6 @@
 package com.metoer.ceptedovizborsa.data
 
+import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CoinCandlesResponse
@@ -65,4 +66,12 @@ interface AppApi {
         @Query(INTERVAL_QUERY) interval: String,
         @Query(LIMIT_QUERY) limit: Int
     ):Observable<BinanceRoot>
+
+    @GET("${BINANCE_CHART_BASE_URL}${TICKER_ENDPOINT}")
+    @QualifiedTypeConverterFactory.Json
+    fun getTickerFromBinanceData(
+        @Query(SYMBOL_QUERY) symbol: String,
+        @Query(TICKER_WINDOWSSIZE) windowSize: String,
+    ):Observable<CoinTickerResponse>
+
 }

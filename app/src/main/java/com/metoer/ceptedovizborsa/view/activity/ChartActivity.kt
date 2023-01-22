@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -102,6 +103,72 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
+                    viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
+                        .observe(this@ChartActivity) { tickerData ->
+                            val percent = tickerData.priceChangePercent.toDouble()
+                            if (percent > 0) {
+                                textViewPercent.textColors(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.coinValueRise
+                                    )
+                                )
+                            } else if (percent < 0) {
+                                textViewPercent.textColors(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.coinValueDrop
+                                    )
+                                )
+                            } else {
+                                textViewPercent.textColors(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.appGray
+                                    )
+                                )
+                            }
+                            textViewPercent.text = getString(
+                                R.string.coin_exchange_parcent_text,
+                                NumberDecimalFormat.numberDecimalFormat(tickerData.priceChangePercent,"0.##"),
+                                "%"
+                            )
+                            coinValueTextView.text =
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.lastPrice,
+                                    "###,###,###,###.########"
+                                )
+                            textViewVolume.text = getString(
+                                R.string.volume_base_text,
+                                base.uppercase(),
+                                MoneyCalculateUtil.volumeShortConverter(
+                                    tickerData.volume.toDouble(),
+                                    this@ChartActivity
+                                )
+                            )
+                            textViewVolumeQuote.text = getString(
+                                R.string.volume_base_text,
+                                quote.uppercase(),
+                                MoneyCalculateUtil.volumeShortConverter(
+                                    tickerData.quoteVolume.toDouble(),
+                                    this@ChartActivity
+                                )
+                            )
+                            textViewHighest.text = getString(
+                                R.string.high_price_text,
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.highPrice,
+                                    "###,###,###,###.########"
+                                )
+                            )
+                            textViewLowestPrice.text = getString(
+                                R.string.low_price_text,
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    tickerData.lowPrice,
+                                    "###,###,###,###.########"
+                                )
+                            )
+                        }
                     binanceSocket =
                         viewModel.getBinanceTickerWebSocket(baseSymbol = base, quoteSymbol = quote)
                     viewModel.getBinanceSocketListener()

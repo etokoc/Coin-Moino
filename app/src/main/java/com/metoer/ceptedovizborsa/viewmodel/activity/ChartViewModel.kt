@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
+import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
@@ -58,6 +59,24 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             }
     }
 
+    fun getTickerFromBinanceData(
+        symbol: String,
+        quote: String,
+        windowSize: String,
+    ): MutableLiveData<CoinTickerResponse> {
+        val data = MutableLiveData<CoinTickerResponse>()
+        repository.getTickerFromBinanceApi(symbol + quote, windowSize).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                data.value = it
+            }, {
+
+            }).let {
+
+            }
+        return data
+    }
+
     fun getBinanceTickerWebSocket(
         baseSymbol: String,
         quoteSymbol: String,
@@ -67,8 +86,8 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
         return repository.getBinanceSocket(baseSymbol, quoteSymbol, webSocketType, param)
     }
 
-    fun getBinanceSocketListener(): MutableLiveData<CoinTickerResponse>? {
-        var liveData: MutableLiveData<CoinTickerResponse>? = null
+    fun getBinanceSocketListener(): MutableLiveData<CoinWebsocketTickerResponse>? {
+        var liveData: MutableLiveData<CoinWebsocketTickerResponse>? = null
         liveData = repository.getBinanceSocketListener().getData()
         return liveData
     }
