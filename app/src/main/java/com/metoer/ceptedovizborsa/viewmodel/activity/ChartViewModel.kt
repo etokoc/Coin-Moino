@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
-import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
+import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,6 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChartViewModel @Inject constructor(private val repository: CurrencyRepository) : ViewModel() {
     val coinCanslesData = MutableLiveData<List<CandlesData>>()
+    private var binanceSocketLiveData: MutableLiveData<CoinWebsocketTickerResponse?>? = null
+    private val tickerFromBinanceLiveData = MutableLiveData<CoinTickerResponse?>()
 
     fun getAllCandlesData(
         interval: String,
@@ -59,22 +61,26 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             }
     }
 
+
     fun getTickerFromBinanceData(
         symbol: String,
         quote: String,
         windowSize: String,
-    ): MutableLiveData<CoinTickerResponse> {
-        val data = MutableLiveData<CoinTickerResponse>()
+    ): MutableLiveData<CoinTickerResponse?> {
         repository.getTickerFromBinanceApi(symbol + quote, windowSize).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                data.value = it
+                tickerFromBinanceLiveData.value = it
             }, {
 
             }).let {
 
             }
-        return data
+        return tickerFromBinanceLiveData
+    }
+
+    fun clearGetTickerFromBinanceLiveData() {
+        tickerFromBinanceLiveData.value = null
     }
 
     fun getBinanceTickerWebSocket(
@@ -86,9 +92,14 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
         return repository.getBinanceSocket(baseSymbol, quoteSymbol, webSocketType, param)
     }
 
-    fun getBinanceSocketListener(): MutableLiveData<CoinWebsocketTickerResponse>? {
-        var liveData: MutableLiveData<CoinWebsocketTickerResponse>? = null
-        liveData = repository.getBinanceSocketListener().getData()
-        return liveData
+
+    fun getBinanceSocketListener(): MutableLiveData<CoinWebsocketTickerResponse?>? {
+        binanceSocketLiveData = repository.getBinanceSocketListener().getData()
+        return binanceSocketLiveData
     }
+
+    fun clearBinanceSocketLiveData() {
+        binanceSocketLiveData?.value = null
+    }
+
 }

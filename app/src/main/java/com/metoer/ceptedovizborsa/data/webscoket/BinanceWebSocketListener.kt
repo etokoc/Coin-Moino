@@ -13,7 +13,7 @@ import okhttp3.WebSocketListener
 class BinanceWebSocketListener : WebSocketListener() {
 
     companion object {
-        var data: MutableLiveData<CoinWebsocketTickerResponse>? = MutableLiveData()
+        var data: MutableLiveData<CoinWebsocketTickerResponse?>? = MutableLiveData()
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -48,7 +48,7 @@ class BinanceWebSocketListener : WebSocketListener() {
         Log.e("WEBSOCKET", "$text")
     }
 
-    fun getData(): MutableLiveData<CoinWebsocketTickerResponse>? {
+    fun getData(): MutableLiveData<CoinWebsocketTickerResponse?>? {
         return if (data != null) {
             data
         } else
