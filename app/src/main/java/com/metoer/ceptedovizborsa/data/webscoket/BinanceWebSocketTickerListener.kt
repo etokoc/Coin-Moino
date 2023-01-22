@@ -10,7 +10,7 @@ import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
-class BinanceWebSocketListener : WebSocketListener() {
+class BinanceWebSocketTickerListener : WebSocketListener() {
 
     companion object {
         var data: MutableLiveData<CoinWebsocketTickerResponse?>? = MutableLiveData()

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
+import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceWebSocketCandleRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
 import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
@@ -16,9 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(private val repository: CurrencyRepository) : ViewModel() {
-    val coinCanslesData = MutableLiveData<List<CandlesData>>()
-    private var binanceSocketLiveData: MutableLiveData<CoinWebsocketTickerResponse?>? = null
+    private var binanceSocketTickerLiveData: MutableLiveData<CoinWebsocketTickerResponse?>? = null
     private val tickerFromBinanceLiveData = MutableLiveData<CoinTickerResponse?>()
+
+    var binanceSocketChartLiveData: MutableLiveData<BinanceWebSocketCandleRoot?>? = null
+    val coinCanslesData = MutableLiveData<List<CandlesData>>()
 
     fun getAllCandlesData(
         interval: String,
@@ -89,17 +92,33 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
         webSocketType: String = "@ticker_",
         param: String = "1d"
     ): WebSocket {
-        return repository.getBinanceSocket(baseSymbol, quoteSymbol, webSocketType, param)
+        return repository.getBinanceTickerSocket(baseSymbol, quoteSymbol, webSocketType, param)
     }
 
-
-    fun getBinanceSocketListener(): MutableLiveData<CoinWebsocketTickerResponse?>? {
-        binanceSocketLiveData = repository.getBinanceSocketListener().getData()
-        return binanceSocketLiveData
+    fun getBinanceSocketTickerListener(): MutableLiveData<CoinWebsocketTickerResponse?>? {
+        binanceSocketTickerLiveData = repository.getBinanceSocketTickerListener().getData()
+        return binanceSocketTickerLiveData
     }
 
-    fun clearBinanceSocketLiveData() {
-        binanceSocketLiveData?.value = null
+    fun clearBinanceSocketTickerLiveData() {
+        binanceSocketTickerLiveData?.value = null
     }
 
+    fun getBinanceChartWebSocket(
+        baseSymbol: String,
+        quoteSymbol: String,
+        webSocketType: String = "@kline_",
+        param: String = "15m"
+    ): WebSocket {
+        return repository.getBinanceChartSocket(baseSymbol, quoteSymbol, webSocketType, param)
+    }
+
+    fun getBinanceSocketChartListener(): MutableLiveData<BinanceWebSocketCandleRoot?>? {
+        binanceSocketChartLiveData = repository.getBinanceSocketChartListener().getData()
+        return binanceSocketChartLiveData
+    }
+
+    fun clearBinanceSocketChartLiveData() {
+        binanceSocketChartLiveData?.value = null
+    }
 }

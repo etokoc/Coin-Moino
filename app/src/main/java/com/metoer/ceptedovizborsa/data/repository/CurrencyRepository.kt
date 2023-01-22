@@ -3,7 +3,8 @@ package com.metoer.ceptedovizborsa.data.repository
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
 import com.metoer.ceptedovizborsa.util.Constants
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class CurrencyRepository @Inject constructor(
     private val appApi: AppApi,
     private val providesOkhttpClient: OkHttpClient,
-    val providesBinanceWebSocketListener: BinanceWebSocketListener
+    val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
+    val providesBinanceWebSocketChartListener: BinanceWebSocketChartListener
 ) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
     fun getAllCoinDataFromApi() = appApi.getAllCoinData()
@@ -28,7 +30,11 @@ class CurrencyRepository @Inject constructor(
     ): Observable<BinanceRoot> {
         return appApi.getChartFromBinanceData(symbol, interval, limit)
     }
-    fun getTickerFromBinanceApi(symbol: String, windowSize: String): Observable<CoinTickerResponse> {
+
+    fun getTickerFromBinanceApi(
+        symbol: String,
+        windowSize: String
+    ): Observable<CoinTickerResponse> {
         return appApi.getTickerFromBinanceData(symbol, windowSize)
     }
 
@@ -40,7 +46,7 @@ class CurrencyRepository @Inject constructor(
     ) = appApi.getAllCandlesCoinData(apiKey, interval, baseId, quetoId)
 
 
-    fun getBinanceSocket(
+    fun getBinanceTickerSocket(
         baseSymbol: String,
         quoteSymbol: String,
         webSocketType: String,
@@ -50,8 +56,23 @@ class CurrencyRepository @Inject constructor(
             Request.Builder()
                 .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}$webSocketType$param")
                 .build()
-        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketListener)
+        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketTickerListener)
     }
 
-    fun getBinanceSocketListener() = providesBinanceWebSocketListener
+    fun getBinanceSocketTickerListener() = providesBinanceWebSocketTickerListener
+
+    fun getBinanceChartSocket(
+        baseSymbol: String,
+        quoteSymbol: String,
+        webSocketType: String,
+        param: String = ""
+    ): WebSocket {
+        val request: Request =
+            Request.Builder()
+                .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}$webSocketType$param")
+                .build()
+        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketChartListener)
+    }
+
+    fun getBinanceSocketChartListener() = providesBinanceWebSocketChartListener
 }

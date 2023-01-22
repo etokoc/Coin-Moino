@@ -23,6 +23,8 @@ import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
+import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
+import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceWebSocketCandleRoot
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -98,10 +100,15 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private fun initListeners() {
         binding.apply {
-            setCandelStickChart()
+            fillCandleData()
             dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
+                    viewModel.getBinanceChartWebSocket(
+                        baseSymbol = base.lowercase(),
+                        quoteSymbol = quote.lowercase(),
+                        param = interval
+                    )
                     viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
                         .observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
@@ -124,7 +131,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 R.string.coin_exchange_parcent_text,
                                 tickerData?.priceChangePercent?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,"0.##")
+                                        it, "0.##"
+                                    )
                                 },
                                 "%"
                             )
@@ -176,7 +184,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         }
                     binanceSocket =
                         viewModel.getBinanceTickerWebSocket(baseSymbol = base, quoteSymbol = quote)
-                    viewModel.getBinanceSocketListener()
+                    viewModel.getBinanceSocketTickerListener()
                         ?.observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
                             if (percent != null) {
@@ -281,6 +289,19 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
+    private fun fillCandleData() {
+        binding.apply {
+            viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
+                setCandelStickChart(it)
+            }
+            viewModel.getBinanceSocketChartListener()?.observe(this@ChartActivity) {
+                if (it != null) {
+                    setCandelStickChart(it)
+                }
+            }
+        }
+    }
+
 
     private fun initSpinner() {
         moreTimeList = arrayListOf(
@@ -350,6 +371,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                             viewModel.getChartFromBinanceData(
                                 base, quote, interval
                             )
+                            viewModel.getBinanceChartWebSocket(
+                                base.lowercase(), quote.lowercase(), interval
+                            )
                         }
                     }
                 }
@@ -364,116 +388,119 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
-
-    private fun setCandelStickChart() {
-        binding.apply {
-            val candlestickentry = ArrayList<CandleEntry>()
-            candlestickentry.clear()
-            val areaCount = ArrayList<String>()
-            viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
-                progressBar.hide()
-                candlestickentry.clear()
-                areaCount.clear()
-                var sayac = 0f
-                it.forEach { candleData ->
-                    areaCount.add(getDate((candleData[0] as Double).toLong()) ?: "")
-                    candlestickentry.add(
-                        CandleEntry(
-                            sayac,
-                            candleData.get(2).toString().toFloat(),
-                            candleData.get(3).toString().toFloat(),
-                            candleData.get(1).toString().toFloat(),
-                            candleData.get(4).toString().toFloat()
-                        )
+    var sayac = 0f
+    val candlestickentry = ArrayList<CandleEntry>()
+    val areaCount = ArrayList<String>()
+    private fun setCandelStickChart(binanceRoot: Any) {
+        progressBar.hide()
+        if (binanceRoot is BinanceRoot) {
+            binanceRoot.forEach { candleData ->
+                areaCount.add(getDate((candleData[0] as Double).toLong()) ?: "")
+                candlestickentry.add(
+                    CandleEntry(
+                        sayac,
+                        candleData.get(2).toString().toFloat(),
+                        candleData.get(3).toString().toFloat(),
+                        candleData.get(1).toString().toFloat(),
+                        candleData.get(4).toString().toFloat()
                     )
-                    sayac++
-                }
-                val candledataset = CandleDataSet(candlestickentry, "Coin")
-                candledataset.apply {
-                    shadowColor = getColorful(this@ChartActivity, R.color.green)
-                    shadowWidth = 1f
-                    setDrawValues(false)
-                    decreasingColor = getColorful(this@ChartActivity, R.color.coinValueDrop)
-                    decreasingPaintStyle = Paint.Style.FILL
-                    increasingColor = getColorful(this@ChartActivity, R.color.coinValueRise)
-                    increasingPaintStyle = Paint.Style.FILL
-                }
-
-                val candledata = CandleData(candledataset)
-
-                coinDataChart.apply {
-                    this.clear()
-                    data = candledata
-                    onChartGestureListener = object : OnChartGestureListener {
-                        override fun onChartGestureStart(
-                            me: MotionEvent?,
-                            lastPerformedGesture: ChartTouchListener.ChartGesture?
-                        ) {
-
-                        }
-
-                        override fun onChartGestureEnd(
-                            me: MotionEvent?,
-                            lastPerformedGesture: ChartTouchListener.ChartGesture?
-                        ) {
-
-                        }
-
-                        override fun onChartLongPressed(me: MotionEvent?) {
-
-                        }
-
-                        override fun onChartDoubleTapped(me: MotionEvent?) {
-
-                        }
-
-                        override fun onChartSingleTapped(me: MotionEvent?) {
-
-                        }
-
-                        override fun onChartFling(
-                            me1: MotionEvent?,
-                            me2: MotionEvent?,
-                            velocityX: Float,
-                            velocityY: Float
-                        ) {
-
-
-                        }
-
-                        override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-
-
-                        }
-
-                        override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
-                            autoScale(coinDataChart)
-
-                        }
-                    }
-                    val xval = coinDataChart.xAxis
-                    val typedValue = TypedValue()
-                    val theme: Resources.Theme = context.theme
-                    theme.resolveAttribute(
-                        androidx.constraintlayout.widget.R.attr.textFillColor,
-                        typedValue,
-                        true
-                    )
-                    @ColorInt val color = typedValue.data
-                    axisLeft.textColor = color
-                    xval.textColor = color
-                    xval.position = XAxis.XAxisPosition.BOTTOM
-                    xval.setDrawGridLines(true)
-                    xval.valueFormatter = IndexAxisValueFormatter(areaCount)
-                    bacgroundColour(R.color.transparent)
-                    axisLeft.setDrawAxisLine(false)
-                    axisRight.isEnabled = false // right line and value remove
-                    xAxis.setDrawAxisLine(false)  // x line removed
-                    animateXY(1000, 1000)
-                    setVisibleXRangeMaximum(65F) //max item range
-                    moveViewToX(candlestickentry.size.toFloat()) //last item than view
+                )
+                sayac++
+            }
+        } else if (binanceRoot is BinanceWebSocketCandleRoot) {
+            binanceRoot?.k?.let { binanceResponse ->
+                candlestickentry.last().apply {
+                    this.high = binanceResponse.highPrice.toString().toFloat()
+                    this.low = binanceResponse.lowPrice.toString().toFloat()
+                    this.open = binanceResponse.openPrice.toString().toFloat()
+                    this.close = binanceResponse.closePrice.toString().toFloat()
                 }
             }
+        }
+        val candledataset = CandleDataSet(candlestickentry, "Coin")
+        candledataset.apply {
+            shadowColor = getColorful(this@ChartActivity, R.color.green)
+            shadowWidth = 1f
+            setDrawValues(false)
+            decreasingColor = getColorful(this@ChartActivity, R.color.coinValueDrop)
+            decreasingPaintStyle = Paint.Style.FILL
+            increasingColor = getColorful(this@ChartActivity, R.color.coinValueRise)
+            increasingPaintStyle = Paint.Style.FILL
+        }
+
+        val candledata = CandleData(candledataset)
+
+        coinDataChart.apply {
+            this.clear()
+            data = candledata
+            onChartGestureListener = object : OnChartGestureListener {
+                override fun onChartGestureStart(
+                    me: MotionEvent?,
+                    lastPerformedGesture: ChartTouchListener.ChartGesture?
+                ) {
+
+                }
+
+                override fun onChartGestureEnd(
+                    me: MotionEvent?,
+                    lastPerformedGesture: ChartTouchListener.ChartGesture?
+                ) {
+
+                }
+
+                override fun onChartLongPressed(me: MotionEvent?) {
+
+                }
+
+                override fun onChartDoubleTapped(me: MotionEvent?) {
+
+                }
+
+                override fun onChartSingleTapped(me: MotionEvent?) {
+
+                }
+
+                override fun onChartFling(
+                    me1: MotionEvent?,
+                    me2: MotionEvent?,
+                    velocityX: Float,
+                    velocityY: Float
+                ) {
+
+
+                }
+
+                override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+
+
+                }
+
+                override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+                    autoScale(coinDataChart)
+
+                }
+            }
+            val xval = coinDataChart.xAxis
+            val typedValue = TypedValue()
+            val theme: Resources.Theme = context.theme
+            theme.resolveAttribute(
+                androidx.constraintlayout.widget.R.attr.textFillColor,
+                typedValue,
+                true
+            )
+            @ColorInt val color = typedValue.data
+            axisLeft.textColor = color
+            xval.textColor = color
+            xval.position = XAxis.XAxisPosition.BOTTOM
+            xval.setDrawGridLines(true)
+            xval.valueFormatter = IndexAxisValueFormatter(areaCount)
+            bacgroundColour(R.color.transparent)
+            axisLeft.setDrawAxisLine(false)
+            axisRight.isEnabled = false // right line and value remove
+            xAxis.setDrawAxisLine(false)  // x line removed
+            animateXY(1000, 1000)
+            setVisibleXRangeMaximum(65F) //max item range
+            moveViewToX(candlestickentry.size.toFloat()) //last item than view
         }
     }
 
@@ -523,7 +550,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     override fun onDestroy() {
-        viewModel.clearBinanceSocketLiveData()
+        viewModel.clearBinanceSocketChartLiveData()
+        viewModel.clearBinanceSocketTickerLiveData()
         viewModel.clearGetTickerFromBinanceLiveData()
         binanceSocket.cancel()
         super.onDestroy()
