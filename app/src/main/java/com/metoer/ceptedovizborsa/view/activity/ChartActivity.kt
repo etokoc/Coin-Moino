@@ -104,11 +104,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
-                    viewModel.getBinanceChartWebSocket(
-                        baseSymbol = base.lowercase(),
-                        quoteSymbol = quote.lowercase(),
-                        param = interval
-                    )
+//                    viewModel.getBinanceChartWebSocket(
+//                        baseSymbol = base.lowercase(),
+//                        quoteSymbol = quote.lowercase(),
+//                        param = interval
+//                    )
                     viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
                         .observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
@@ -371,9 +371,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                             viewModel.getChartFromBinanceData(
                                 base, quote, interval
                             )
-                            viewModel.getBinanceChartWebSocket(
-                                base.lowercase(), quote.lowercase(), interval
-                            )
+//                            viewModel.getBinanceChartWebSocket(
+//                                base.lowercase(), quote.lowercase(), interval
+//                            )
                         }
                     }
                 }
