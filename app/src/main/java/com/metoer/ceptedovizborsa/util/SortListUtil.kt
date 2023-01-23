@@ -2,21 +2,22 @@ package com.metoer.ceptedovizborsa.util
 
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 
 class SortListUtil(
 
 ) {
-    var arrayListForCurrency = listOf<Currency>()
+    var arrayListForCurrency = listOf<RatesData>()
     fun sortedForCurrencyList(
-        itemlist: List<Currency>,
+        itemlist: List<RatesData>,
         sortedType: ListSortEnum,
         sortedByItem: ListSortEnum
-    ): List<Currency> {
+    ): List<RatesData> {
         if (sortedByItem == ListSortEnum.NAME)
-            arrayListForCurrency = itemlist.sortedBy { it.Isim }
+            arrayListForCurrency = itemlist.sortedBy { it.id }
         if (sortedByItem == ListSortEnum.VALUE)
-            arrayListForCurrency = itemlist.sortedBy { it.ForexBuying }
+            arrayListForCurrency = itemlist.sortedBy { it.rateUsd?.toDouble() }
 
         if (sortedType == ListSortEnum.DESC) {
             arrayListForCurrency = arrayListForCurrency.reversed()

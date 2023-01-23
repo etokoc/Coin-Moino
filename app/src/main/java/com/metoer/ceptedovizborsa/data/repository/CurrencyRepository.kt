@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.data.repository
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
 import com.metoer.ceptedovizborsa.util.Constants
@@ -30,6 +31,8 @@ class CurrencyRepository @Inject constructor(
     ): Observable<BinanceRoot> {
         return appApi.getChartFromBinanceData(symbol, interval, limit)
     }
+
+    fun getRatesDataFromApi(apiKey: String) = appApi.getAllRatesData(apiKey)
 
     fun getTickerFromBinanceApi(
         symbol: String,

@@ -98,6 +98,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         setLocale(loadLocaleString())
     }
 
+    var changeValueController: Double = 0.0
     private fun initListeners() {
         binding.apply {
             fillCandleData()
@@ -187,6 +188,15 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     viewModel.getBinanceSocketTickerListener()
                         ?.observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
+                            if (changeValueController < (tickerData?.lastPrice?.toDouble() ?: 0.0)) {
+                                coinValueTextView.textColors(R.color.coinValueRise)
+                            } else if (changeValueController > (tickerData?.lastPrice?.toDouble() ?: 0.0)) {
+                                coinValueTextView.textColors(R.color.coinValueDrop)
+                            } else {
+                                coinValueTextView.textColors(R.color.appGray)
+                            }
+
+                            changeValueController = tickerData?.lastPrice?.toDouble() ?: 0.0
                             if (percent != null) {
                                 if (percent > 0) {
                                     textViewPercent.textColors(R.color.coinValueRise)
@@ -408,7 +418,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 sayac++
             }
         } else if (binanceRoot is BinanceWebSocketCandleRoot) {
-            binanceRoot?.k?.let { binanceResponse ->
+            binanceRoot.k?.let { binanceResponse ->
                 candlestickentry.last().apply {
                     this.high = binanceResponse.highPrice.toString().toFloat()
                     this.low = binanceResponse.lowPrice.toString().toFloat()

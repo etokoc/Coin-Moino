@@ -5,11 +5,13 @@ object Constants {
     const val BINANCE_CHART_LIMIT = 1000
     const val BINANCE_WEB_SOCKET_BASE_URL = "wss://stream.binance.com:9443/ws/"
     const val CURRENCY_BASE_URL = "https://www.tcmb.gov.tr/kurlar/"
+    const val RATES_BASE_URL = "https://api.coincap.io/v2/rates"
     const val COINCAP_BASE_URL = "https://api.coincap.io/v2/"
     const val BINANCE_CHART_BASE_URL = "https://api.binance.com/"
     const val COIN_MARKET_URL = "https://api.coincap.io/v2/assets"
     const val HEADER_DATA = "_"
     const val IMAGE_URL = "https://wise.com/public-resources/assets/flags/rectangle/"
+    const val IMAGE_URL2 = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val SPINNER1_STATE_KEY = "mySpinner1"
     const val SPINNER2_STATE_KEY = "mySpinner2"
     const val COIN_BUNDLE_KEY_STRING = "coinData"

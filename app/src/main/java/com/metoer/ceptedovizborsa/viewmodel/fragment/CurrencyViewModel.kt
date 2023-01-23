@@ -1,20 +1,27 @@
 package com.metoer.ceptedovizborsa.viewmodel.fragment
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
+import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
+import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
 class CurrencyViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
 
     var currencyMutableList = MutableLiveData<List<Currency>>()
+    var ratesMutableList = MutableLiveData<List<RatesData>>()
 
     fun getAllCurrencyData(timeUnix: String) {
         CurrencyListSingleton.clearMemory()
@@ -36,10 +43,42 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
                 currencyMutableList.postValue(it.Currency)
             }, {
 
+            }).let {
+
+            }
+    }
+
+    fun getAllRatesData(context: Context) {
+        val list = ArrayList<RatesData>()
+        val prefs = SharedPrefencesUtil(context)
+        val language = prefs.getLocal("My_Lang", String)
+        val uk = Locale(language.toString())
+        currencyRepository.getRatesDataFromApi(CreateApiKeyUtil.getKey())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.data.forEachIndexed { index, ratesData ->
+                    if (ratesData.type == "fiat") {
+                        val currency = java.util.Currency.getInstance(ratesData.symbol)
+                        it.data[index].apply {
+                            this.id = currency.getDisplayName(uk)
+                        }
+                        list.add(ratesData)
+                    }
+                    if (ratesData.symbol == "TRY")
+                        it.data[index].apply {
+                            turkishValue = 1 / (this.rateUsd?.toDouble() ?: 0.0)
+                        }
+                }
+                ratesMutableList.postValue(list)
             }, {
 
             }).let {
 
             }
+    }
+
+    companion object {
+         var turkishValue: Double = 0.0
     }
 }

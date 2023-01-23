@@ -14,7 +14,7 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.FragmentCurrencyBinding
 import com.metoer.ceptedovizborsa.util.ListSortEnum
 import com.metoer.ceptedovizborsa.util.SearchViewUtil
@@ -42,7 +42,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
             R.anim.rotate_ascending
         )
     }
-    private var currencyList = ArrayList<Currency>()
+    private var currencyList = ArrayList<RatesData>()
     private val binding
         get() = _binding!!
 
@@ -71,9 +71,9 @@ class CurrencyFragment : Fragment(), OnClickListener {
     }
 
     private fun filter(text: String) {
-        val filterlist = ArrayList<Currency>()
+        val filterlist = ArrayList<RatesData>()
         for (item in currencyList) {
-            if (item.Isim?.lowercase(Locale.getDefault())
+            if (item.id?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault()))!!
             ) {
                 filterlist.add(item)
@@ -90,7 +90,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
     }
 
     private fun initListeners() {
-        viewModel.currencyMutableList.observe(viewLifecycleOwner) {
+        viewModel.ratesMutableList.observe(viewLifecycleOwner) {
             currencyList.clear()
             currencyList.addAll(it)
             adapter.setData(currencyList)
@@ -107,7 +107,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
     override fun onResume() {
         super.onResume()
         val unixTime = System.currentTimeMillis()
-        viewModel.getAllCurrencyData(unixTime.toString())
+        viewModel.getAllRatesData(requireContext().applicationContext)
         initSearchView()
         binding.apply {
             iconName.tag = true
