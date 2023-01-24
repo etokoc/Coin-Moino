@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.EditTextUtil
@@ -50,11 +50,10 @@ class CallculationCurrencyFragment : Fragment() {
         return binding.root
     }
 
-    private var currencyList = ArrayList<Currency>()
+    private var currencyList = ArrayList<RatesData>()
     override fun onResume() {
         super.onResume()
-        val unixTime = System.currentTimeMillis()
-        viewmodel.getAllCurrencyData(unixTime.toString())
+        viewmodel.getAllRatesData(requireContext().applicationContext)
         binding.apply {
             moneyValueEditText1.filters = editTextFilter()
             moneyValueEditText2.filters = editTextFilter()
@@ -67,8 +66,8 @@ class CallculationCurrencyFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
-        viewmodel.currencyMutableList.observe(viewLifecycleOwner) {
-            currencyList = it as ArrayList<Currency>
+        viewmodel.ratesMutableList.observe(viewLifecycleOwner) {
+            currencyList = it as ArrayList<RatesData>
             initSpinners(currencyList)
         }
         var money: Double
@@ -153,22 +152,12 @@ class CallculationCurrencyFragment : Fragment() {
 
     }
 
-    private fun initSpinners(currencyList: ArrayList<Currency>) {
+    private fun initSpinners(currencyList: ArrayList<RatesData>) {
         val arrayAdapter =
             ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                currencyList.map { currency ->
-                    if (currency.Kod!!.trim().lowercase() != "try") {
-                        val resId: Int = resources.getIdentifier(
-                            currency.Kod!!.trim().lowercase(),
-                            "string", requireContext().packageName
-                        )
-                        getString(resId)
-                    } else {
-                        getString(R.string.tr)
-                    }
-                })
+                currencyList.map { currency -> currency.id })
         binding.moneyValueSpinner1.adapter = arrayAdapter
         binding.moneyValueSpinner2.adapter = arrayAdapter
         binding.moneyValueSpinner1.setSelection(spinner1Position)

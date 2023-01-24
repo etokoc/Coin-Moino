@@ -108,6 +108,7 @@ class MainActivity : BaseActivity() {
         val thema = prefs.getLocal("night", Boolean)
         switchCompat.isChecked = thema == true
     }
+
     private fun setDarkAndLightThema(b: Boolean) {
         val prefs = SharedPrefencesUtil(applicationContext)
         if (b) {
@@ -259,6 +260,7 @@ class MainActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onResume() {
         super.onResume()
         supportLocale()

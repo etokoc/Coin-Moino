@@ -7,7 +7,7 @@ import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceWebSocketCandleRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
-import com.metoer.ceptedovizborsa.data.response.coin.ticker.CoinWebsocketTickerResponse
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -58,7 +58,12 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 it.data.forEachIndexed { index, ratesData ->
-                    if (ratesData.type == "fiat") {
+                    if (ratesData.type == "fiat" && ratesData.symbol != "SDG" && ratesData.symbol != "MRU"
+                        && ratesData.symbol != "STN" && ratesData.symbol != "XPT" && ratesData.symbol != "CUC"
+                        && ratesData.symbol != "XDR" && ratesData.symbol != "CLF" && ratesData.symbol != "CNH"
+                        && ratesData.symbol != "VES" && ratesData.symbol != "ZWL" && ratesData.symbol != "SSB"
+                        && ratesData.symbol != "SSP" && ratesData.symbol != "XPD"
+                    ) {
                         val currency = java.util.Currency.getInstance(ratesData.symbol)
                         it.data[index].apply {
                             this.id = currency.getDisplayName(uk)
@@ -79,6 +84,6 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
     }
 
     companion object {
-         var turkishValue: Double = 0.0
+        var turkishValue: Double = 0.0
     }
 }

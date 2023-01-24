@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -86,13 +87,13 @@ object MoneyCalculateUtil {
     }
 
     fun moneyConverter(
-        currencyList: ArrayList<Currency>,
+        currencyList: ArrayList<RatesData>,
         money: Double,
         spinner1Position: Int,
         spinner2Position: Int
     ): String {
         val result =
-            ((currencyList[spinner1Position].ForexBuying!! / currencyList[spinner1Position].Unit!!) * money) / (currencyList[spinner2Position].ForexBuying!! / currencyList[spinner2Position].Unit!!)
+            ((currencyList[spinner1Position].rateUsd!!.toDouble()) * money) / (currencyList[spinner2Position].rateUsd!!.toDouble())
         return DecimalFormat("##.####").format(result).toString()
     }
 

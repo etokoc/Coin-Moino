@@ -42,13 +42,19 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
                 R.string.money_value,
                 NumberDecimalFormat.numberDecimalFormat(result.toString(), "0.####")
             )
-            Glide.with(this.root).load(
-                Constants.IMAGE_URL + "${
-                    currentItems.symbol?.lowercase(
-                        Locale.ENGLISH
-                    )
-                }.png"
-            ).into(moneyImage)
+            if (currentItems.symbol == "XAU") {
+                moneyImage.setImageResource(R.drawable.ingot)
+            } else if (currentItems.symbol == "XAG") {
+                moneyImage.setImageResource(R.drawable.silver)
+            } else {
+                Glide.with(this.root).load(
+                    Constants.IMAGE_URL + "${
+                        currentItems.symbol?.lowercase(
+                            Locale.ENGLISH
+                        )
+                    }.png"
+                ).into(moneyImage)
+            }
             /*if (currentItems.symbol!!.trim().lowercase() != "try") {
                 val resId: Int = holder.itemView.resources.getIdentifier(
                     currentItems.symbol!!.trim().lowercase(),

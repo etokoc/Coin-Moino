@@ -4,11 +4,13 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.charts.CandleStickChart

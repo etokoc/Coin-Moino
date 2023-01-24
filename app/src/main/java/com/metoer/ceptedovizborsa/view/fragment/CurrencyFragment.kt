@@ -106,7 +106,6 @@ class CurrencyFragment : Fragment(), OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        val unixTime = System.currentTimeMillis()
         viewModel.getAllRatesData(requireContext().applicationContext)
         initSearchView()
         binding.apply {
