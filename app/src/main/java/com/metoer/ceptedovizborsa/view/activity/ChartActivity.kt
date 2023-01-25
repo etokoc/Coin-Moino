@@ -4,13 +4,10 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.charts.CandleStickChart
@@ -20,8 +17,6 @@ import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.listener.ChartTouchListener
-import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
@@ -399,11 +394,10 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             })
         }
     }
-
-    var sayac = 0f
-    val candlestickentry = ArrayList<CandleEntry>()
-    val areaCount = ArrayList<String>()
     private fun setCandelStickChart(binanceRoot: Any) {
+        var sayac = 0f
+        val candlestickentry = ArrayList<CandleEntry>()
+        val areaCount = ArrayList<String>()
         progressBar.hide()
         if (binanceRoot is BinanceRoot) {
             binanceRoot.forEach { candleData ->
@@ -445,53 +439,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         coinDataChart.apply {
             this.clear()
             data = candledata
-            onChartGestureListener = object : OnChartGestureListener {
-                override fun onChartGestureStart(
-                    me: MotionEvent?,
-                    lastPerformedGesture: ChartTouchListener.ChartGesture?
-                ) {
-
-                }
-
-                override fun onChartGestureEnd(
-                    me: MotionEvent?,
-                    lastPerformedGesture: ChartTouchListener.ChartGesture?
-                ) {
-
-                }
-
-                override fun onChartLongPressed(me: MotionEvent?) {
-
-                }
-
-                override fun onChartDoubleTapped(me: MotionEvent?) {
-
-                }
-
-                override fun onChartSingleTapped(me: MotionEvent?) {
-
-                }
-
-                override fun onChartFling(
-                    me1: MotionEvent?,
-                    me2: MotionEvent?,
-                    velocityX: Float,
-                    velocityY: Float
-                ) {
-
-
-                }
-
-                override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-
-
-                }
-
-                override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
-                    autoScale(coinDataChart)
-
-                }
-            }
             val xval = coinDataChart.xAxis
             val typedValue = TypedValue()
             val theme: Resources.Theme = context.theme
@@ -502,6 +449,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             )
             @ColorInt val color = typedValue.data
             axisLeft.textColor = color
+            this.isAutoScaleMinMaxEnabled = true
             xval.textColor = color
             xval.position = XAxis.XAxisPosition.BOTTOM
             xval.setDrawGridLines(true)
@@ -534,7 +482,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         return formatter.format(calendar.time)
     }
 
-    private fun autoScale(candleChart: CandleStickChart) {
+    /*private fun autoScale(candleChart: CandleStickChart) {
         val lowestVisibleX: Float = candleChart.lowestVisibleX
         val highestVisibleX: Float = candleChart.highestVisibleX
         val chartData: CandleData = candleChart.candleData
@@ -543,7 +491,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         calculateMinMaxForYAxis(candleChart, AxisDependency.LEFT)
         calculateMinMaxForYAxis(candleChart, AxisDependency.RIGHT)
         candleChart.calculateOffsets()
-    }
+    }*/
 
     private fun calculateMinMaxForYAxis(
         candleChart: CandleStickChart,
