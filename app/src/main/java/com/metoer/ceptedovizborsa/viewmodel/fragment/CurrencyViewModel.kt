@@ -14,7 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @HiltViewModel
 class CurrencyViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
@@ -51,7 +50,12 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
     fun getAllRatesData(context: Context) {
         val list = ArrayList<RatesData>()
         val prefs = SharedPrefencesUtil(context)
-        val language = prefs.getLocal("My_Lang", String)
+        var language = prefs.getLocal("My_Lang", String)
+        language = if (language.toString().isNullOrEmpty()) {
+            "tr"
+        } else {
+            language
+        }
         val uk = Locale(language.toString())
         currencyRepository.getRatesDataFromApi(CreateApiKeyUtil.getKey())
             .subscribeOn(Schedulers.io())
