@@ -6,8 +6,11 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.LayoutParams
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.components.XAxis
@@ -19,7 +22,6 @@ import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceWebSocketCandleRoot
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -64,7 +66,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
         }
         initTabLayout()
-        initSpinner()
         initListeners()
         calculateCoin()
     }
@@ -325,12 +326,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             getString(R.string.coin_time_1_week),
             getString(R.string.coin_time_1_month),
         )
-
-        binding.spinnerCoinMoreItems.apply {
-            this.adapter =
-                ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
-        }
-        binding.spinnerCoinMoreItems.onItemSelectedListener =
+        spinner?.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -338,6 +334,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     position: Int,
                     id: Long
                 ) {
+                    binding.tabLayout.getTabAt(4)?.text = moreTimeList.get(position)
+                    spinner?.prompt = moreTimeList.get(position)
                     val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
                     interval = moreTimeList[position]
                     if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
@@ -355,8 +353,34 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             }
     }
 
+    var spinner: Spinner? = null
     var interval = "15m"
     private fun initTabLayout() {
+        val tab = binding.tabLayout.newTab()
+        spinner = Spinner(this)
+        moreTimeList = arrayListOf(
+            getString(R.string.coin_time_1_minute),
+            getString(R.string.coin_time_5_minute),
+            getString(
+                R.string.coin_time_30_minute,
+            ),
+            getString(R.string.coin_time_2_hour),
+            getString(R.string.coin_time_8_hour),
+            getString(R.string.coin_time_12_hour),
+            getString(R.string.coin_time_1_week),
+            getString(R.string.coin_time_1_month),
+        )
+        spinner.apply {
+            this?.adapter =
+                ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
+        }
+        tab.setCustomView(spinner)
+        binding.tabLayout.addTab(tab)
+        val layout =
+            (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
+        val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+        layoutParams.weight = 1.5f
+        layout.layoutParams = layoutParams
         binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -373,6 +397,12 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         3 -> {
                             interval = "1d"
                         }
+                        4 -> {
+                            initSpinner()
+                        }
+                    }
+                    if (tab?.position != 4) {
+                        spinner?.onItemSelectedListener = null
                     }
                     progressBar.show()
                     dataMarket.baseSymbol?.let { base ->

@@ -52,22 +52,22 @@
             android:layout_marginEnd="5dp">
 
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_time_15_minute" />
 
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_time_1_hour" />
 
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_time_4_hour" />
 
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_time_1_day" />
         </com.google.android.material.tabs.TabLayout>
@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:padding="10dp"
+        android:visibility="gone"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/constraintLayout4"
         app:layout_constraintRight_toRightOf="parent"
