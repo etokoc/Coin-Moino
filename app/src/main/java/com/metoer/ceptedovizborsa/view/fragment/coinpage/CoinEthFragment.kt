@@ -14,6 +14,7 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CoinEthFragment : Fragment() {
@@ -42,7 +43,7 @@ class CoinEthFragment : Fragment() {
     fun initListener() {
         viewModel.getAllMarketsCoinData("ETH").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it!!)
+            adapter.setData(it!! as ArrayList<MarketData>)
             coinList.clear()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter

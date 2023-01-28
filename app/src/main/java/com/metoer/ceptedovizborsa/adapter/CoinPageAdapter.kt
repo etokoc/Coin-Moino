@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
+import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -23,10 +24,10 @@ class CoinPageAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     fun filterList(filterList: List<MarketData>) {
-        setData(filterList)
+        setData(filterList as ArrayList<MarketData>)
     }
 
-    private var itemList = emptyList<MarketData>()
+    private var itemList = mutableListOf<MarketData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
             CoinMarketsblockchainItemBinding.inflate(
@@ -79,7 +80,7 @@ class CoinPageAdapter(
                             R.color.coinValueRise
                         )
                     )
-                } else if (parcent !=null && parcent < 0) {
+                } else if (parcent != null && parcent < 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
@@ -130,16 +131,23 @@ class CoinPageAdapter(
         return (otherCoin.changePercent24Hr!!.toDouble()) - (usdt.changePercent24Hr!!.toDouble())
     }
 
-    fun setData(newItemList: List<MarketData>) {
+    fun setData(newItemList: MutableList<MarketData>) {
         val diffUtil = DiffUtil(itemList, newItemList)
         val diffResult = calculateDiff(diffUtil)
-        itemList = listOf()
+        itemList = arrayListOf()
         newItemList.forEach {
-            it.percentExchangeVolume = it.baseSymbol?.let { it1 -> caltulateMainCoin(it1).toString() }
+            it.percentExchangeVolume =
+                it.baseSymbol?.let { it1 -> caltulateMainCoin(it1).toString() }
         }
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
         notifyItemRangeChanged(0, getListSize())
+    }
+
+    fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<MarketData> {
+        itemList[index].priceQuote = newData?.price.toString()
+        notifyItemChanged(index)
+        return itemList
     }
 
     fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
@@ -147,7 +155,7 @@ class CoinPageAdapter(
         setData(
             newList.sortedForCoinList(
                 getFilteredList(), listSortType, listSortItem
-            )
+            ) as MutableList<MarketData>
         )
     }
 

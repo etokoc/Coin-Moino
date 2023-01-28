@@ -13,6 +13,7 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.WebSocket
 import java.util.*
 
 @AndroidEntryPoint
@@ -24,6 +25,7 @@ class CoinUSDTFragment : Fragment() {
     private var adapter = CoinPageAdapter("USDT")
     private val viewModel: CoinPageViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
+    private var webSocket: WebSocket? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +38,21 @@ class CoinUSDTFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initListener()
+        initWebSocket()
+    }
+
+    private fun initWebSocket() {
+        viewModel.apply {
+            webSocket = getBinanceCoinWebSocket()
+        }
     }
 
 
     fun initListener() {
+        binding.recylerview.itemAnimator = null
         viewModel.getAllMarketsCoinData("USDT").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it!!)
+            adapter.setData(it!! as ArrayList<MarketData>)
             coinList.clear()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
@@ -54,9 +64,22 @@ class CoinUSDTFragment : Fragment() {
         sharedViewModel.coinList.observe(viewLifecycleOwner) {
             filter(it)
         }
+        connectWebSocket()
     }
 
-    private val coinList = ArrayList<MarketData>()
+    private fun connectWebSocket() {
+        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
+            // TODO: Websocket Bağlantısı
+            coinList.forEachIndexed { index, item ->
+                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
+                    val newList = adapter.updateData(webSocketData, index)
+                    coinList = newList
+                }
+            }
+        }
+    }
+
+    private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
@@ -74,5 +97,11 @@ class CoinUSDTFragment : Fragment() {
         } else {
             adapter.filterList(filterlist)
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.clearBinanceSocketLiveData()
+        webSocket?.cancel()
+        super.onDestroy()
     }
 }

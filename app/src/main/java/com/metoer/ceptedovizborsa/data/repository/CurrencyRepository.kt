@@ -5,6 +5,7 @@ import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
 import com.metoer.ceptedovizborsa.util.Constants
 import io.reactivex.Observable
@@ -17,7 +18,8 @@ class CurrencyRepository @Inject constructor(
     private val appApi: AppApi,
     private val providesOkhttpClient: OkHttpClient,
     val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
-    val providesBinanceWebSocketChartListener: BinanceWebSocketChartListener
+    val providesBinanceWebSocketChartListener: BinanceWebSocketChartListener,
+    val providesBinanceWebSocketListener: BinanceWebSocketCoinListener
 ) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
     fun getAllCoinDataFromApi() = appApi.getAllCoinData()
@@ -78,4 +80,14 @@ class CurrencyRepository @Inject constructor(
     }
 
     fun getBinanceSocketChartListener() = providesBinanceWebSocketChartListener
+
+    fun getBinanceCoinSocket(): WebSocket {
+        val request: Request =
+            Request.Builder()
+                .url(Constants.BINANCE_WEB_SOCKET_COIN_BASE_URL)
+                .build()
+        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketListener)
+    }
+
+    fun getBinanceSocketListener() = providesBinanceWebSocketListener
 }
