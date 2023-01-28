@@ -48,7 +48,11 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             }
     }
 
-    val chartBinanceLiveData = MutableLiveData<BinanceRoot>()
+    fun clearChartBinanceData() {
+        chartBinanceLiveData.value = null
+    }
+
+    var chartBinanceLiveData = MutableLiveData<BinanceRoot?>()
     fun getChartFromBinanceData(
         symbol: String,
         quote: String,

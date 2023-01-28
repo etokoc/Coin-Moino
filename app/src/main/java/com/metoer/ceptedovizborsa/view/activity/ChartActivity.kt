@@ -10,9 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
-import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis.AxisDependency
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
@@ -185,9 +183,13 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     viewModel.getBinanceSocketTickerListener()
                         ?.observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
-                            if (changeValueController < (tickerData?.lastPrice?.toDouble() ?: 0.0)) {
+                            if (changeValueController < (tickerData?.lastPrice?.toDouble()
+                                    ?: 0.0)
+                            ) {
                                 coinValueTextView.textColors(R.color.coinValueRise)
-                            } else if (changeValueController > (tickerData?.lastPrice?.toDouble() ?: 0.0)) {
+                            } else if (changeValueController > (tickerData?.lastPrice?.toDouble()
+                                    ?: 0.0)
+                            ) {
                                 coinValueTextView.textColors(R.color.coinValueDrop)
                             } else {
                                 coinValueTextView.textColors(R.color.appGray)
@@ -299,7 +301,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun fillCandleData() {
         binding.apply {
             viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
-                setCandelStickChart(it)
+                it?.let { it1 -> setCandelStickChart(it1) }
             }
             viewModel.getBinanceSocketChartListener()?.observe(this@ChartActivity) {
                 if (it != null) {
@@ -394,6 +396,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             })
         }
     }
+
     private fun setCandelStickChart(binanceRoot: Any) {
         var sayac = 0f
         val candlestickentry = ArrayList<CandleEntry>()
@@ -413,7 +416,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 )
                 sayac++
             }
-        } else if (binanceRoot is BinanceWebSocketCandleRoot) {
+        } /*else if (binanceRoot is BinanceWebSocketCandleRoot) {
             binanceRoot.k?.let { binanceResponse ->
                 candlestickentry.last().apply {
                     this.high = binanceResponse.highPrice.toString().toFloat()
@@ -422,7 +425,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     this.close = binanceResponse.closePrice.toString().toFloat()
                 }
             }
-        }
+        }*/
         val candledataset = CandleDataSet(candlestickentry, "Coin")
         candledataset.apply {
             shadowColor = getColorful(this@ChartActivity, R.color.green)
@@ -439,7 +442,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         coinDataChart.apply {
             this.clear()
             data = candledata
-            val xval = coinDataChart.xAxis
+            val xval = this.xAxis
             val typedValue = TypedValue()
             val theme: Resources.Theme = context.theme
             theme.resolveAttribute(
@@ -482,34 +485,16 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         return formatter.format(calendar.time)
     }
 
-    /*private fun autoScale(candleChart: CandleStickChart) {
-        val lowestVisibleX: Float = candleChart.lowestVisibleX
-        val highestVisibleX: Float = candleChart.highestVisibleX
-        val chartData: CandleData = candleChart.candleData
-        chartData.calcMinMaxY(lowestVisibleX, highestVisibleX)
-        candleChart.xAxis.calculate(chartData.xMin, chartData.xMax)
-        calculateMinMaxForYAxis(candleChart, AxisDependency.LEFT)
-        calculateMinMaxForYAxis(candleChart, AxisDependency.RIGHT)
-        candleChart.calculateOffsets()
-    }*/
-
-    private fun calculateMinMaxForYAxis(
-        candleChart: CandleStickChart,
-        axisDependency: AxisDependency
-    ) {
-        val chartData = candleChart.candleData
-        val yAxis = candleChart.getAxis(axisDependency)
-        if (yAxis.isEnabled) {
-            val yMin = chartData.getYMin(axisDependency)
-            val yMax = chartData.getYMax(axisDependency)
-            yAxis.calculate(yMin, yMax)
-        }
-    }
-
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
 
+    override fun onPause() {
+        viewModel.clearChartBinanceData()
+        super.onPause()
+    }
+
     override fun onDestroy() {
+        viewModel.clearChartBinanceData()
         viewModel.clearBinanceSocketChartLiveData()
         viewModel.clearBinanceSocketTickerLiveData()
         viewModel.clearGetTickerFromBinanceLiveData()
