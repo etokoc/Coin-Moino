@@ -99,6 +99,10 @@ class CoinUSDTFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        webSocket?.cancel()
+        super.onPause()
+    }
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
         webSocket?.cancel()
