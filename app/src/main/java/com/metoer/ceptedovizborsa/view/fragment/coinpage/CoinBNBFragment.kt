@@ -13,6 +13,7 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.WebSocket
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -25,6 +26,7 @@ class CoinBNBFragment : Fragment() {
     private var adapter = CoinPageAdapter("BNB")
     private val viewModel: CoinPageViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
+    private var webSocket: WebSocket? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,8 +39,25 @@ class CoinBNBFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initListener()
+        initWebSocket()
     }
 
+    private fun initWebSocket() {
+        viewModel.apply {
+            webSocket = getBinanceCoinWebSocket()
+        }
+    }
+    private fun connectWebSocket() {
+        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
+            // TODO: Websocket Bağlantısı
+            coinList.forEachIndexed { index, item ->
+                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
+                    val newList = adapter.updateData(webSocketData, index)
+                    coinList = newList
+                }
+            }
+        }
+    }
 
     fun initListener() {
         viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner) {
@@ -58,7 +77,7 @@ class CoinBNBFragment : Fragment() {
         }
     }
 
-    private val coinList = ArrayList<MarketData>()
+    private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
@@ -75,6 +94,16 @@ class CoinBNBFragment : Fragment() {
         } else {
             adapter.filterList(filterlist)
         }
+    }
+
+    override fun onPause() {
+        webSocket?.cancel()
+        super.onPause()
+    }
+    override fun onDestroy() {
+        viewModel.clearBinanceSocketLiveData()
+        webSocket?.cancel()
+        super.onDestroy()
     }
 
 
