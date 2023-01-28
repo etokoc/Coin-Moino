@@ -1,6 +1,8 @@
 package com.metoer.ceptedovizborsa.adapter
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -108,6 +110,22 @@ class CoinPageAdapter(
                     context.startActivity(intent)
                 }
             }
+            if (oldValue.size > 0) {
+                if ((currentItem.priceQuote?.toDouble() ?: 0.0) > oldValue[position]) {
+                    coinExchangeValueText.textColors(R.color.coinValueRise)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        coinExchangeValueText.setTextAppearance(R.style.TextColor)
+                    }, 2000)
+                } else if ((currentItem.priceQuote?.toDouble() ?: 0.0) < oldValue[position]) {
+                    coinExchangeValueText.textColors(R.color.coinValueDrop)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        coinExchangeValueText.setTextAppearance(R.style.TextColor)
+                    }, 2000)
+                } else {
+                    coinExchangeValueText.setTextAppearance(R.style.TextColor)
+                }
+                oldValue[position] = currentItem.priceQuote?.toDouble() ?: 0.0
+            }
         }
     }
 
@@ -144,9 +162,13 @@ class CoinPageAdapter(
         notifyItemRangeChanged(0, getListSize())
     }
 
+    var oldValue = arrayListOf<Double>()
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<MarketData> {
         itemList[index].priceQuote = newData?.price.toString()
         notifyItemChanged(index)
+        itemList.map {
+            oldValue.add(it.priceQuote?.toDouble() ?: 0.0)
+        }
         return itemList
     }
 
