@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.widget.EditText
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -87,13 +86,12 @@ object MoneyCalculateUtil {
     }
 
     fun moneyConverter(
-        currencyList: ArrayList<RatesData>,
         money: Double,
-        spinner1Position: Int,
-        spinner2Position: Int
+        ratesData1: RatesData,
+        ratesData2: RatesData
     ): String {
         val result =
-            ((currencyList[spinner1Position].rateUsd!!.toDouble()) * money) / (currencyList[spinner2Position].rateUsd!!.toDouble())
+            (ratesData1.rateUsd!!.toDouble()) * money / (ratesData2.rateUsd!!.toDouble())
         return DecimalFormat("##.####").format(result).toString()
     }
 
@@ -118,8 +116,7 @@ object MoneyCalculateUtil {
                 R.string.hacim_calculate4,
                 DecimalFormat("0.##").format(value / 1000000000000)
             )
-        }
-        else if ((value / 1000000000) >= 1) {
+        } else if ((value / 1000000000) >= 1) {
             simplfy = context.getString(
                 R.string.hacim_calculate,
                 DecimalFormat("0.##").format(value / 1000000000)
@@ -129,10 +126,12 @@ object MoneyCalculateUtil {
                 R.string.hacim_calculate2,
                 DecimalFormat("0.##").format(value / 1000000)
             )
-        }
-        else {
+        } else {
             simplfy =
-                context.getString(R.string.hacim_calculate3, DecimalFormat("###,###,###.##").format(value))
+                context.getString(
+                    R.string.hacim_calculate3,
+                    DecimalFormat("###,###,###.##").format(value)
+                )
         }
         return simplfy
     }

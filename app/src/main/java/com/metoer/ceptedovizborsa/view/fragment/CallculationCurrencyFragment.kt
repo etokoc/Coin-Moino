@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,13 +34,13 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private var isFirst = false
     private var _dialog: Dialog? = null
-    private var spinner1SelectedPosition = 0
-    private var spinner2SelectedPosition = 0
+    private var spinner1SelectedItem: RatesData? = null
+    private var spinner2SelectedItem: RatesData? = null
 
     private val binding
         get() = _binding!!
 
-    private var adapter = CurrencySearchAdapter(this)
+    private var adapter = CurrencySearchAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +49,10 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         _binding = FragmentCallculationCurrencyBinding.inflate(inflater, container, false)
         binding.apply {
             if (savedInstanceState != null) {
-                spinner1Position = savedInstanceState.getInt(Constants.SPINNER1_STATE_KEY, 0)
-                spinner2Position = savedInstanceState.getInt(Constants.SPINNER2_STATE_KEY, 0)
+                spinner1SelectedItem =
+                    savedInstanceState.getParcelable(Constants.SPINNER1_STATE_KEY)
+                spinner2SelectedItem =
+                    savedInstanceState.getParcelable(Constants.SPINNER2_STATE_KEY)
             }
         }
 
@@ -96,13 +97,12 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                     if (p0 != null && p0.isNotEmpty() && !moneyValueEditText1.text.toString()
                             .startsWith(',')
                     ) {
-                        if (editControl && !editControl2) {
+                        if (editControl && !editControl2 && spinner2SelectedItem != null && spinner1SelectedItem != null) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
-                                currencyList,
                                 money,
-                                spinner1SelectedPosition,
-                                spinner2SelectedPosition
+                                spinner1SelectedItem!!,
+                                spinner2SelectedItem!!
                             )
                             binding.moneyValueEditText2.setText(moneyCalculate)
                         }
@@ -133,13 +133,12 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                     if (p0 != null && p0.isNotEmpty() && !moneyValueEditText2.text.toString()
                             .startsWith(',')
                     ) {
-                        if (editControl2 && !editControl) {
+                        if (editControl2 && !editControl && spinner2SelectedItem != null && spinner1SelectedItem != null) {
                             money = MoneyCalculateUtil.doubleConverter(p0)
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
-                                currencyList,
                                 money,
-                                spinner2SelectedPosition,
-                                spinner1SelectedPosition
+                                spinner2SelectedItem!!,
+                                spinner1SelectedItem!!
                             )
                             binding.moneyValueEditText1.setText(moneyCalculate)
                         }
@@ -158,6 +157,18 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
 
         }
 
+        adapter.setOnClickItemListener { item ->
+            val header = item.id
+            if (isFirst) {
+                spinner1SelectedItem = item
+                binding.searchTextView1.text = header
+            } else {
+                spinner2SelectedItem = item
+                binding.searchTextView2.text = header
+            }
+            hideDialog()
+        }
+
     }
 
     private fun initSpinners(currencyList: ArrayList<RatesData>) {
@@ -169,15 +180,6 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
             isFirst = false
             searchDialog(binding.searchTextView2, currencyList)
         }
-        val arrayAdapter =
-            ArrayAdapter<String>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                currencyList.map { currency -> currency.id })
-        binding.moneyValueSpinner1.adapter = arrayAdapter
-        binding.moneyValueSpinner2.adapter = arrayAdapter
-        binding.moneyValueSpinner1.setSelection(spinner1Position)
-        binding.moneyValueSpinner2.setSelection(spinner2Position)
     }
 
     private fun searchDialog(textView: TextView, currencyList: ArrayList<RatesData>) {
@@ -185,9 +187,9 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         _dialog = dialog
         val bindingSearchDialog =
             CustomSearchSpinnerBinding.inflate(layoutInflater/*, binding.root, false*/)
-        dialog?.setContentView(bindingSearchDialog.root)
+        dialog.setContentView(bindingSearchDialog.root)
         val layoutParams = WindowManager.LayoutParams()
-        val dialogVindow = dialog?.window
+        val dialogVindow = dialog.window
         layoutParams.gravity = Gravity.TOP or Gravity.START or Gravity.END
         layoutParams.x = (textView.x + 50).toInt()
         layoutParams.y = (textView.y + textView.height).toInt()
@@ -196,6 +198,7 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         bindingSearchDialog.apply {
             searchSpinnerRecyclerView.adapter = adapter
             searchSpinnerRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            initSearchBar(this)
         }
         dialogVindow?.setLayout(
             ActionBar.LayoutParams.MATCH_PARENT,
@@ -206,26 +209,18 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(
+        outState.putParcelable(
             Constants.SPINNER1_STATE_KEY,
-            binding.moneyValueSpinner1.selectedItemPosition
+            spinner1SelectedItem
         )
-        outState.putInt(
+        outState.putParcelable(
             Constants.SPINNER2_STATE_KEY,
-            binding.moneyValueSpinner2.selectedItemPosition
+            spinner2SelectedItem
         )
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
-        val header = currencyList[position].id
-        if (isFirst) {
-            spinner1SelectedPosition = position
-            binding.searchTextView1.text = header
-        } else {
-            spinner2SelectedPosition = position
-            binding.searchTextView2.text = header
-        }
-        hideDialog()
+
     }
 
     private fun showDialog() {
@@ -236,4 +231,41 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         _dialog?.hide()
     }
 
+    private fun filter(text: String) {
+        val filterlist = ArrayList<RatesData>()
+        for (item in currencyList) {
+            if (item.id?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault()))!!
+            ) {
+                filterlist.add(item)
+            }
+        }
+        if (filterlist.isEmpty()) {
+            filterlist.clear()
+            adapter.filterList(filterlist)
+        } else {
+            adapter.filterList(filterlist)
+        }
+    }
+
+    private fun initSearchBar(customSearchSpinnerBinding: CustomSearchSpinnerBinding) {
+        binding.apply {
+            customSearchSpinnerBinding.searchSpinnerItem.currencySearchView.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        if (p0.toString().isNotEmpty()) filter(p0.toString()) else filter(" ")
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+
+                    }
+
+                })
+            customSearchSpinnerBinding.searchSpinnerRecyclerView
+        }
+    }
 }

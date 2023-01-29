@@ -52,18 +52,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/money1TextInputLayout"/>
 
-        <Spinner
-            android:id="@+id/moneyValueSpinner1"
-            style="@style/CalculationSpinnerBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_weight="1"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/money1TextInputLayout" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/money1TextInputLayout"
             style="@style/CalculationBackgroundEditText"
@@ -139,17 +127,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/money2TextInputLayout"/>
-
-        <Spinner
-            android:id="@+id/moneyValueSpinner2"
-            style="@style/CalculationSpinnerBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_weight="1"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/money2TextInputLayout"
-            tools:layout_editor_absoluteX="24dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

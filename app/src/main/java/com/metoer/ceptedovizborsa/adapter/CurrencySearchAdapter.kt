@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.CurrencyDialogItemBinding
 import com.metoer.ceptedovizborsa.util.DiffUtil
-import com.metoer.ceptedovizborsa.util.onItemClickListener
 
-class CurrencySearchAdapter(private var listener: onItemClickListener) :
+class CurrencySearchAdapter :
     RecyclerView.Adapter<CurrencySearchAdapter.ListViewHolder>() {
     class ListViewHolder(val binding: CurrencyDialogItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -30,9 +29,15 @@ class CurrencySearchAdapter(private var listener: onItemClickListener) :
         holder.binding.apply {
             currencyNameDialogItemTextView.text = currenntItem.id
             root.setOnClickListener {
-                listener.onItemClick(position, root)
+                onItemClickListener?.let { it1 -> it1(currenntItem) }
             }
         }
+    }
+
+    private var onItemClickListener: ((RatesData) -> Unit?)? = null
+
+    fun setOnClickItemListener(listener: (RatesData) -> Unit) {
+        onItemClickListener = listener
     }
 
     fun setData(newItemList: List<RatesData>) {
@@ -41,5 +46,9 @@ class CurrencySearchAdapter(private var listener: onItemClickListener) :
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
         notifyItemRangeChanged(0, itemList.size)
+    }
+
+    fun filterList(filterList: List<RatesData>) {
+        setData(filterList)
     }
 }
