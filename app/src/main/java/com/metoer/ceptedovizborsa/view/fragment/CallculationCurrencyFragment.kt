@@ -33,6 +33,11 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
 
     private val viewmodel: CurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
+    private var isFirst = false
+    private var _dialog: Dialog? = null
+    private var spinner1SelectedPosition = 0
+    private var spinner2SelectedPosition = 0
+
     private val binding
         get() = _binding!!
 
@@ -96,8 +101,8 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
                                 currencyList,
                                 money,
-                                moneyValueSpinner1.selectedItemPosition,
-                                moneyValueSpinner2.selectedItemPosition
+                                spinner1SelectedPosition,
+                                spinner2SelectedPosition
                             )
                             binding.moneyValueEditText2.setText(moneyCalculate)
                         }
@@ -133,8 +138,8 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                             val moneyCalculate = MoneyCalculateUtil.moneyConverter(
                                 currencyList,
                                 money,
-                                moneyValueSpinner2.selectedItemPosition,
-                                moneyValueSpinner1.selectedItemPosition
+                                spinner2SelectedPosition,
+                                spinner1SelectedPosition
                             )
                             binding.moneyValueEditText1.setText(moneyCalculate)
                         }
@@ -155,7 +160,6 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
 
     }
 
-    var isFirst = false
     private fun initSpinners(currencyList: ArrayList<RatesData>) {
         binding.searchTextView1.setOnClickListener {
             isFirst = true
@@ -176,7 +180,6 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         binding.moneyValueSpinner2.setSelection(spinner2Position)
     }
 
-    var _dialog: Dialog? = null
     private fun searchDialog(textView: TextView, currencyList: ArrayList<RatesData>) {
         val dialog = Dialog(requireContext())
         _dialog = dialog
@@ -216,9 +219,12 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
     override fun onItemClick(position: Int, parent: ViewGroup) {
         val header = currencyList[position].id
         if (isFirst) {
+            spinner1SelectedPosition = position
             binding.searchTextView1.text = header
-        } else
+        } else {
+            spinner2SelectedPosition = position
             binding.searchTextView2.text = header
+        }
         hideDialog()
     }
 
