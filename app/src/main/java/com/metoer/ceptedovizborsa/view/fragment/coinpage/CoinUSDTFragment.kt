@@ -81,6 +81,7 @@ class CoinUSDTFragment : Fragment() {
 
     private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
+        //sorun var
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol?.lowercase(Locale.getDefault())
