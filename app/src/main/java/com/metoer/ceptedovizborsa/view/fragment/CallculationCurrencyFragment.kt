@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,10 +26,6 @@ import java.util.*
 
 @AndroidEntryPoint
 class CallculationCurrencyFragment : Fragment(), onItemClickListener {
-
-    private var spinner1Position = 0
-    private var spinner2Position = 0
-
     private val viewmodel: CurrencyViewModel by viewModels()
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private var isFirst = false
@@ -68,6 +64,8 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
             moneyValueEditText2.filters = editTextFilter()
             moneyValueEditText1.hint = requireContext().getString(R.string.para_1)
             moneyValueEditText2.hint = requireContext().getString(R.string.para_2)
+            searchTextView1.text = spinner1SelectedItem?.id ?: getString(R.string.select_currency)
+            searchTextView2.text = spinner2SelectedItem?.id ?: getString(R.string.select_currency)
         }
         initListener()
     }
@@ -174,15 +172,18 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
     private fun initSpinners(currencyList: ArrayList<RatesData>) {
         binding.searchTextView1.setOnClickListener {
             isFirst = true
-            searchDialog(binding.searchTextView1, currencyList)
+            searchDialog(binding.constraintLayout, currencyList)
         }
         binding.searchTextView2.setOnClickListener {
             isFirst = false
-            searchDialog(binding.searchTextView2, currencyList)
+            searchDialog(binding.constraintLayout2, currencyList)
         }
     }
 
-    private fun searchDialog(textView: TextView, currencyList: ArrayList<RatesData>) {
+    private fun searchDialog(
+        constraintLayout: ConstraintLayout,
+        currencyList: ArrayList<RatesData>
+    ) {
         val dialog = Dialog(requireContext())
         _dialog = dialog
         val bindingSearchDialog =
@@ -191,11 +192,12 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         val layoutParams = WindowManager.LayoutParams()
         val dialogVindow = dialog.window
         layoutParams.gravity = Gravity.TOP or Gravity.START or Gravity.END
-        layoutParams.x = (textView.x + 50).toInt()
-        layoutParams.y = (textView.y + textView.height).toInt()
+        layoutParams.x = (constraintLayout.x + 50).toInt()
+        layoutParams.y = (constraintLayout.y + constraintLayout.height).toInt()
         dialogVindow?.attributes = layoutParams
         adapter.setData(currencyList)
         bindingSearchDialog.apply {
+            searchSpinnerItem.currencySearchView.hint = getString(R.string.select_currency)
             searchSpinnerRecyclerView.adapter = adapter
             searchSpinnerRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             initSearchBar(this)
