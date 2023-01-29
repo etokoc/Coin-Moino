@@ -13,16 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
 import com.metoer.ceptedovizborsa.adapter.CurrencySearchAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.CustomSearchSpinnerBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
-import com.metoer.ceptedovizborsa.util.Constants
-import com.metoer.ceptedovizborsa.util.EditTextUtil
+import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
-import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
-import com.metoer.ceptedovizborsa.util.setDefaultKeyListener
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_callculation_currency.*
@@ -30,7 +26,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class CallculationCurrencyFragment : Fragment() {
+class CallculationCurrencyFragment : Fragment(), onItemClickListener {
 
     private var spinner1Position = 0
     private var spinner2Position = 0
@@ -40,7 +36,7 @@ class CallculationCurrencyFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private var adapter = CurrencySearchAdapter()
+    private var adapter = CurrencySearchAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -159,12 +155,15 @@ class CallculationCurrencyFragment : Fragment() {
 
     }
 
+    var isFirst = false
     private fun initSpinners(currencyList: ArrayList<RatesData>) {
         binding.searchTextView1.setOnClickListener {
-            searchDialog(binding.searchTextView1,currencyList)
+            isFirst = true
+            searchDialog(binding.searchTextView1, currencyList)
         }
         binding.searchTextView2.setOnClickListener {
-            searchDialog(binding.searchTextView2,currencyList)
+            isFirst = false
+            searchDialog(binding.searchTextView2, currencyList)
         }
         val arrayAdapter =
             ArrayAdapter<String>(
@@ -177,13 +176,15 @@ class CallculationCurrencyFragment : Fragment() {
         binding.moneyValueSpinner2.setSelection(spinner2Position)
     }
 
-    private fun searchDialog(textView: TextView,currencyList: ArrayList<RatesData>) {
+    var _dialog: Dialog? = null
+    private fun searchDialog(textView: TextView, currencyList: ArrayList<RatesData>) {
         val dialog = Dialog(requireContext())
+        _dialog = dialog
         val bindingSearchDialog =
             CustomSearchSpinnerBinding.inflate(layoutInflater/*, binding.root, false*/)
-        dialog.setContentView(bindingSearchDialog.root)
+        dialog?.setContentView(bindingSearchDialog.root)
         val layoutParams = WindowManager.LayoutParams()
-        val dialogVindow = dialog.window
+        val dialogVindow = dialog?.window
         layoutParams.gravity = Gravity.TOP or Gravity.START or Gravity.END
         layoutParams.x = (textView.x + 50).toInt()
         layoutParams.y = (textView.y + textView.height).toInt()
@@ -197,7 +198,7 @@ class CallculationCurrencyFragment : Fragment() {
             ActionBar.LayoutParams.MATCH_PARENT,
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        dialog.show()
+        showDialog()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -210,6 +211,23 @@ class CallculationCurrencyFragment : Fragment() {
             Constants.SPINNER2_STATE_KEY,
             binding.moneyValueSpinner2.selectedItemPosition
         )
+    }
+
+    override fun onItemClick(position: Int, parent: ViewGroup) {
+        val header = currencyList[position].id
+        if (isFirst) {
+            binding.searchTextView1.text = header
+        } else
+            binding.searchTextView2.text = header
+        hideDialog()
+    }
+
+    private fun showDialog() {
+        _dialog?.show()
+    }
+
+    private fun hideDialog() {
+        _dialog?.hide()
     }
 
 }
