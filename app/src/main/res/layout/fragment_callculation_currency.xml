@@ -22,13 +22,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
+        style="@style/CalculationBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="22dp"
         android:background="@drawable/converter_constraint_background"
-        style="@style/CalculationBackground"
         android:paddingStart="16dp"
         android:paddingTop="18dp"
         android:paddingEnd="16dp"
@@ -37,13 +37,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
+        <TextView
+            android:id="@+id/searchTextView1"
+            style="@style/SearchTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+            android:padding="5dp"
+            android:text="@string/select_currency"
+            app:drawableEndCompat="@drawable/angle_small_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/money1TextInputLayout"/>
+
         <Spinner
             android:id="@+id/moneyValueSpinner1"
+            style="@style/CalculationSpinnerBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
-            style="@style/CalculationSpinnerBackground"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/money1TextInputLayout" />
@@ -54,32 +70,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:boxStrokeWidth="2dp"
             android:scrollbars=""
+            app:boxStrokeWidth="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/money_value_edit_text_1"
+                style="@style/TextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text=""
-                style="@style/TextColor" />
-            />
+                android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
+        style="@style/CalculationBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="22dp"
-        style="@style/CalculationBackground"
         android:background="@drawable/converter_constraint_background"
         android:paddingStart="16dp"
         android:paddingTop="18dp"
@@ -102,22 +117,37 @@
 
             <EditText
                 android:id="@+id/money_value_edit_text_2"
+                style="@style/TextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                style="@style/TextColor"
                 android:inputType="numberDecimal"
                 android:text="" />
-            />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/searchTextView2"
+            style="@style/SearchTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+            android:padding="5dp"
+            android:text="@string/select_currency"
+            app:drawableEndCompat="@drawable/angle_small_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/money2TextInputLayout"/>
 
         <Spinner
             android:id="@+id/moneyValueSpinner2"
+            style="@style/CalculationSpinnerBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
-            style="@style/CalculationSpinnerBackground"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/money2TextInputLayout"
             tools:layout_editor_absoluteX="24dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -148,6 +178,4 @@
         app:layout_constraintTop_toTopOf="@+id/imageViewCircle"
         app:tint="@color/light_blue"
         tools:layout_editor_absoluteY="161dp" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,22 @@
 package com.metoer.ceptedovizborsa.view.fragment
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
+import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.adapter.CurrencyAdapter
+import com.metoer.ceptedovizborsa.adapter.CurrencySearchAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
+import com.metoer.ceptedovizborsa.databinding.CustomSearchSpinnerBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCallculationCurrencyBinding
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.EditTextUtil
@@ -34,6 +39,8 @@ class CallculationCurrencyFragment : Fragment() {
     private var _binding: FragmentCallculationCurrencyBinding? = null
     private val binding
         get() = _binding!!
+
+    private var adapter = CurrencySearchAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -153,6 +160,12 @@ class CallculationCurrencyFragment : Fragment() {
     }
 
     private fun initSpinners(currencyList: ArrayList<RatesData>) {
+        binding.searchTextView1.setOnClickListener {
+            searchDialog(binding.searchTextView1,currencyList)
+        }
+        binding.searchTextView2.setOnClickListener {
+            searchDialog(binding.searchTextView2,currencyList)
+        }
         val arrayAdapter =
             ArrayAdapter<String>(
                 requireContext(),
@@ -162,6 +175,29 @@ class CallculationCurrencyFragment : Fragment() {
         binding.moneyValueSpinner2.adapter = arrayAdapter
         binding.moneyValueSpinner1.setSelection(spinner1Position)
         binding.moneyValueSpinner2.setSelection(spinner2Position)
+    }
+
+    private fun searchDialog(textView: TextView,currencyList: ArrayList<RatesData>) {
+        val dialog = Dialog(requireContext())
+        val bindingSearchDialog =
+            CustomSearchSpinnerBinding.inflate(layoutInflater/*, binding.root, false*/)
+        dialog.setContentView(bindingSearchDialog.root)
+        val layoutParams = WindowManager.LayoutParams()
+        val dialogVindow = dialog.window
+        layoutParams.gravity = Gravity.TOP or Gravity.START or Gravity.END
+        layoutParams.x = (textView.x + 50).toInt()
+        layoutParams.y = (textView.y + textView.height).toInt()
+        dialogVindow?.attributes = layoutParams
+        adapter.setData(currencyList)
+        bindingSearchDialog.apply {
+            searchSpinnerRecyclerView.adapter = adapter
+            searchSpinnerRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        }
+        dialogVindow?.setLayout(
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

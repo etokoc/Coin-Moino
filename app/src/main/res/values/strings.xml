@@ -73,4 +73,5 @@ CoinMoino Fikir Babaları</string>
     <string name="volume_quote_text">24s Hacim(%1$s)\n%2$s</string>
     <string name="high_price_text">En Yüksek Fiyat\n%1$s</string>
     <string name="low_price_text">En Düşük Fiyat\n%1$s</string>
+    <string name="select_currency">Para Birimini Seçiniz</string>
 </resources>

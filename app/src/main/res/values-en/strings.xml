@@ -75,4 +75,5 @@ The masterminds of CoinMoino</string>
     <string name="volume_quote_text">24h Hacim(%1$s)\n%2$s</string>
     <string name="high_price_text">Highest Price\n%1$s</string>
     <string name="low_price_text">Lowest Price\n%1$s</string>
+    <string name="select_currency">Select Currency</string>
 </resources>
