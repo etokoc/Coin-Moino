@@ -376,7 +376,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     var interval = "15m"
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
-        binding.tabLayout.addTab(tab.setText(moreTimeList[0]))
+        binding.tabLayout.addTab(tab.setText(moreTimeList[0]+"+"))
         val layout =
             (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
         val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
