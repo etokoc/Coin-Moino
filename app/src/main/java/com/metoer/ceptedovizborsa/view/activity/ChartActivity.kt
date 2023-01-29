@@ -1,12 +1,15 @@
 package com.metoer.ceptedovizborsa.view.activity
 
+import android.app.ActionBar
+import android.app.Dialog
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup.LayoutParams
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
@@ -24,6 +27,7 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
+import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
 import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
@@ -65,6 +69,18 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
             edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
         }
+        moreTimeList = arrayListOf(
+            getString(R.string.coin_time_1_minute),
+            getString(R.string.coin_time_5_minute),
+            getString(
+                R.string.coin_time_30_minute,
+            ),
+            getString(R.string.coin_time_2_hour),
+            getString(R.string.coin_time_8_hour),
+            getString(R.string.coin_time_12_hour),
+            getString(R.string.coin_time_1_week),
+            getString(R.string.coin_time_1_month),
+        )
         initTabLayout()
         initListeners()
         calculateCoin()
@@ -312,70 +328,55 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
+    var _dialog: Dialog? = null
+    var bindingSearchDialog: CustomSpinnerLayoutBinding? = null
+    private fun searchDialog(textView: TabLayout, currencyList: ArrayList<String>) {
+        val dialog = Dialog(this)
+        _dialog = dialog
+        bindingSearchDialog =
+            CustomSpinnerLayoutBinding.inflate(layoutInflater/*, binding.root, false*/)
+        dialog.setContentView(bindingSearchDialog!!.root)
+        val layoutParams = WindowManager.LayoutParams()
+        val dialogVindow = dialog.window
+        layoutParams.gravity = Gravity.TOP or Gravity.END
+        layoutParams.x = (textView.x + 6).toInt()
+        layoutParams.y = (textView.height + 320)
+        dialogVindow?.attributes = layoutParams
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currencyList)
+        bindingSearchDialog.apply {
+            this?.listview?.adapter = adapter
+        }
+        dialogVindow?.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+        initSpinner()
+    }
 
     private fun initSpinner() {
-        moreTimeList = arrayListOf(
-            getString(R.string.coin_time_1_minute),
-            getString(R.string.coin_time_5_minute),
-            getString(
-                R.string.coin_time_30_minute,
-            ),
-            getString(R.string.coin_time_2_hour),
-            getString(R.string.coin_time_8_hour),
-            getString(R.string.coin_time_12_hour),
-            getString(R.string.coin_time_1_week),
-            getString(R.string.coin_time_1_month),
-        )
-        spinner?.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    binding.tabLayout.getTabAt(4)?.text = moreTimeList.get(position)
-                    spinner?.prompt = moreTimeList.get(position)
-                    val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
-                    interval = moreTimeList[position]
-                    if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
-                        viewModel.getChartFromBinanceData(
-                            dataMarket.baseSymbol!!,
-                            dataMarket.quoteSymbol!!,
-                            intervalList[position]
-                        )
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
+        bindingSearchDialog?.listview?.setOnItemClickListener { parent, view, position, id ->
+            binding.tabLayout.getTabAt(4)?.text = moreTimeList.get(position)
+            spinner?.prompt = moreTimeList.get(position)
+            val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
+            interval = moreTimeList[position]
+            if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
+                viewModel.getChartFromBinanceData(
+                    dataMarket.baseSymbol!!,
+                    dataMarket.quoteSymbol!!,
+                    intervalList[position]
+                )
             }
+            bindingSearchDialog?.listview?.onItemClickListener = null
+            _dialog?.hide()
+        }
     }
 
     var spinner: Spinner? = null
     var interval = "15m"
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
-        spinner = Spinner(this)
-        moreTimeList = arrayListOf(
-            getString(R.string.coin_time_1_minute),
-            getString(R.string.coin_time_5_minute),
-            getString(
-                R.string.coin_time_30_minute,
-            ),
-            getString(R.string.coin_time_2_hour),
-            getString(R.string.coin_time_8_hour),
-            getString(R.string.coin_time_12_hour),
-            getString(R.string.coin_time_1_week),
-            getString(R.string.coin_time_1_month),
-        )
-        spinner.apply {
-            this?.adapter =
-                ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, moreTimeList)
-        }
-        tab.setCustomView(spinner)
-        binding.tabLayout.addTab(tab)
+        binding.tabLayout.addTab(tab.setText(moreTimeList[0]))
         val layout =
             (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
         val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
@@ -384,37 +385,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    when (tab?.position) {
-                        0 -> {
-                            interval = "15m"
-                        }
-                        1 -> {
-                            interval = "1h"
-                        }
-                        2 -> {
-                            interval = "4h"
-                        }
-                        3 -> {
-                            interval = "1d"
-                        }
-                        4 -> {
-                            initSpinner()
-                        }
-                    }
-                    if (tab?.position != 4) {
-                        spinner?.onItemSelectedListener = null
-                    }
-                    progressBar.show()
-                    dataMarket.baseSymbol?.let { base ->
-                        dataMarket.quoteSymbol?.let { quote ->
-                            viewModel.getChartFromBinanceData(
-                                base, quote, interval
-                            )
-//                            viewModel.getBinanceChartWebSocket(
-//                                base.lowercase(), quote.lowercase(), interval
-//                            )
-                        }
-                    }
+                    selectedTab(tab)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -424,6 +395,41 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 }
 
             })
+        }
+    }
+
+    private fun selectedTab(tab: TabLayout.Tab?) {
+        when (tab?.position) {
+            0 -> {
+                interval = "15m"
+            }
+            1 -> {
+                interval = "1h"
+            }
+            2 -> {
+                interval = "4h"
+            }
+            3 -> {
+                interval = "1d"
+            }
+            4 -> {
+                interval = "1m"
+                searchDialog(binding.tabLayout, moreTimeList)
+            }
+        }
+        if (tab?.position != 4) {
+            bindingSearchDialog?.listview?.onItemClickListener = null
+        }
+        progressBar.show()
+        dataMarket.baseSymbol?.let { base ->
+            dataMarket.quoteSymbol?.let { quote ->
+                viewModel.getChartFromBinanceData(
+                    base, quote, interval
+                )
+//                            viewModel.getBinanceChartWebSocket(
+//                                base.lowercase(), quote.lowercase(), interval
+//                            )
+            }
         }
     }
 
