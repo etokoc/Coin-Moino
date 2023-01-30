@@ -193,7 +193,7 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
         val dialogVindow = dialog.window
         layoutParams.gravity = Gravity.TOP or Gravity.START or Gravity.END
         layoutParams.x = (constraintLayout.x + 50).toInt()
-        layoutParams.y = (constraintLayout.y + constraintLayout.height).toInt()
+        layoutParams.y = (constraintLayout.y + constraintLayout.height - 40).toInt()
         dialogVindow?.attributes = layoutParams
         adapter.setData(currencyList)
         bindingSearchDialog.apply {
