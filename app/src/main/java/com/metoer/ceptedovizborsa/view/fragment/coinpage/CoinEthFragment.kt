@@ -15,7 +15,6 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CoinEthFragment : Fragment() {
@@ -73,14 +72,15 @@ class CoinEthFragment : Fragment() {
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed { index, item ->
                 if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    val newList = adapter.updateData(webSocketData, index)
-                    coinList = newList
+                    adapter.updateData(webSocketData, index)
                 }
             }
         }
     }
+
     private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
+        webSocket?.cancel()
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol?.lowercase(Locale.getDefault())
@@ -93,6 +93,7 @@ class CoinEthFragment : Fragment() {
         }
         if (filterlist.isEmpty()) {
             filterlist.clear()
+            initWebSocket()
             adapter.filterList(filterlist)
         } else {
             adapter.filterList(filterlist)
@@ -101,8 +102,10 @@ class CoinEthFragment : Fragment() {
 
     override fun onPause() {
         webSocket?.cancel()
+        viewModel.clearBinanceSocketLiveData()
         super.onPause()
     }
+
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
         webSocket?.cancel()

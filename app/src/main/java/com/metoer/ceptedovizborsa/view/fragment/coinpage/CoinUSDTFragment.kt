@@ -72,8 +72,7 @@ class CoinUSDTFragment : Fragment() {
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed { index, item ->
                 if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    val newList = adapter.updateData(webSocketData, index)
-                    coinList = newList
+                    adapter.updateData(webSocketData, index)
                 }
             }
         }
@@ -81,6 +80,7 @@ class CoinUSDTFragment : Fragment() {
 
     private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
+        webSocket?.cancel()
         //sorun var
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
@@ -94,16 +94,20 @@ class CoinUSDTFragment : Fragment() {
         }
         if (filterlist.isEmpty()) {
             filterlist.clear()
+            initWebSocket()
             adapter.filterList(filterlist)
         } else {
             adapter.filterList(filterlist)
         }
     }
 
+
     override fun onPause() {
         webSocket?.cancel()
+        viewModel.clearBinanceSocketLiveData()
         super.onPause()
     }
+
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
         webSocket?.cancel()

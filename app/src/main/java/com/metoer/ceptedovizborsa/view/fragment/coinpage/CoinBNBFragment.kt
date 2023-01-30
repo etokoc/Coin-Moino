@@ -15,7 +15,6 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CoinBNBFragment : Fragment() {
@@ -47,13 +46,13 @@ class CoinBNBFragment : Fragment() {
             webSocket = getBinanceCoinWebSocket()
         }
     }
+
     private fun connectWebSocket() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed { index, item ->
                 if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    val newList = adapter.updateData(webSocketData, index)
-                    coinList = newList
+                    adapter.updateData(webSocketData, index)
                 }
             }
         }
@@ -73,24 +72,28 @@ class CoinBNBFragment : Fragment() {
             adapter.sortList(it.second, it.first)
             binding.recylerview.scrollToPosition(0)
         }
-        sharedViewModel.coinList.observe(viewLifecycleOwner){
+        sharedViewModel.coinList.observe(viewLifecycleOwner) {
             filter(it)
         }
+        connectWebSocket()
     }
 
     private var coinList = mutableListOf<MarketData>()
     private fun filter(text: String) {
+        webSocket?.cancel()
         val filterlist = ArrayList<MarketData>()
         for (item in coinList) {
             if (item.baseSymbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
-                || item.baseId?.lowercase (Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true
+                || item.baseId?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
                 filterlist.add(item)
             }
         }
         if (filterlist.isEmpty()) {
             filterlist.clear()
+            initWebSocket()
             adapter.filterList(filterlist)
         } else {
             adapter.filterList(filterlist)
@@ -99,8 +102,10 @@ class CoinBNBFragment : Fragment() {
 
     override fun onPause() {
         webSocket?.cancel()
+        viewModel.clearBinanceSocketLiveData()
         super.onPause()
     }
+
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
         webSocket?.cancel()

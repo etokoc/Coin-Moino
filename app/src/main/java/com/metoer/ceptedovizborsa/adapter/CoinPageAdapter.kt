@@ -29,7 +29,7 @@ class CoinPageAdapter(
         setData(filterList as ArrayList<MarketData>)
     }
 
-    private var itemList = mutableListOf<MarketData>()
+    var itemList = mutableListOf<MarketData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
             CoinMarketsblockchainItemBinding.inflate(
@@ -164,10 +164,12 @@ class CoinPageAdapter(
 
     var oldValue = arrayListOf<Double>()
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<MarketData> {
-        itemList[index].priceQuote = newData?.price.toString()
-        notifyItemChanged(index)
-        itemList.map {
-            oldValue.add(it.priceQuote?.toDouble() ?: 0.0)
+        if (index < itemList.size) {
+            itemList[index].priceQuote = newData?.price.toString()
+            notifyItemChanged(index)
+            itemList.map {
+                oldValue.add(it.priceQuote?.toDouble() ?: 0.0)
+            }
         }
         return itemList
     }
