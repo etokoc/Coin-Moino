@@ -69,7 +69,7 @@ class CoinBtcFragment : Fragment() {
             connectWebSocket()
         }
 
-        sharedViewModel.filterStatus.observe(viewLifecycleOwner) {
+        sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             adapter.sortList(it.second, it.first)
             binding.recylerview.scrollToPosition(0)
         }

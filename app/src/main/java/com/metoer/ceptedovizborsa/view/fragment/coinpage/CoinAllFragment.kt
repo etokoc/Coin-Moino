@@ -45,7 +45,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
     override fun onResume() {
         super.onResume()
         initListener()
-        sharedViewModel.filterStatus.observe(viewLifecycleOwner) {
+        sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             adapter.sortList(it.second, it.first)
             binding.recylerview.scrollToPosition(0)
         }
@@ -158,5 +158,9 @@ class CoinAllFragment : Fragment(), onItemClickListener {
             )
             coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

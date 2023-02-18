@@ -175,12 +175,14 @@ class CoinPageAdapter(
     }
 
     fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
-        val newList = SortListUtil()
-        setData(
-            newList.sortedForCoinList(
-                getFilteredList(), listSortType, listSortItem
-            ) as MutableList<MarketData>
-        )
+        if (!itemList.isNullOrEmpty()) {
+            val newList = SortListUtil()
+            setData(
+                newList.sortedForCoinList(
+                    getFilteredList(), listSortType, listSortItem
+                ) as MutableList<MarketData>
+            )
+        }
     }
 
     private fun getFilteredList() = itemList.filter { it.priceQuote?.toDouble() != 0.0 }

@@ -146,7 +146,7 @@ class CoinFragment : Fragment() {
                                     FilterEnum.DESC
 
                                 }
-                            sharedViewModel.filterStatus.value =
+                            sharedViewModel.filterStatus?.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
@@ -178,7 +178,7 @@ class CoinFragment : Fragment() {
                                 if (tabItemList[tab!!.position].imageView.tag.toString()
                                         .toBoolean()
                                 ) FilterEnum.ASC else FilterEnum.DESC
-                            sharedViewModel.filterStatus.value =
+                            sharedViewModel.filterStatus?.value =
                                 Pair(
                                     statusType, statusSortType
                                 )
@@ -217,10 +217,6 @@ class CoinFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun initSearchView() {
         binding.currencySearchView.currencySearchView.apply {
             addTextChangedListener {
@@ -234,6 +230,10 @@ class CoinFragment : Fragment() {
                 binding.currencySearchView.currencySearchView.requestFocus()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }

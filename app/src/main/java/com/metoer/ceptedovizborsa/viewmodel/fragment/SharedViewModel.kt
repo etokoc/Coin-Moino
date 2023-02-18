@@ -10,5 +10,5 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor() : ViewModel() {
     var coinList: MutableLiveData<String> = MutableLiveData()
-    var filterStatus: MutableLiveData<Pair<FilterEnum, FilterEnum>> = MutableLiveData()
+    var filterStatus: MutableLiveData<Pair<FilterEnum, FilterEnum>>? = MutableLiveData()
 }

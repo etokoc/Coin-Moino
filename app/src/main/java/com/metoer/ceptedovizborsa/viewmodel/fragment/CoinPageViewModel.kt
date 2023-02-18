@@ -24,8 +24,9 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
         currencyRepository.getAllMarketsCoinDataFromApi(CreateApiKeyUtil.getKey(), quoteSymbol)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                coinLiveMarketCoinData.value = it.data
+            .subscribe({response->
+                if (response != null && !response.data.isNullOrEmpty())
+                coinLiveMarketCoinData.value = response.data
             }, {
 
             }).let {
