@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/coin_exchange_sembol_text"
         android:padding="5dp"
-        android:text="AAPL"
+        android:text="TSTS"
         app:layout_constraintStart_toEndOf="@+id/coinImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
             android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
             android:padding="1dp"
-            android:text="Apple, Inc."
+            android:text=""
             android:textStyle="bold" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:maxLines="1"
-            android:text="Hacim 663,35 Milyon" />
+            android:text="" />
     </LinearLayout>
 
     <TextView
@@ -67,14 +67,15 @@
         style="@style/TextColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginEnd="16dp"
         android:autoSizeMaxTextSize="16sp"
         android:autoSizeMinTextSize="6sp"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/roboto_medium"
-        android:text="₺22.953,578276"
         android:maxLines="1"
+        android:text=""
         android:textAlignment="textEnd"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/coinExchangeParcentText"
@@ -96,7 +97,7 @@
         android:maxLines="1"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="1.69%"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

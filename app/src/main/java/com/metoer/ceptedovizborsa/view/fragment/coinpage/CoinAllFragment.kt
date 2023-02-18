@@ -51,7 +51,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         }
     }
 
-    private fun initListener() {
+    private fun initListener() { 
         viewModel.getAllCoinData().observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it)

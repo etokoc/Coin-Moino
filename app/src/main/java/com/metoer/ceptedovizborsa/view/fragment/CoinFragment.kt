@@ -17,7 +17,6 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.databinding.ItemCoinTabBinding
 import com.metoer.ceptedovizborsa.util.FilterEnum
 import com.metoer.ceptedovizborsa.util.SearchViewUtil
-import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +27,6 @@ class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding
         get() = _binding!!
-    private val viewModel: CoinViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     val tabItemList = ArrayList<ItemCoinTabBinding>()
 
@@ -106,6 +104,7 @@ class CoinFragment : Fragment() {
                 headerList.forEachIndexed { index, s ->
                     val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
                     tabItem.tvTabItem.text = headerList[index]
+                    tabItem.tvTabItem.textSize = 12f
                     tabItem.tvTabItem.setTextAppearance(R.style.SortItemTextAppearence)
                     val layout =
                         (this.getChildAt(0) as LinearLayout).getChildAt(3) as LinearLayout

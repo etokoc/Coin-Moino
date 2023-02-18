@@ -56,6 +56,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
     }
 
     override fun onResume() {

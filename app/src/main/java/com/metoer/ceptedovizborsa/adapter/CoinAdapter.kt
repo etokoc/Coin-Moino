@@ -74,6 +74,7 @@ class CoinAdapter(
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
         notifyItemRangeChanged(0, itemList.size)
+
     }
 
     private fun parcentBacgroundTint(parcent: Double, textView: TextView, context: Context) {
