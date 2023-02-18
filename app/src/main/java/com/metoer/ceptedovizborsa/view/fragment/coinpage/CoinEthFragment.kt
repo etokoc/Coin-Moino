@@ -93,10 +93,12 @@ class CoinEthFragment : Fragment() {
         }
         if (filterlist.isEmpty()) {
             filterlist.clear()
-            initWebSocket()
             adapter.filterList(filterlist)
         } else {
             adapter.filterList(filterlist)
+        }
+        if (text == ""){
+            initWebSocket()
         }
     }
 
