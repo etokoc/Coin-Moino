@@ -109,6 +109,8 @@ class CoinBtcFragment : Fragment() {
 
     override fun onPause() {
         webSocket?.cancel()
+        sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
+        sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         viewModel.clearBinanceSocketLiveData()
         super.onPause()
     }
