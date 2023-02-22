@@ -220,7 +220,7 @@ class CoinFragment : Fragment() {
     private fun initSearchView() {
         binding.currencySearchView.currencySearchView.apply {
             addTextChangedListener {
-                sharedViewModel.coinList.value = it.toString()
+                sharedViewModel.coinList?.value = it.toString()
                 SearchViewUtil.searchViewTextChanged(binding.currencySearchView)
             }
             binding.currencySearchView.btnClear.setOnClickListener {

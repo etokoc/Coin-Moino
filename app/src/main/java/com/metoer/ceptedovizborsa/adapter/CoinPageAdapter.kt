@@ -164,8 +164,8 @@ class CoinPageAdapter(
 
     var oldValue = arrayListOf<Double>()
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<MarketData> {
-        if (index < itemList.size) {
-            itemList[index].priceQuote = newData?.price.toString()
+        if (index < getFilteredList().size) {
+            getFilteredList()[index].priceQuote = newData?.price.toString()
             notifyItemChanged(index)
             itemList.map {
                 oldValue.add(it.priceQuote?.toDouble() ?: 0.0)

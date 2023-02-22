@@ -46,12 +46,14 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         super.onResume()
         initListener()
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
-            adapter.sortList(it.second, it.first)
-            binding.recylerview.scrollToPosition(0)
+            if (it != null) {
+                adapter.sortList(it.second, it.first)
+                binding.recylerview.scrollToPosition(0)
+            }
         }
     }
 
-    private fun initListener() { 
+    private fun initListener() {
         viewModel.getAllCoinData().observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it)
@@ -60,8 +62,10 @@ class CoinAllFragment : Fragment(), onItemClickListener {
             binding.recylerview.adapter = adapter
             StaticCoinList.coinList = it
         }
-        sharedViewModel.coinList.observe(viewLifecycleOwner) {
-            filter(it)
+        sharedViewModel.coinList?.observe(viewLifecycleOwner) {
+            if (it != null) {
+                filter(it)
+            }
         }
     }
 
@@ -158,6 +162,13 @@ class CoinAllFragment : Fragment(), onItemClickListener {
             )
             coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.coinList = null
+        sharedViewModel.clearFilterStatusLiveData()
+        sharedViewModel.clearCoinListLiveData()
     }
 
     override fun onDestroy() {

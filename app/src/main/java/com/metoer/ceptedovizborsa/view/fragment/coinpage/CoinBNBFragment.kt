@@ -47,33 +47,40 @@ class CoinBNBFragment : Fragment() {
         }
     }
 
+
     private fun connectWebSocket() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
-            coinList.forEachIndexed { index, item ->
+            coinList.forEachIndexed mForeach@{ index, item ->
                 if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    adapter.updateData(webSocketData, index)
+                    coinList = adapter.updateData(webSocketData, index)
+                    return@mForeach
                 }
             }
         }
     }
+
 
     fun initListener() {
         binding.recylerview.itemAnimator = null
         viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it!! as ArrayList<MarketData>)
-            coinList.clear()
+            coinList = ArrayList()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
         }
 
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
-            adapter.sortList(it.second, it.first)
-            binding.recylerview.scrollToPosition(0)
+            if (it != null) {
+                adapter.sortList(it.second, it.first)
+                binding.recylerview.scrollToPosition(0)
+            }
         }
-        sharedViewModel.coinList.observe(viewLifecycleOwner) {
-            filter(it)
+        sharedViewModel.coinList?.observe(viewLifecycleOwner) {
+            if (it != null) {
+                filter(it)
+            }
         }
         connectWebSocket()
     }
