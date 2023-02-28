@@ -112,7 +112,6 @@ class CoinUSDTFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         webSocket?.cancel()
-        sharedViewModel.coinList = null
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.clearFilterStatusLiveData()

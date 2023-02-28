@@ -166,7 +166,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
 
     override fun onPause() {
         super.onPause()
-        sharedViewModel.coinList = null
+//        sharedViewModel.coinList = null
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         sharedViewModel.clearFilterStatusLiveData()
