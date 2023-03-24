@@ -28,7 +28,7 @@ object Constants {
 
 
     const val TODAY_XML = "today.xml"
-    const val LIMIT_250 = "?limit=250"
+    const val LIMIT_100 = "?limit=100"
     const val AUTHORIZATION = "Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6"
     const val MARKET_COIN_DATA = "markets?&limit=200&exchangeId=binance"
     const val AUTHORIZATIN_HEADER = "Authorization"

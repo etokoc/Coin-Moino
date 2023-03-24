@@ -1,9 +1,15 @@
 package com.metoer.ceptedovizborsa.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.metoer.ceptedovizborsa.data.AppApi
+import com.metoer.ceptedovizborsa.data.paging.AllCoinDataSoruce
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
+import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
@@ -22,7 +28,14 @@ class CurrencyRepository @Inject constructor(
     val providesBinanceWebSocketListener: BinanceWebSocketCoinListener
 ) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
-    fun getAllCoinDataFromApi() = appApi.getAllCoinData()
+    fun getAllCoinDataFromApi(): LiveData<PagingData<CoinData>> {
+        val pagingConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
+        val myData: LiveData<PagingData<CoinData>> = Pager(pagingConfig) {
+            AllCoinDataSoruce(appApi)
+        }.liveData
+        return myData
+    }
+
     fun getAllMarketsCoinDataFromApi(apiKey: String, quoteSymbol: String) =
         appApi.getAllMarketsCoinData(apiKey, quoteSymbol)
 
@@ -61,7 +74,10 @@ class CurrencyRepository @Inject constructor(
             Request.Builder()
                 .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}$webSocketType$param")
                 .build()
-        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketTickerListener)
+        return providesOkhttpClient.newWebSocket(
+            request,
+            providesBinanceWebSocketTickerListener
+        )
     }
 
     fun getBinanceSocketTickerListener() = providesBinanceWebSocketTickerListener

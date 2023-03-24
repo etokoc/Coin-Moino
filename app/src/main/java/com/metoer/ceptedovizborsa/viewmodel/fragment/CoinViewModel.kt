@@ -16,17 +16,19 @@ import javax.inject.Inject
 class CoinViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
     private val coinLiveCoinData = MutableLiveData<List<CoinData>>()
-    fun getAllCoinData(): MutableLiveData<List<CoinData>> {
-        currencyRepository.getAllCoinDataFromApi()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                coinLiveCoinData.value = it.data
-            }, {
+//    fun  getAllCoinData(): MutableLiveData<List<CoinData>> {
+//        currencyRepository.getAllCoinDataFromApi()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                coinLiveCoinData.value = it.data
+//            }, {
+//
+//            }).let {
+//
+//            }
+//        return coinLiveCoinData
+//    }
 
-            }).let {
-
-            }
-        return coinLiveCoinData
-    }
+    fun getAllCoinData() = currencyRepository.getAllCoinDataFromApi()
 }

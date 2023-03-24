@@ -15,7 +15,7 @@ import com.metoer.ceptedovizborsa.util.Constants.BINANCE_CHART_BASE_URL
 import com.metoer.ceptedovizborsa.util.Constants.CANDLES_COIN_DATA_GET_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.CHART_BINANCE_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.INTERVAL_QUERY
-import com.metoer.ceptedovizborsa.util.Constants.LIMIT_250
+import com.metoer.ceptedovizborsa.util.Constants.LIMIT_100
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.MARKET_COIN_DATA
 import com.metoer.ceptedovizborsa.util.Constants.QUERY_QUOTE_SYMBOL
@@ -24,6 +24,8 @@ import com.metoer.ceptedovizborsa.util.Constants.SYMBOL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_WINDOWSSIZE
 import io.reactivex.Observable
+import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -41,10 +43,10 @@ interface AppApi {
         @Header(AUTHORIZATIN_HEADER) apiKey: String
     ): Observable<RatesResponse>
 
-    @GET(Constants.COIN_MARKET_URL + LIMIT_250)//100
+    @GET(Constants.COIN_MARKET_URL + LIMIT_100)
     @QualifiedTypeConverterFactory.Json
     @Headers(AUTHORIZATION)
-    fun getAllCoinData(): Observable<CoinResponse>
+    fun getAllCoinData(@Query("offset") nextPageNumber: Int): Response<CoinResponse>
 
     @GET("${Constants.COINCAP_BASE_URL}${MARKET_COIN_DATA}")
     @QualifiedTypeConverterFactory.Json
