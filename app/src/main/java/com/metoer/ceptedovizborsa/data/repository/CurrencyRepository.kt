@@ -1,14 +1,11 @@
 package com.metoer.ceptedovizborsa.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.cachedIn
 import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.paging.AllCoinDataSoruce
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
-import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
@@ -21,21 +18,13 @@ import okhttp3.WebSocket
 import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor(
-    private val appApi: AppApi,
+    val appApi: AppApi,
     private val providesOkhttpClient: OkHttpClient,
     val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
     val providesBinanceWebSocketChartListener: BinanceWebSocketChartListener,
     val providesBinanceWebSocketListener: BinanceWebSocketCoinListener
 ) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
-    fun getAllCoinDataFromApi(): LiveData<PagingData<CoinData>> {
-        val pagingConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
-        val myData: LiveData<PagingData<CoinData>> = Pager(pagingConfig) {
-            AllCoinDataSoruce(appApi)
-        }.liveData
-        return myData
-    }
-
     fun getAllMarketsCoinDataFromApi(apiKey: String, quoteSymbol: String) =
         appApi.getAllMarketsCoinData(apiKey, quoteSymbol)
 

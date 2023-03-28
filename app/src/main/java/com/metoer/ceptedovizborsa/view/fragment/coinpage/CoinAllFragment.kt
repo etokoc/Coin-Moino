@@ -3,12 +3,15 @@ package com.metoer.ceptedovizborsa.view.fragment.coinpage
 import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
@@ -22,7 +25,7 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CoinAllFragment : Fragment(), onItemClickListener {
@@ -54,13 +57,18 @@ class CoinAllFragment : Fragment(), onItemClickListener {
     }
 
     private fun initListener() {
-        viewModel.getAllCoinData().observe(viewLifecycleOwner) {
-            binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it)
-            coinList.clear()
-            coinList.addAll(it)
-            binding.recylerview.adapter = adapter
-            StaticCoinList.coinList = it
+        lifecycleScope.launch {
+            viewModel.getAllCoinData.collect {
+                binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
+//                coinList.clear()
+////                coinList.addAll(it)
+                binding.recylerview.adapter = adapter
+                adapter.submitData(it)
+                it.map {
+                    Log.i("OMErLOG", "${it.name}: ")
+                }
+//                StaticCoinList.coinList = it
+            }
         }
         sharedViewModel.coinList?.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -71,22 +79,22 @@ class CoinAllFragment : Fragment(), onItemClickListener {
 
     private val coinList = ArrayList<CoinData>()
     private fun filter(text: String) {
-        val filterlist = ArrayList<CoinData>()
-        for (item in coinList) {
-            if (item.symbol?.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault()))!!
-                || item.name?.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault()))!!
-            ) {
-                filterlist.add(item)
-            }
-        }
-        if (filterlist.isEmpty()) {
-            filterlist.clear()
-            adapter.filterList(filterlist)
-        } else {
-            adapter.filterList(filterlist)
-        }
+//        val filterlist:ArrayList<PagingData<CoinData>> = arrayListOf()
+//        for (item in coinList) {
+//            if (item.symbol?.lowercase(Locale.getDefault())
+//                    ?.contains(text.lowercase(Locale.getDefault()))!!
+//                || item.name?.lowercase(Locale.getDefault())
+//                    ?.contains(text.lowercase(Locale.getDefault()))!!
+//            ) {
+//                filterlist.add(item)
+//            }
+//        }
+//        if (filterlist.isEmpty()) {
+//            filterlist.clear()
+//            adapter.submitData(lifecycle, filterlist)
+//        } else {
+//            adapter.filterList(filterlist)
+//        }
     }
 
     private fun showDialog(container: ViewGroup?, coinData: CoinData) {

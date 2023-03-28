@@ -25,6 +25,7 @@ import com.metoer.ceptedovizborsa.util.Constants.TICKER_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_WINDOWSSIZE
 import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -46,7 +47,7 @@ interface AppApi {
     @GET(Constants.COIN_MARKET_URL + LIMIT_100)
     @QualifiedTypeConverterFactory.Json
     @Headers(AUTHORIZATION)
-    fun getAllCoinData(@Query("offset") nextPageNumber: Int): Response<CoinResponse>
+    fun getAllCoinData(@Query("offset") nextPageNumber: Int): Single<CoinResponse>
 
     @GET("${Constants.COINCAP_BASE_URL}${MARKET_COIN_DATA}")
     @QualifiedTypeConverterFactory.Json

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,12 +17,12 @@ import java.util.*
 
 class CoinAdapter(
     val listener: onItemClickListener
-) : RecyclerView.Adapter<CoinAdapter.ListViewHolder>() {
+) : PagingDataAdapter<CoinData, CoinAdapter.ListViewHolder>(MyDiffCallback()) {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     fun filterList(filterList: List<CoinData>) {
-        setData(filterList)
+//        submitData(,filterList)
     }
 
     var itemList = emptyList<CoinData>()
@@ -32,13 +33,13 @@ class CoinAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val currentItem = itemList[position]
+        val currentItem = getItem(position)
         holder.binding.apply {
-            coinExchangeNameText.text = currentItem.name
-            coinExchangeSembolText.text = currentItem.symbol
+            coinExchangeNameText.text = currentItem?.name
+            coinExchangeSembolText.text = currentItem?.symbol
             coinVolumeExchangeText.text =
                 MoneyCalculateUtil.volumeShortConverter(
-                    currentItem.volumeUsd24Hr!!.toDouble(),
+                    currentItem?.volumeUsd24Hr!!.toDouble(),
                     holder.itemView.context
                 )
             Glide.with(this.root).load(
@@ -68,14 +69,14 @@ class CoinAdapter(
         }
     }
 
-    fun setData(newItemList: List<CoinData>) {
-        val diffUtil = DiffUtil(itemList, newItemList)
-        val diffResult = calculateDiff(diffUtil)
-        itemList = newItemList
-        diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(0, itemList.size)
-
-    }
+//    fun setData(newItemList: List<CoinData>) {
+//        val diffUtil = DiffUtil(itemList, newItemList)
+//        val diffResult = calculateDiff(diffUtil)
+//        itemList = newItemList
+//        diffResult.dispatchUpdatesTo(this)
+//        notifyItemRangeChanged(0, itemList.size)
+//
+//    }
 
     private fun parcentBacgroundTint(parcent: Double, textView: TextView, context: Context) {
         if (parcent > 0) {
@@ -104,14 +105,24 @@ class CoinAdapter(
 
     fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
         val newList = SortListUtil()
-        setData(
-            newList.sortedForCoinList(
-                itemList, listSortType, listSortItem
-            )
-        )
+//        setData(
+//            newList.sortedForCoinList(
+//                itemList, listSortType, listSortItem
+//            )
+//        )
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
+//    override fun getItemCount(): Int {
+//        return 5
+//    }
+
+    class MyDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
+        override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+            return oldItem == newItem
+        }
     }
 }
