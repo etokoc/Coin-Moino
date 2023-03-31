@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
@@ -17,7 +16,7 @@ import java.util.*
 
 class CoinAdapter(
     val listener: onItemClickListener
-) : PagingDataAdapter<CoinData, CoinAdapter.ListViewHolder>(MyDiffCallback()) {
+) : PagingDataAdapter<CoinData, CoinAdapter.ListViewHolder>(diffCallback) {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -27,10 +26,13 @@ class CoinAdapter(
 
     var itemList = emptyList<CoinData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+
         val view =
             CoinBlockchainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(view)
     }
+
+    fun getData(position: Int) = getItem(position)
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = getItem(position)
@@ -116,7 +118,7 @@ class CoinAdapter(
 //        return 5
 //    }
 
-    class MyDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
+   public object diffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
         override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
             return oldItem.id == newItem.id
         }
@@ -125,4 +127,6 @@ class CoinAdapter(
             return oldItem == newItem
         }
     }
+
+
 }

@@ -3,7 +3,6 @@ package com.metoer.ceptedovizborsa.view.fragment.coinpage
 import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
@@ -25,6 +23,7 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -58,17 +57,12 @@ class CoinAllFragment : Fragment(), onItemClickListener {
 
     private fun initListener() {
         lifecycleScope.launch {
-            viewModel.getAllCoinData.collect {
+            viewModel.getAllCoinData.collectLatest { pagingData ->
                 binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-//                coinList.clear()
-////                coinList.addAll(it)
                 binding.recylerview.adapter = adapter
-                adapter.submitData(it)
-                it.map {
-                    Log.i("OMErLOG", "${it.name}: ")
-                }
-//                StaticCoinList.coinList = it
+                adapter.submitData(pagingData)
             }
+            StaticCoinList.coinList = adapter.snapshot().items
         }
         sharedViewModel.coinList?.observe(viewLifecycleOwner) {
             if (it != null) {
