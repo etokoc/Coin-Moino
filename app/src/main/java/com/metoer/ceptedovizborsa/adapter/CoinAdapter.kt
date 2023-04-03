@@ -5,24 +5,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
+import kotlinx.coroutines.Dispatchers
 import java.util.*
 
 class CoinAdapter(
     val listener: onItemClickListener
-) : PagingDataAdapter<CoinData, CoinAdapter.ListViewHolder>(diffCallback) {
+) : PagingDataAdapter<CoinData, CoinAdapter.ListViewHolder>(TestDiffCallback()) {
     class ListViewHolder(val binding: CoinBlockchainItemBinding) :
         RecyclerView.ViewHolder(binding.root)
-
-    fun filterList(filterList: List<CoinData>) {
-//        submitData(,filterList)
-    }
 
     var itemList = emptyList<CoinData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -117,10 +116,14 @@ class CoinAdapter(
 //    override fun getItemCount(): Int {
 //        return 5
 //    }
+}
+    val differ = AsyncPagingDataDiffer(
+        diffCallback = TestDiffCallback(),
+        workerDispatcher = Dispatchers.Main, updateCallback = TestListCallback())
 
-   public object diffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
+    class TestDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
         override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
@@ -128,5 +131,9 @@ class CoinAdapter(
         }
     }
 
-
-}
+    class TestListCallback : ListUpdateCallback {
+        override fun onChanged(position: Int, count: Int, payload: Any?) {}
+        override fun onMoved(fromPosition: Int, toPosition: Int) {}
+        override fun onInserted(position: Int, count: Int) {}
+        override fun onRemoved(position: Int, count: Int) {}
+    }

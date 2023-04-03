@@ -10,6 +10,8 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.CoinAdapter
@@ -24,7 +26,10 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class CoinAllFragment : Fragment(), onItemClickListener {
@@ -36,6 +41,9 @@ class CoinAllFragment : Fragment(), onItemClickListener {
     private val viewModel: CoinViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
+    private val coinList = ArrayList<CoinData>()
+    private lateinit var coinListForPaging: PagingData<CoinData>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,14 +64,32 @@ class CoinAllFragment : Fragment(), onItemClickListener {
     }
 
     private fun initListener() {
+        /**
+         * Paging ile sayfalama
+         */
         lifecycleScope.launch {
             viewModel.getAllCoinData.collectLatest { pagingData ->
                 binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
                 binding.recylerview.adapter = adapter
+                coinListForPaging = pagingData
                 adapter.submitData(pagingData)
             }
-            StaticCoinList.coinList = adapter.snapshot().items
         }
+        /**
+         * paging ile alınan verilerin static olarak diğer coin sayfalarına aktarmak için [loadStateFlow] kullandık.
+         * Çünkü adapter.submitData() asenkron bir işlem. Ne zaman adapter'e veri geldiğini ancak bu şekilde yakaladık.
+         */
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect {
+                    coinList.clear()
+                    coinList.addAll(adapter.snapshot().items)
+                    StaticCoinList.coinList = coinList
+                }
+        }
+
         sharedViewModel.coinList?.observe(viewLifecycleOwner) {
             if (it != null) {
                 filter(it)
@@ -71,24 +97,31 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         }
     }
 
-    private val coinList = ArrayList<CoinData>()
+    /**
+     * [coinListForPaging] PagingData<CoinData> türündedir. Ve arama kutusu temizlendiğinde eski verilerin tekrar gelmesi için kullanılır.
+     * Eğer aratılan bir kelime var ama sonucu yok ise [PagingData.empty] kullanılarak boş liste gösterilir kullanıcıya.
+     */
     private fun filter(text: String) {
-//        val filterlist:ArrayList<PagingData<CoinData>> = arrayListOf()
-//        for (item in coinList) {
-//            if (item.symbol?.lowercase(Locale.getDefault())
-//                    ?.contains(text.lowercase(Locale.getDefault()))!!
-//                || item.name?.lowercase(Locale.getDefault())
-//                    ?.contains(text.lowercase(Locale.getDefault()))!!
-//            ) {
-//                filterlist.add(item)
-//            }
-//        }
-//        if (filterlist.isEmpty()) {
-//            filterlist.clear()
-//            adapter.submitData(lifecycle, filterlist)
-//        } else {
-//            adapter.filterList(filterlist)
-//        }
+        if (text != "") {
+            val filterlist: ArrayList<CoinData> = arrayListOf()
+            for (item in coinList) {
+                if (item.symbol?.lowercase(Locale.getDefault())
+                        ?.contains(text.lowercase(Locale.getDefault()))!!
+                    || item.name?.lowercase(Locale.getDefault())
+                        ?.contains(text.lowercase(Locale.getDefault()))!!
+                ) {
+                    filterlist.add(item)
+                }
+            }
+            if (filterlist.isEmpty()) {
+                filterlist.clear()
+                adapter.submitData(lifecycle, PagingData.empty())
+            } else {
+                adapter.submitData(lifecycle, PagingData.from(filterlist))
+            }
+        } else {
+            adapter.submitData(lifecycle, coinListForPaging)
+        }
     }
 
     private fun showDialog(container: ViewGroup?, coinData: CoinData) {
@@ -142,7 +175,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
     }
 
     override fun onItemClick(position: Int, parent: ViewGroup) {
-        val coinData = adapter.itemList[position]
+        val coinData = coinList.get(position)
         coinData.apply {
             showDialog(parent, coinData)
         }
