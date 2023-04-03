@@ -57,10 +57,24 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         initListener()
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             if (it != null) {
-                adapter.sortList(it.second, it.first)
+                sortList(it.second, it.first)
                 binding.recylerview.scrollToPosition(0)
             }
         }
+    }
+
+    fun sortList(
+        listSortType: FilterEnum,
+        listSortItem: FilterEnum
+    ) {
+        val newList = SortListUtil()
+       adapter.submitData(
+            lifecycle = lifecycle, PagingData.from(
+                newList.sortedForCoinList(
+                    coinList, listSortType, listSortItem
+                )
+            )
+        )
     }
 
     private fun initListener() {

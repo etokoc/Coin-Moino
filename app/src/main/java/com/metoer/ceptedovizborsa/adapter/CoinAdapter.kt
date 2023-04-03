@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.paging.AsyncPagingDataDiffer
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.manager.Lifecycle
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
@@ -103,37 +105,26 @@ class CoinAdapter(
             )
         }
     }
-
-    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
-        val newList = SortListUtil()
-//        setData(
-//            newList.sortedForCoinList(
-//                itemList, listSortType, listSortItem
-//            )
-//        )
-    }
-
-//    override fun getItemCount(): Int {
-//        return 5
-//    }
 }
-    val differ = AsyncPagingDataDiffer(
-        diffCallback = TestDiffCallback(),
-        workerDispatcher = Dispatchers.Main, updateCallback = TestListCallback())
 
-    class TestDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
-        override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
-            return oldItem == newItem
-        }
+val differ = AsyncPagingDataDiffer(
+    diffCallback = TestDiffCallback(),
+    workerDispatcher = Dispatchers.Main, updateCallback = TestListCallback()
+)
 
-        override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
-            return oldItem == newItem
-        }
+class TestDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<CoinData>() {
+    override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+        return oldItem == newItem
     }
 
-    class TestListCallback : ListUpdateCallback {
-        override fun onChanged(position: Int, count: Int, payload: Any?) {}
-        override fun onMoved(fromPosition: Int, toPosition: Int) {}
-        override fun onInserted(position: Int, count: Int) {}
-        override fun onRemoved(position: Int, count: Int) {}
+    override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+        return oldItem == newItem
     }
+}
+
+class TestListCallback : ListUpdateCallback {
+    override fun onChanged(position: Int, count: Int, payload: Any?) {}
+    override fun onMoved(fromPosition: Int, toPosition: Int) {}
+    override fun onInserted(position: Int, count: Int) {}
+    override fun onRemoved(position: Int, count: Int) {}
+}
