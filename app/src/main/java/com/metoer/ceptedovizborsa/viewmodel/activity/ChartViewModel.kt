@@ -79,20 +79,6 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
         binanceSocketTickerLiveData?.value = null
     }
 
-    fun getBinanceChartWebSocket(
-        baseSymbol: String,
-        quoteSymbol: String,
-        webSocketType: String = "@kline_",
-        param: String = "15m"
-    ): WebSocket {
-        return repository.getBinanceChartSocket(baseSymbol, quoteSymbol, webSocketType, param)
-    }
-
-    fun getBinanceSocketChartListener(): MutableLiveData<BinanceWebSocketCandleRoot?>? {
-        binanceSocketChartLiveData = repository.getBinanceSocketChartListener().getData()
-        return binanceSocketChartLiveData
-    }
-
     fun clearBinanceSocketChartLiveData() {
         binanceSocketChartLiveData?.value = null
     }

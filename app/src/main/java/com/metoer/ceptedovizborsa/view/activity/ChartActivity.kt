@@ -316,11 +316,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
                 it?.let { it1 -> setCandelStickChart(it1) }
             }
-            viewModel.getBinanceSocketChartListener()?.observe(this@ChartActivity) {
-                if (it != null) {
-                    setCandelStickChart(it)
-                }
-            }
         }
     }
 
@@ -506,6 +501,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
     }
 
     override fun onPause() {

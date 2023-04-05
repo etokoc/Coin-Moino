@@ -59,21 +59,6 @@ class CurrencyRepository @Inject constructor(
 
     fun getBinanceSocketTickerListener() = providesBinanceWebSocketTickerListener
 
-    fun getBinanceChartSocket(
-        baseSymbol: String,
-        quoteSymbol: String,
-        webSocketType: String,
-        param: String = ""
-    ): WebSocket {
-        val request: Request =
-            Request.Builder()
-                .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}$webSocketType$param")
-                .build()
-        return providesOkhttpClient.newWebSocket(request, providesBinanceWebSocketChartListener)
-    }
-
-    fun getBinanceSocketChartListener() = providesBinanceWebSocketChartListener
-
     fun getBinanceCoinSocket(): WebSocket {
         val request: Request =
             Request.Builder()
