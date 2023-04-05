@@ -118,11 +118,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
-//                    viewModel.getBinanceChartWebSocket(
-//                        baseSymbol = base.lowercase(),
-//                        quoteSymbol = quote.lowercase(),
-//                        param = interval
-//                    )
+
                     viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
                         .observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
@@ -286,8 +282,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         //Coin Buy Click
         btnBuy.setOnClickListener {
             if (!edittext_unit.text.isNullOrEmpty()) {
-                val coinUnit: Double
-                coinUnit = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
+                val coinUnit: Double = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
                 dataMarket.apply {
                     val coinBuyItem = CoinBuyItem(
                         baseSymbol,
@@ -329,8 +324,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
-    var _dialog: Dialog? = null
-    var bindingSearchDialog: CustomSpinnerLayoutBinding? = null
+    private var _dialog: Dialog? = null
+    private var bindingSearchDialog: CustomSpinnerLayoutBinding? = null
     private fun searchDialog(textView: TabLayout, currencyList: ArrayList<String>) {
         val dialog = Dialog(this)
         _dialog = dialog
@@ -343,7 +338,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         layoutParams.x = (textView.x + 6).toInt()
         layoutParams.y = (textView.height + 320)
         dialogVindow?.attributes = layoutParams
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currencyList)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, currencyList)
         bindingSearchDialog.apply {
             this?.listview?.adapter = adapter
         }
@@ -356,7 +351,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun initSpinner() {
-        bindingSearchDialog?.listview?.setOnItemClickListener { parent, view, position, id ->
+        bindingSearchDialog?.listview?.setOnItemClickListener { _, _, position, _ ->
             binding.tabLayout.getTabAt(4)?.text = moreTimeList.get(position)
             spinner?.prompt = moreTimeList.get(position)
             val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
@@ -377,7 +372,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     var interval = "15m"
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
-        binding.tabLayout.addTab(tab.setText(moreTimeList[0]+"+"))
+        binding.tabLayout.addTab(tab.setText(moreTimeList[0] + "+"))
         val layout =
             (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
         val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
@@ -427,9 +422,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 viewModel.getChartFromBinanceData(
                     base, quote, interval
                 )
-//                            viewModel.getBinanceChartWebSocket(
-//                                base.lowercase(), quote.lowercase(), interval
-//                            )
             }
         }
     }
@@ -453,16 +445,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 )
                 sayac++
             }
-        } /*else if (binanceRoot is BinanceWebSocketCandleRoot) {
-            binanceRoot.k?.let { binanceResponse ->
-                candlestickentry.last().apply {
-                    this.high = binanceResponse.highPrice.toString().toFloat()
-                    this.low = binanceResponse.lowPrice.toString().toFloat()
-                    this.open = binanceResponse.openPrice.toString().toFloat()
-                    this.close = binanceResponse.closePrice.toString().toFloat()
-                }
-            }
-        }*/
+        }
         val candledataset = CandleDataSet(candlestickentry, "Coin")
         candledataset.apply {
             shadowColor = getColorful(this@ChartActivity, R.color.green)

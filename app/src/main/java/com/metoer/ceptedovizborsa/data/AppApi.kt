@@ -24,7 +24,6 @@ import com.metoer.ceptedovizborsa.util.Constants.SYMBOL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_WINDOWSSIZE
 import io.reactivex.Observable
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers

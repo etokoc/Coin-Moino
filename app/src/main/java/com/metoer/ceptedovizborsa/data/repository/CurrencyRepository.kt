@@ -1,10 +1,6 @@
 package com.metoer.ceptedovizborsa.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import com.metoer.ceptedovizborsa.data.AppApi
-import com.metoer.ceptedovizborsa.data.paging.AllCoinDataSoruce
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
@@ -44,14 +40,6 @@ class CurrencyRepository @Inject constructor(
     ): Observable<CoinTickerResponse> {
         return appApi.getTickerFromBinanceData(symbol, windowSize)
     }
-
-    fun getAllCoinCandlesDataFromApi(
-        apiKey: String,
-        interval: String,
-        baseId: String,
-        quetoId: String
-    ) = appApi.getAllCandlesCoinData(apiKey, interval, baseId, quetoId)
-
 
     fun getBinanceTickerSocket(
         baseSymbol: String,

@@ -6,9 +6,7 @@ import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceWebSocketCandleRoot
-import com.metoer.ceptedovizborsa.data.response.coin.candles.CandlesData
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
-import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,32 +19,6 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
     private val tickerFromBinanceLiveData = MutableLiveData<CoinTickerResponse?>()
 
     var binanceSocketChartLiveData: MutableLiveData<BinanceWebSocketCandleRoot?>? = null
-    val coinCanslesData = MutableLiveData<List<CandlesData>>()
-
-    fun getAllCandlesData(
-        interval: String,
-        baseId: String,
-        quetoId: String
-    ) {
-        repository.getAllCoinCandlesDataFromApi(
-            CreateApiKeyUtil.getKey(),
-            interval,
-            baseId,
-            quetoId
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response ->
-                response.data?.let {
-                    coinCanslesData.value = it
-                }
-
-            }, {
-
-            }).let {
-
-            }
-    }
 
     fun clearChartBinanceData() {
         chartBinanceLiveData.value = null
@@ -67,7 +39,6 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
             }).let {
             }
     }
-
 
     fun getTickerFromBinanceData(
         symbol: String,
