@@ -27,4 +27,6 @@
     <color name="customDialog">#333333</color>
     <color name="customDialogEditTextBackground">#555555</color>
     <color name="customDialogEditTextColor">#999999</color>
+    <color name="coinValueBind">#722FA681</color>
+    <color name="coinValueAsks">#70B8293D</color>
 </resources>

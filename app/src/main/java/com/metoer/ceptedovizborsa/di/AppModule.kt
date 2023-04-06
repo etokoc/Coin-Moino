@@ -10,6 +10,7 @@ import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketDepthListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -35,8 +36,9 @@ object AppModule {
     fun providesCurrencyRepository(appApi: AppApi): CurrencyRepository {
         return CurrencyRepository(
             appApi, providesOkhttpClient(), providesBinanceTickerSocket(),
-            providesBinanceChartSocket(),
-            providesBinanceCoinSocket())
+            providesBinanceCoinSocket(),
+            providesBinanceDepthSocket()
+        )
     }
 
     @Provides
@@ -105,6 +107,9 @@ object AppModule {
     @Provides
     @Singleton
     fun providesBinanceChartSocket() = BinanceWebSocketChartListener()
+    @Provides
+    @Singleton
+    fun providesBinanceDepthSocket() = BinanceWebSocketDepthListener()
 
     @Provides
     @Singleton

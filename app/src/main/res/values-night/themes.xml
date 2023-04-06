@@ -24,6 +24,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TextLightColor">
+        <item name="android:textColor">@color/customDialogEditTextColor</item>
+    </style>
+
     <style name="SearchTextView">
         <item name="android:textColor">@color/white</item>
         <item name="android:drawableTint">@color/white</item>

@@ -5,6 +5,7 @@ import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketDepthListener
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
 import com.metoer.ceptedovizborsa.util.Constants
 import io.reactivex.Observable
@@ -17,8 +18,8 @@ class CurrencyRepository @Inject constructor(
     val appApi: AppApi,
     private val providesOkhttpClient: OkHttpClient,
     val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
-    val providesBinanceWebSocketChartListener: BinanceWebSocketChartListener,
-    val providesBinanceWebSocketListener: BinanceWebSocketCoinListener
+    val providesBinanceWebSocketListener: BinanceWebSocketCoinListener,
+    val providesDepthListener: BinanceWebSocketDepthListener
 ) {
     fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
     fun getAllMarketsCoinDataFromApi(apiKey: String, quoteSymbol: String) =
@@ -58,6 +59,19 @@ class CurrencyRepository @Inject constructor(
     }
 
     fun getBinanceSocketTickerListener() = providesBinanceWebSocketTickerListener
+
+
+    fun getBinanceDepthSocket(baseSymbol: String,quoteSymbol: String): WebSocket {
+        val request:Request = Request.Builder()
+            .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase()+quoteSymbol.lowercase()}@depth20")
+            .build()
+        return providesOkhttpClient.newWebSocket(
+            request,
+            providesDepthListener
+        )
+    }
+
+    fun getBinanceSocketDepthListener() = providesDepthListener
 
     fun getBinanceCoinSocket(): WebSocket {
         val request: Request =

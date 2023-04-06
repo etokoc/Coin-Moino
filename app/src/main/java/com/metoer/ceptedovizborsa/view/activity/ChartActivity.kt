@@ -23,8 +23,11 @@ import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.metoer.ceptedovizborsa.R
+import com.metoer.ceptedovizborsa.adapter.CoinDepthAdapter
+import com.metoer.ceptedovizborsa.adapter.DepthEnum
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
+import com.metoer.ceptedovizborsa.data.response.coin.depth.CoinDepth
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
@@ -52,6 +55,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var moreTimeList = arrayListOf<String>()
     lateinit var binanceSocket: WebSocket
+    lateinit var binanceDepthSocket: WebSocket
+    private lateinit var bidsAdapter: CoinDepthAdapter
+    private lateinit var asksAdapter: CoinDepthAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -85,6 +91,16 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         initTabLayout()
         initListeners()
         calculateCoin()
+        initAdapter()
+    }
+
+    private fun initAdapter() {
+        asksAdapter= CoinDepthAdapter(DepthEnum.ASKS)
+        bidsAdapter= CoinDepthAdapter(DepthEnum.BIDS)
+        binding.apply {
+            recyclerViewAsks.adapter = asksAdapter
+            recyclerViewBids.adapter = bidsAdapter
+        }
     }
 
     private fun setLocale(language: String) {
@@ -94,8 +110,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         val configuration = Configuration()
         configuration.locale = locale
         baseContext.resources.updateConfiguration(
-            configuration,
-            baseContext.resources.displayMetrics
+            configuration, baseContext.resources.displayMetrics
         )
         val sharedPref = SharedPrefencesUtil(applicationContext)
         sharedPref.addLocal("My_Lang", language)
@@ -118,7 +133,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             dataMarket.baseSymbol?.let { base ->
                 dataMarket.quoteSymbol?.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
-
                     viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
                         .observe(this@ChartActivity) { tickerData ->
                             val percent = tickerData?.priceChangePercent?.toDouble()
@@ -146,52 +160,46 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 },
                                 "%"
                             )
-                            coinValueTextView.text =
-                                tickerData?.lastPrice?.let {
-                                    NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
-                                    )
-                                }
-                            textViewVolume.text = getString(
-                                R.string.volume_base_text,
+                            coinValueTextView.text = tickerData?.lastPrice?.let {
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    it, "###,###,###,###.########"
+                                )
+                            }
+                            textViewVolume.text = getString(R.string.volume_base_text,
                                 base.uppercase(),
                                 tickerData?.volume?.toDouble()?.let {
                                     MoneyCalculateUtil.volumeShortConverter(
-                                        it,
-                                        this@ChartActivity
+                                        it, this@ChartActivity
                                     )
-                                }
-                            )
-                            textViewVolumeQuote.text = getString(
-                                R.string.volume_base_text,
+                                })
+                            textViewVolumeQuote.text = getString(R.string.volume_base_text,
                                 quote.uppercase(),
                                 tickerData?.quoteVolume?.toDouble()?.let {
                                     MoneyCalculateUtil.volumeShortConverter(
-                                        it,
-                                        this@ChartActivity
+                                        it, this@ChartActivity
                                     )
-                                }
-                            )
-                            textViewHighest.text = getString(
-                                R.string.high_price_text,
-                                tickerData?.highPrice?.let {
+                                })
+                            textViewHighest.text =
+                                getString(R.string.high_price_text, tickerData?.highPrice?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
+                                        it, "###,###,###,###.########"
                                     )
-                                }
-                            )
-                            textViewLowestPrice.text = getString(
-                                R.string.low_price_text,
-                                tickerData?.lowPrice?.let {
+                                })
+                            textViewLowestPrice.text =
+                                getString(R.string.low_price_text, tickerData?.lowPrice?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
+                                        it, "###,###,###,###.########"
                                     )
-                                }
-                            )
+                                })
                         }
+
+                    binanceDepthSocket = viewModel.getBinanceDepthWebSocket(base, quote)
+                    viewModel.getBinanceSocketDepthListener()?.observe(this@ChartActivity) {coinDepth->
+                        if (coinDepth != null) {
+                            bidsAdapter.setData(coinDepth.bids)
+                            asksAdapter.setData(coinDepth.asks)
+                        }
+                    }
                     binanceSocket =
                         viewModel.getBinanceTickerWebSocket(baseSymbol = base, quoteSymbol = quote)
                     viewModel.getBinanceSocketTickerListener()
@@ -223,57 +231,42 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 R.string.coin_exchange_parcent_text,
                                 tickerData?.priceChangePercent?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "0.##"
+                                        it, "0.##"
                                     )
                                 },
                                 "%"
                             )
-                            coinValueTextView.text =
-                                tickerData?.lastPrice?.let {
-                                    NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
-                                    )
-                                }
-                            textViewVolume.text = getString(
-                                R.string.volume_base_text,
+                            coinValueTextView.text = tickerData?.lastPrice?.let {
+                                NumberDecimalFormat.numberDecimalFormat(
+                                    it, "###,###,###,###.########"
+                                )
+                            }
+                            textViewVolume.text = getString(R.string.volume_base_text,
                                 base.uppercase(),
                                 tickerData?.baseVolume?.toDouble()?.let {
                                     MoneyCalculateUtil.volumeShortConverter(
-                                        it,
-                                        this@ChartActivity
+                                        it, this@ChartActivity
                                     )
-                                }
-                            )
-                            textViewVolumeQuote.text = getString(
-                                R.string.volume_base_text,
+                                })
+                            textViewVolumeQuote.text = getString(R.string.volume_base_text,
                                 quote.uppercase(),
                                 tickerData?.quoteVolume?.toDouble()?.let {
                                     MoneyCalculateUtil.volumeShortConverter(
-                                        it,
-                                        this@ChartActivity
+                                        it, this@ChartActivity
                                     )
-                                }
-                            )
-                            textViewHighest.text = getString(
-                                R.string.high_price_text,
-                                tickerData?.highPrice?.let {
+                                })
+                            textViewHighest.text =
+                                getString(R.string.high_price_text, tickerData?.highPrice?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
+                                        it, "###,###,###,###.########"
                                     )
-                                }
-                            )
-                            textViewLowestPrice.text = getString(
-                                R.string.low_price_text,
-                                tickerData?.lowPrice?.let {
+                                })
+                            textViewLowestPrice.text =
+                                getString(R.string.low_price_text, tickerData?.lowPrice?.let {
                                     NumberDecimalFormat.numberDecimalFormat(
-                                        it,
-                                        "###,###,###,###.########"
+                                        it, "###,###,###,###.########"
                                     )
-                                }
-                            )
+                                })
                         }
                 }
 
@@ -282,7 +275,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         //Coin Buy Click
         btnBuy.setOnClickListener {
             if (!edittext_unit.text.isNullOrEmpty()) {
-                val coinUnit: Double = MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
+                val coinUnit: Double =
+                    MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
                 dataMarket.apply {
                     val coinBuyItem = CoinBuyItem(
                         baseSymbol,
@@ -338,8 +332,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             this?.listview?.adapter = adapter
         }
         dialogVindow?.setLayout(
-            ActionBar.LayoutParams.WRAP_CONTENT,
-            ActionBar.LayoutParams.WRAP_CONTENT
+            ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
         )
         dialog.show()
         initSpinner()
@@ -353,9 +346,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             interval = moreTimeList[position]
             if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
                 viewModel.getChartFromBinanceData(
-                    dataMarket.baseSymbol!!,
-                    dataMarket.quoteSymbol!!,
-                    intervalList[position]
+                    dataMarket.baseSymbol!!, dataMarket.quoteSymbol!!, intervalList[position]
                 )
             }
             bindingSearchDialog?.listview?.onItemClickListener = null
@@ -368,8 +359,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
         binding.tabLayout.addTab(tab.setText(moreTimeList[0] + "+"))
-        val layout =
-            (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
+        val layout = (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
         val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
         layoutParams.weight = 1.5f
         layout.layoutParams = layoutParams
@@ -461,9 +451,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             val typedValue = TypedValue()
             val theme: Resources.Theme = context.theme
             theme.resolveAttribute(
-                androidx.constraintlayout.widget.R.attr.textFillColor,
-                typedValue,
-                true
+                androidx.constraintlayout.widget.R.attr.textFillColor, typedValue, true
             )
             @ColorInt val color = typedValue.data
             axisLeft.textColor = color
@@ -486,8 +474,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         binding.apply {
             dataMarket.priceQuote?.let {
                 MoneyCalculateUtil.coinConverter(
-                    edittextUnit, edittextTotal,
-                    it
+                    edittextUnit, edittextTotal, it
                 )
             }
         }
@@ -514,7 +501,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         viewModel.clearBinanceSocketChartLiveData()
         viewModel.clearBinanceSocketTickerLiveData()
         viewModel.clearGetTickerFromBinanceLiveData()
+        viewModel.clearBinanceSocketDepthLiveData()
         binanceSocket.cancel()
+        binanceDepthSocket.cancel()
         super.onDestroy()
         coinPortfolioViewModel.compositeDisposable.clear()
     }
