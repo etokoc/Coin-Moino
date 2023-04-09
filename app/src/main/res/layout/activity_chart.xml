@@ -232,29 +232,25 @@
             app:layout_constraintStart_toStartOf="@+id/coinValueTextView"
             app:layout_constraintTop_toBottomOf="@+id/coinValueTextView" />
 
-        <LinearLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutDepth"
+            style="@style/CoinTabLayoutBottomIndıcator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewBids"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </com.google.android.material.tabs.TabLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewAsks"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </LinearLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/depthViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/tabLayoutDepth" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

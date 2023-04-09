@@ -22,12 +22,11 @@ import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.metoer.ceptedovizborsa.R
-import com.metoer.ceptedovizborsa.adapter.CoinDepthAdapter
-import com.metoer.ceptedovizborsa.adapter.DepthEnum
+import com.metoer.ceptedovizborsa.adapter.DepthViewPagerAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.depth.CoinDepth
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
@@ -55,9 +54,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var moreTimeList = arrayListOf<String>()
     lateinit var binanceSocket: WebSocket
-    lateinit var binanceDepthSocket: WebSocket
-    private lateinit var bidsAdapter: CoinDepthAdapter
-    private lateinit var asksAdapter: CoinDepthAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -91,16 +87,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         initTabLayout()
         initListeners()
         calculateCoin()
-        initAdapter()
-    }
-
-    private fun initAdapter() {
-        asksAdapter= CoinDepthAdapter(DepthEnum.ASKS)
-        bidsAdapter= CoinDepthAdapter(DepthEnum.BIDS)
-        binding.apply {
-            recyclerViewAsks.adapter = asksAdapter
-            recyclerViewBids.adapter = bidsAdapter
-        }
     }
 
     private fun setLocale(language: String) {
@@ -192,14 +178,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                     )
                                 })
                         }
-
-                    binanceDepthSocket = viewModel.getBinanceDepthWebSocket(base, quote)
-                    viewModel.getBinanceSocketDepthListener()?.observe(this@ChartActivity) {coinDepth->
-                        if (coinDepth != null) {
-                            bidsAdapter.setData(coinDepth.bids)
-                            asksAdapter.setData(coinDepth.asks)
-                        }
-                    }
                     binanceSocket =
                         viewModel.getBinanceTickerWebSocket(baseSymbol = base, quoteSymbol = quote)
                     viewModel.getBinanceSocketTickerListener()
@@ -377,6 +355,20 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
             })
         }
+
+        dataMarket.baseSymbol?.let { base->
+            dataMarket.quoteSymbol?.let { quote->
+                val depthPagerAdapter = DepthViewPagerAdapter(this,base,quote)
+                binding.depthViewPager.offscreenPageLimit = 1 // yalnızca mevcut ve bir önceki sayfayı saklar
+                binding.depthViewPager.adapter = depthPagerAdapter
+                TabLayoutMediator(binding.tabLayoutDepth, binding.depthViewPager) { tabItem, position ->
+                    when (position) {
+                        0 -> tabItem.text = getString(R.string.orders)
+                        1 -> tabItem.text = getString(R.string.history)
+                    }
+                }.attach()
+            }
+        }
     }
 
     private fun selectedTab(tab: TabLayout.Tab?) {
@@ -501,9 +493,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         viewModel.clearBinanceSocketChartLiveData()
         viewModel.clearBinanceSocketTickerLiveData()
         viewModel.clearGetTickerFromBinanceLiveData()
-        viewModel.clearBinanceSocketDepthLiveData()
         binanceSocket.cancel()
-        binanceDepthSocket.cancel()
         super.onDestroy()
         coinPortfolioViewModel.compositeDisposable.clear()
     }

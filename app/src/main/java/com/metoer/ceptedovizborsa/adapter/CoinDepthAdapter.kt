@@ -3,7 +3,6 @@ package com.metoer.ceptedovizborsa.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.metoer.ceptedovizborsa.data.response.coin.depth.CoinDepth
 import com.metoer.ceptedovizborsa.databinding.CoinAsksItemBinding
 import com.metoer.ceptedovizborsa.databinding.CoinBidsItemBinding
 import com.metoer.ceptedovizborsa.util.NumberDecimalFormat

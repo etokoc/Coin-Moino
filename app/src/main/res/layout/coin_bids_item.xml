@@ -11,23 +11,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textViewBidsValue"
-            style="@style/TextLightColor"
+            android:id="@+id/textViewBidsQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/TextLightColor"
             android:text=""
+            android:textStyle="bold"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textViewBidsQuantity"
-            android:textColor="@color/coinValueRise"
+            android:id="@+id/textViewBidsValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end"
             android:text=""
-            android:textStyle="bold"
+            android:textColor="@color/coinValueRise"
+            android:gravity="end"
             android:textSize="16sp" />
     </LinearLayout>
 

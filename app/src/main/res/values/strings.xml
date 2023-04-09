@@ -74,4 +74,8 @@ CoinMoino Fikir Babaları</string>
     <string name="high_price_text">En Yüksek Fiyat\n%1$s</string>
     <string name="low_price_text">En Düşük Fiyat\n%1$s</string>
     <string name="select_currency">Para Birimini Seçiniz</string>
+    <string name="sale_price">Satış fiyatı</string>
+    <string name="bid_price">Teklif fiyatı</string>
+    <string name="orders">Emirler</string>
+    <string name="history">Geçmiş</string>
 </resources>

@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ChartViewModel @Inject constructor(private val repository: CurrencyRepository) : ViewModel() {
     private var binanceSocketTickerLiveData: MutableLiveData<CoinWebsocketTickerResponse?>? = null
-    private var binanceSocketDepthLiveData: MutableLiveData<CoinDepth?>? = null
     private val tickerFromBinanceLiveData = MutableLiveData<CoinTickerResponse?>()
 
     var binanceSocketChartLiveData: MutableLiveData<BinanceWebSocketCandleRoot?>? = null
@@ -79,23 +78,6 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
     fun clearBinanceSocketTickerLiveData() {
         binanceSocketTickerLiveData?.value = null
-    }
-
-
-    fun getBinanceDepthWebSocket(
-        baseSymbol: String,
-        quoteSymbol: String
-    ): WebSocket {
-        return repository.getBinanceDepthSocket(baseSymbol, quoteSymbol)
-    }
-
-    fun getBinanceSocketDepthListener(): MutableLiveData<CoinDepth?>? {
-        binanceSocketDepthLiveData = repository.getBinanceSocketDepthListener().getData()
-        return binanceSocketDepthLiveData
-    }
-
-    fun clearBinanceSocketDepthLiveData() {
-        binanceSocketDepthLiveData?.value = null
     }
 
     fun clearBinanceSocketChartLiveData() {

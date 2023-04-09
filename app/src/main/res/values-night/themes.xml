@@ -141,10 +141,27 @@
         <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
     </style>
 
+
     <!-- for text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CoinTabLayoutBottomIndıcator" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicator">@drawable/custom_divider</item>
+        <item name="tabIndicatorColor">@color/primary_color</item>
+        <item name="tabIndicatorGravity">bottom</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorAnimationDuration">300</item>
+        <item name="selectableItemBackground">@color/transparent</item>
+        <item name="tabTextAppearance">@style/DepthTextAppearance</item>
+    </style>
+
+    <style name="DepthTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">14sp</item> <!-- Burada yazı boyutunu ayarlayabilirsiniz -->
     </style>
 
     <style name="CustomTablayout" parent="Widget.Design.TabLayout">
