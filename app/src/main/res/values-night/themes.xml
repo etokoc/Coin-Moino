@@ -25,7 +25,7 @@
     </style>
 
     <style name="TextLightColor">
-        <item name="android:textColor">@color/customDialogEditTextColor</item>
+        <item name="android:textColor">@color/appGray</item>
     </style>
 
     <style name="SearchTextView">

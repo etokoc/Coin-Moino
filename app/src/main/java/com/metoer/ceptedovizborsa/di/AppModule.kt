@@ -7,11 +7,7 @@ import com.metoer.ceptedovizborsa.data.AppApi
 import com.metoer.ceptedovizborsa.data.QualifiedTypeConverterFactory
 import com.metoer.ceptedovizborsa.data.db.CoinBuyDatabase
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
-import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketChartListener
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketDepthListener
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
+import com.metoer.ceptedovizborsa.data.webscoket.*
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.Module
@@ -37,7 +33,8 @@ object AppModule {
         return CurrencyRepository(
             appApi, providesOkhttpClient(), providesBinanceTickerSocket(),
             providesBinanceCoinSocket(),
-            providesBinanceDepthSocket()
+            providesBinanceDepthSocket(),
+            providesBinanceTradeSocket()
         )
     }
 
@@ -107,9 +104,14 @@ object AppModule {
     @Provides
     @Singleton
     fun providesBinanceChartSocket() = BinanceWebSocketChartListener()
+
     @Provides
     @Singleton
     fun providesBinanceDepthSocket() = BinanceWebSocketDepthListener()
+
+    @Provides
+    @Singleton
+    fun providesBinanceTradeSocket() = BinanceWebSocketTradeListener()
 
     @Provides
     @Singleton

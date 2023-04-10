@@ -80,4 +80,6 @@ The masterminds of CoinMoino</string>
     <string name="bid_price">Ask</string>
     <string name="orders">Orders</string>
     <string name="history">History</string>
+    <string name="zaman">Time</string>
+    <string name="quantity">Miktar</string>
 </resources>

@@ -29,7 +29,7 @@ class CoinPageAdapter(
         setData(filterList as ArrayList<MarketData>)
     }
 
-    var itemList = mutableListOf<MarketData>()
+    private var itemList = mutableListOf<MarketData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
             CoinMarketsblockchainItemBinding.inflate(

@@ -6,13 +6,15 @@
     android:padding="8dp">
 
     <TextView
-        style="@style/TextColor"
+        android:id="@+id/textViewTime"
+        style="@style/TextLightColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="17:46:59" />
 
     <TextView
+        android:id="@+id/textViewValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -23,7 +25,8 @@
         android:textStyle="bold" />
 
     <TextView
-        style="@style/TextColor"
+        android:id="@+id/textViewQuantity"
+        style="@style/TextLightColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -78,4 +78,6 @@ CoinMoino Fikir Babaları</string>
     <string name="bid_price">Teklif fiyatı</string>
     <string name="orders">Emirler</string>
     <string name="history">Geçmiş</string>
+    <string name="zaman">Zaman</string>
+    <string name="quantity">Miktar</string>
 </resources>

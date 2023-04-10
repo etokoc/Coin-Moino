@@ -41,17 +41,17 @@ class OrdersFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        initlistener()
         initAdapter()
+        initlistener()
     }
 
-    private fun initlistener(){
+    private fun initlistener() {
         val bundle = arguments
         val baseSymbol = bundle?.getString("baseSymbol")
         val quotetSymbol = bundle?.getString("quotetSymbol")
-        baseSymbol?.let {
-            quotetSymbol?.let {
-                binanceDepthSocket = viewModel.getBinanceDepthWebSocket(baseSymbol,quotetSymbol)
+        baseSymbol?.let { base ->
+            quotetSymbol?.let { quote ->
+                binanceDepthSocket = viewModel.getBinanceDepthWebSocket(base, quote)
                 viewModel.getBinanceSocketDepthListener()
                     ?.observe(this) { coinDepth ->
                         if (coinDepth != null) {
@@ -62,6 +62,7 @@ class OrdersFragment : Fragment() {
             }
         }
     }
+
     private fun initAdapter() {
         asksAdapter = CoinDepthAdapter(DepthEnum.ASKS)
         bidsAdapter = CoinDepthAdapter(DepthEnum.BIDS)
