@@ -1,19 +1,46 @@
 package com.metoer.ceptedovizborsa.adapter
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.databinding.CoinAsksItemBinding
 import com.metoer.ceptedovizborsa.databinding.CoinBidsItemBinding
+import com.metoer.ceptedovizborsa.util.Constants.MINIMUM_DEPTH_WIDTH
 import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 
 class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var askQuantityList = ArrayList<Double>()
+    private var bidsQuantityList = ArrayList<Double>()
     private var _itemList = ArrayList<ArrayList<String>>()
     fun setData(itemList: List<ArrayList<String>>) {
         _itemList.clear()
         _itemList.addAll(itemList)
+        calculateQuantity(0)
+        calculateQuantity(1)
         notifyDataSetChanged()
+    }
+
+    private fun calculateQuantity(quantityType: Int) {
+        val doubleValueList = ArrayList<Double>()
+        for (index in 0 until _itemList.size) {
+            if (quantityType == 0)
+                doubleValueList.add(_itemList[index][1].toDouble())
+            else
+                doubleValueList.add(_itemList[index][0].toDouble())
+        }
+        val max: Double = doubleValueList.maxOrNull() ?: 0.0
+        val min: Double = doubleValueList.minOrNull() ?: 0.0
+        if (quantityType == 0) {
+            askQuantityList.clear()
+            askQuantityList.addAll(doubleValueList.map { (it - min) / (max - min) })
+        } else {
+            bidsQuantityList.clear()
+            bidsQuantityList.addAll(doubleValueList.map { (it - min) / (max - min) })
+        }
     }
 
     inner class LayoutOneViewHolder(val itemBinding: CoinAsksItemBinding) :
@@ -21,8 +48,16 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(0)
             val value = _itemList[position].get(1)
-            itemBinding.textViewAsksQuantity.text = NumberDecimalFormat.numberDecimalFormat(quantity,"###,###,###,###.######")
-            itemBinding.textViewAsksValue.text = NumberDecimalFormat.numberDecimalFormat(value,"###,###,###,###.######")
+            itemBinding.textViewAsksQuantity.text =
+                NumberDecimalFormat.numberDecimalFormat(quantity, "###,###,###,###.######")
+            itemBinding.textViewAsksValue.text =
+                NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
+            val displayMetrics = itemBinding.root.resources.displayMetrics
+            val screenWidth = displayMetrics.widthPixels
+            val viewWidth =
+                (MINIMUM_DEPTH_WIDTH + (screenWidth - MINIMUM_DEPTH_WIDTH) * (askQuantityList[position])).toInt()
+            itemBinding.asksBackgroundView.layoutParams =
+                FrameLayout.LayoutParams(viewWidth, LayoutParams.WRAP_CONTENT)
         }
     }
 
@@ -31,8 +66,17 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(1)
             val value = _itemList[position].get(0)
-            itemBinding.textViewBidsQuantity.text = NumberDecimalFormat.numberDecimalFormat(quantity,"###,###,###,###.######")
-            itemBinding.textViewBidsValue.text = NumberDecimalFormat.numberDecimalFormat(value,"###,###,###,###.######")
+            itemBinding.textViewBidsQuantity.text =
+                NumberDecimalFormat.numberDecimalFormat(quantity, "###,###,###,###.######")
+            itemBinding.textViewBidsValue.text =
+                NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
+            val displayMetrics = itemBinding.root.resources.displayMetrics
+            val screenWidth = displayMetrics.widthPixels
+            val viewWidth =
+                (MINIMUM_DEPTH_WIDTH + (screenWidth - MINIMUM_DEPTH_WIDTH) * (askQuantityList[position])).toInt()
+            val _layoutParams = FrameLayout.LayoutParams(viewWidth, LayoutParams.WRAP_CONTENT)
+            _layoutParams.gravity = Gravity.END
+            itemBinding.bidsBackgroundView.layoutParams = _layoutParams
         }
     }
 

@@ -43,5 +43,7 @@ object Constants {
     const val TICKER_WINDOWSSIZE = "windowSize"
     const val CHART_BINANCE_ENDPOINT = "api/v3/uiKlines?"
 
+    const val MINIMUM_DEPTH_WIDTH = 5
+
 
 }
