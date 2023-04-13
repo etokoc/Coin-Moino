@@ -105,7 +105,7 @@
 
     <!-- ChartBuyThema -->
     <style name="ChartBuyBackground">
-        <item name="android:backgroundTint">@color/customDialogEditTextBackground</item>
+        <item name="android:backgroundTint">@color/forested_transparent_gray</item>
     </style>
 
     <style name="ChartBuyEditText">
