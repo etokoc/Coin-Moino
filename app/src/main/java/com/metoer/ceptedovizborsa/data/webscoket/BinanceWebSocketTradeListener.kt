@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.trades.CoinTradeData
 import com.metoer.ceptedovizborsa.util.Constants
 import okhttp3.Response
@@ -23,7 +22,7 @@ class BinanceWebSocketTradeListener : WebSocketListener() {
          * send kullanımı websocket'e message body göndermek için kullanılır.
          */
 //        webSocket.send("")
-        Log.e("WEBSOCKET", "Websockete bağlandı ")
+        Log.i("WEBSOCKET", "Websockete bağlandı ")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -46,7 +45,7 @@ class BinanceWebSocketTradeListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.e("WEBSOCKET", text)
+        Log.i("WEBSOCKET", text)
     }
 
     fun getData(): MutableLiveData<CoinTradeData?>? {

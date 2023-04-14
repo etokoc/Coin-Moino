@@ -22,7 +22,7 @@ class BinanceWebSocketChartListener : WebSocketListener() {
          * send kullanımı websocket'e message body göndermek için kullanılır.
          */
 //        webSocket.send("")
-        Log.e("WEBSOCKET", "Websockete bağlandı candle")
+        Log.i("WEBSOCKET", "Websockete bağlandı candle")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -45,7 +45,7 @@ class BinanceWebSocketChartListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.e("WEBSOCKET", "$text")
+        Log.i("WEBSOCKET", "$text")
     }
 
     fun getData(): MutableLiveData<BinanceWebSocketCandleRoot?>? {

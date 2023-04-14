@@ -23,7 +23,7 @@ class BinanceWebSocketDepthListener : WebSocketListener() {
          * send kullanımı websocket'e message body göndermek için kullanılır.
          */
 //        webSocket.send("")
-        Log.e("WEBSOCKET", "Websockete bağlandı ")
+        Log.i("WEBSOCKET", "Websockete bağlandı ")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -46,7 +46,7 @@ class BinanceWebSocketDepthListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.e("WEBSOCKET", "$text")
+        Log.i("WEBSOCKET", "$text")
     }
 
     fun getData(): MutableLiveData<CoinDepth?>? {
