@@ -1,7 +1,6 @@
 package com.metoer.ceptedovizborsa.view.fragment.depth
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +25,7 @@ class OrdersFragment : Fragment() {
     private lateinit var bidsAdapter: CoinDepthAdapter
     private lateinit var asksAdapter: CoinDepthAdapter
 
-    lateinit var binanceDepthSocket: WebSocket
+    private var binanceDepthSocket: WebSocket? = null
 
 
     override fun onCreateView(
@@ -76,11 +75,12 @@ class OrdersFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.clearBinanceSocketDepthLiveData()
-        binanceDepthSocket.cancel()
+        binanceDepthSocket?.cancel()
     }
+
     override fun onDestroy() {
         viewModel.clearBinanceSocketDepthLiveData()
-        binanceDepthSocket.cancel()
+        binanceDepthSocket?.cancel()
         super.onDestroy()
     }
 
