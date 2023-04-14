@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/BackgrounScreen"
+    style="@style/BackgrounScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.ChartActivity">
@@ -182,17 +182,27 @@
                 app:layout_constraintStart_toStartOf="@+id/coinValueTextView"
                 app:layout_constraintTop_toBottomOf="@+id/coinValueTextView" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayoutDepth"
-                style="@style/CoinTabLayoutBottomIndıcator"
+            <LinearLayout
+                android:id="@+id/tabDepthLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/coinDataChart">
-
-            </com.google.android.material.tabs.TabLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutDepth"
+                    style="@style/CoinTabLayoutBottomIndıcator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+                </com.google.android.material.tabs.TabLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:background="@drawable/line_1dp"
+                    />
+            </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/depthViewPager"
@@ -200,7 +210,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toBottomOf="@id/tabLayoutDepth" />
+                app:layout_constraintTop_toBottomOf="@id/tabDepthLinearLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
