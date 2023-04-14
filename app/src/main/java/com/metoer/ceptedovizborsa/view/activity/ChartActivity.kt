@@ -57,21 +57,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-    }
-
-    override fun onResume() {
-        loadLocale()
-        super.onResume()
-        supportLocale()
         dataMarket = intent.getSerializableExtra("send") as MarketData
-        binding.apply {
-            edittextTotal.filters = editTextFilter()
-            edittextUnit.filters = editTextFilter()
-            edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
-            edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
-        }
         moreTimeList = arrayListOf(
             getString(R.string.coin_time_1_minute),
             getString(R.string.coin_time_5_minute),
@@ -85,6 +71,19 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             getString(R.string.coin_time_1_month),
         )
         initTabLayout()
+        setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        loadLocale()
+        super.onResume()
+        supportLocale()
+        binding.apply {
+            edittextTotal.filters = editTextFilter()
+            edittextUnit.filters = editTextFilter()
+            edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
+            edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
+        }
         initListeners()
         calculateCoin()
     }
