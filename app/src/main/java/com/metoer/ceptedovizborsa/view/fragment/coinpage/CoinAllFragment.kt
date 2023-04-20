@@ -100,7 +100,6 @@ class CoinAllFragment : Fragment(), onItemClickListener {
                 .collect {
                     coinList.clear()
                     coinList.addAll(adapter.snapshot().items)
-                    StaticCoinList.coinList = coinList
                 }
         }
 

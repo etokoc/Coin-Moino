@@ -74,7 +74,7 @@ class CoinPageAdapter(
                             "###,###,###,###.######"
                         )
                     }
-                val parcent = currentItem.baseSymbol?.let { caltulateMainCoin(it) }
+                val parcent = currentItem.percentExchangeVolume?.toDouble()
                 if (parcent != null && parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
@@ -129,34 +129,10 @@ class CoinPageAdapter(
         }
     }
 
-    private val coinList = StaticCoinList.coinList
-    private fun caltulateMainCoin(baseSymbol: String): Double {
-        val usdt = coinList.filter { x -> x.symbol == baseId }.first()
-        val otherCoin = coinList.filter { x -> x.symbol == baseSymbol }.firstOrNull() ?: CoinData(
-            "0.0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        )
-        return (otherCoin.changePercent24Hr!!.toDouble()) - (usdt.changePercent24Hr!!.toDouble())
-    }
-
     fun setData(newItemList: MutableList<MarketData>) {
         val diffUtil = DiffUtil(itemList, newItemList)
         val diffResult = calculateDiff(diffUtil)
         itemList = arrayListOf()
-        newItemList.forEach {
-            it.percentExchangeVolume =
-                it.baseSymbol?.let { it1 -> caltulateMainCoin(it1).toString() }
-        }
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
         notifyItemRangeChanged(0, getListSize())

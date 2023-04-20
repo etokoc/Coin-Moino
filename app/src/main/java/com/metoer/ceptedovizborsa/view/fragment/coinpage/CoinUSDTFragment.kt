@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.view.fragment.coinpage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +52,11 @@ class CoinUSDTFragment : Fragment() {
 
     fun initListener() {
         binding.recylerview.itemAnimator = null
+        viewModel.getPageTickerData(PageTickerTypeEnum.USDT).observe(viewLifecycleOwner) {
+            it.forEach { item ->
+                Log.i("OMERUSDT", " $item")
+            }
+        }
         viewModel.getAllMarketsCoinData("USDT").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it!! as ArrayList<MarketData>)

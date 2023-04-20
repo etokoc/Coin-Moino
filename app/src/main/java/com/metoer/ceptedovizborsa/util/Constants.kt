@@ -10,6 +10,7 @@ object Constants {
     const val COINCAP_BASE_URL = "https://api.coincap.io/v2/"
     const val BINANCE_CHART_BASE_URL = "https://api.binance.com/"
     const val COIN_MARKET_URL = "https://api.coincap.io/v2/assets"
+    const val PAGE_TICKER_URL = "api/v3/ticker/24hr"
     const val HEADER_DATA = "_"
     const val IMAGE_URL = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val IMAGE_URL2 = "https://wise.com/public-resources/assets/flags/rectangle/"
@@ -44,6 +45,5 @@ object Constants {
     const val CHART_BINANCE_ENDPOINT = "api/v3/uiKlines?"
 
     const val MINIMUM_DEPTH_WIDTH = 5
-
 
 }

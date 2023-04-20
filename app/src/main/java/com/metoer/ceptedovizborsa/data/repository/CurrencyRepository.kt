@@ -92,4 +92,6 @@ class CurrencyRepository @Inject constructor(
     }
 
     fun getBinanceSocketListener() = providesBinanceWebSocketListener
+
+    fun getPageTickerDataFromBinanceApi ()  = appApi.getPageTickerData()
 }

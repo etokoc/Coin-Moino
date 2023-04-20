@@ -171,8 +171,9 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         val coinData = adapter.itemList[position]
         coinData.apply {
             if (this.coinSymbolQuote == "USD") {
-                val currentValueOfCoin =
-                    StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
+                val currentValueOfCoin =0f
+//                val currentValueOfCoin =
+//                    StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
                 showDialog(
                     container = this@CoinPortfolioFragment.binding.root,
                     coinData,

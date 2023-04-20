@@ -6,6 +6,8 @@ import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.candles.CoinCandlesResponse
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinMarketsResponse
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.PageTickerItem
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.PageTickerResponse
 import com.metoer.ceptedovizborsa.data.response.currency.TarihDate
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.Constants.AUTHORIZATIN_HEADER
@@ -18,6 +20,7 @@ import com.metoer.ceptedovizborsa.util.Constants.INTERVAL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_100
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.MARKET_COIN_DATA
+import com.metoer.ceptedovizborsa.util.Constants.PAGE_TICKER_URL
 import com.metoer.ceptedovizborsa.util.Constants.QUERY_QUOTE_SYMBOL
 import com.metoer.ceptedovizborsa.util.Constants.QUOTE_ID
 import com.metoer.ceptedovizborsa.util.Constants.SYMBOL_QUERY
@@ -80,5 +83,9 @@ interface AppApi {
         @Query(SYMBOL_QUERY) symbol: String,
         @Query(TICKER_WINDOWSSIZE) windowSize: String,
     ): Observable<CoinTickerResponse>
+
+    @GET("${BINANCE_CHART_BASE_URL}${PAGE_TICKER_URL}")
+    @QualifiedTypeConverterFactory.Json
+    fun getPageTickerData(): Observable<PageTickerResponse>
 
 }
