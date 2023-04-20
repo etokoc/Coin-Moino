@@ -1,5 +1,6 @@
 package com.metoer.ceptedovizborsa.adapter
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketRespon
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 import java.util.*
 
 
@@ -113,11 +115,11 @@ class CoinPageAdapter(
                     )
             }
             itemRow.setOnClickListener {
-                /*it.apply {
+                it.apply {
                     val intent = Intent(it.context, ChartActivity::class.java)
                     intent.putExtra("send", currentItem)
                     context.startActivity(intent)
-                }*/
+                }
             }
 
             if (oldValue.size > 0) {

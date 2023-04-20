@@ -24,5 +24,5 @@ data class CoinPageTickerItem(
     @SerializedName("firstId") var firstId: Long? = null,
     @SerializedName("lastId") var lastId: Long? = null,
     @SerializedName("count") var count: Int? = null
-)
+):java.io.Serializable
 

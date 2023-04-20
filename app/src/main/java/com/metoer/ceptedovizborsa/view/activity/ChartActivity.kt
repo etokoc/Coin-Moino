@@ -28,6 +28,7 @@ import com.metoer.ceptedovizborsa.adapter.DepthViewPagerAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -48,16 +49,18 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private var _binding: ActivityChartBinding? = null
     private val binding
         get() = _binding!!
-    private lateinit var dataMarket: PageTickerItem
+    private lateinit var dataMarket: CoinPageTickerItem
 
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var moreTimeList = arrayListOf<String>()
     lateinit var binanceSocket: WebSocket
+    private var rightOf: String = ""
+    private var leftOf: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
-        dataMarket = intent.getSerializableExtra("send") as PageTickerItem
+        dataMarket = intent.getSerializableExtra("send") as CoinPageTickerItem
         moreTimeList = arrayListOf(
             getString(R.string.coin_time_1_minute),
             getString(R.string.coin_time_5_minute),
@@ -70,8 +73,20 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             getString(R.string.coin_time_1_week),
             getString(R.string.coin_time_1_month),
         )
+        initCoinNames()
         initTabLayout()
         setContentView(binding.root)
+    }
+
+    private fun initCoinNames() {
+        leftOf = when {
+            dataMarket.symbol!!.endsWith("USDT") -> dataMarket.symbol!!.substring(
+                0,
+                dataMarket.symbol!!.length - 4
+            )
+            else -> dataMarket.symbol!!.substring(0, dataMarket.symbol!!.length - 3)
+        }
+        rightOf = dataMarket.symbol!!.substring(leftOf.length, dataMarket.symbol!!.length)
     }
 
     override fun onResume() {
@@ -81,8 +96,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         binding.apply {
             edittextTotal.filters = editTextFilter()
             edittextUnit.filters = editTextFilter()
-            edittextUnit.hint = getString(R.string.miktar, dataMarket.baseSymbol)
-            edittextTotal.hint = getString(R.string.toplam, dataMarket.quoteSymbol)
+            edittextUnit.hint = getString(R.string.miktar, leftOf)
+            edittextTotal.hint = getString(
+                R.string.toplam,
+                rightOf
+            )
         }
         initListeners()
         calculateCoin()
@@ -115,8 +133,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initListeners() {
         binding.apply {
             fillCandleData()
-            dataMarket.baseSymbol?.let { base ->
-                dataMarket.quoteSymbol?.let { quote ->
+            leftOf.let { base ->
+                rightOf.let { quote ->
                     viewModel.getChartFromBinanceData(base.uppercase(), quote.uppercase(), interval)
                     viewModel.getTickerFromBinanceData(base.uppercase(), quote.uppercase(), "1d")
                         .observe(this@ChartActivity) { tickerData ->
@@ -256,11 +274,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                     MoneyCalculateUtil.doubleConverter(edittext_unit.text.toString())
                 dataMarket.apply {
                     val coinBuyItem = CoinBuyItem(
-                        baseSymbol,
-                        quoteSymbol,
-                        baseId,
+                        leftOf,
+                        rightOf,
+                        dataMarket.symbol,
                         coinUnit,
-                        priceQuote?.toDouble(),
+                        lastPrice?.toDouble(),
                         System.currentTimeMillis()
                     )
                     coinPortfolioViewModel.upsertCoinBuyItem(coinBuyItem)
@@ -321,9 +339,9 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             spinner?.prompt = moreTimeList.get(position)
             val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
             interval = moreTimeList[position]
-            if (dataMarket.baseSymbol != null && dataMarket.quoteSymbol != null) {
+            if (leftOf != "" && rightOf != "") {
                 viewModel.getChartFromBinanceData(
-                    dataMarket.baseSymbol!!, dataMarket.quoteSymbol!!, intervalList[position]
+                    leftOf, rightOf, intervalList[position]
                 )
             }
             bindingSearchDialog?.listview?.onItemClickListener = null
@@ -355,12 +373,16 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             })
         }
 
-        dataMarket.baseSymbol?.let { base->
-            dataMarket.quoteSymbol?.let { quote->
-                val depthPagerAdapter = DepthViewPagerAdapter(this,base,quote)
-                binding.depthViewPager.offscreenPageLimit = 1 // yalnızca mevcut ve bir önceki sayfayı saklar
+        leftOf.let { base ->
+            rightOf.let { quote ->
+                val depthPagerAdapter = DepthViewPagerAdapter(this, base, quote)
+                binding.depthViewPager.offscreenPageLimit =
+                    1 // yalnızca mevcut ve bir önceki sayfayı saklar
                 binding.depthViewPager.adapter = depthPagerAdapter
-                TabLayoutMediator(binding.tabLayoutDepth, binding.depthViewPager) { tabItem, position ->
+                TabLayoutMediator(
+                    binding.tabLayoutDepth,
+                    binding.depthViewPager
+                ) { tabItem, position ->
                     when (position) {
                         0 -> tabItem.text = getString(R.string.orders)
                         1 -> tabItem.text = getString(R.string.history)
@@ -393,8 +415,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             bindingSearchDialog?.listview?.onItemClickListener = null
         }
         progressBar.show()
-        dataMarket.baseSymbol?.let { base ->
-            dataMarket.quoteSymbol?.let { quote ->
+        leftOf.let { base ->
+            rightOf.let { quote ->
                 viewModel.getChartFromBinanceData(
                     base, quote, interval
                 )
@@ -463,7 +485,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private fun calculateCoin() {
         binding.apply {
-            dataMarket.priceQuote?.let {
+            dataMarket.lastPrice?.let {
                 MoneyCalculateUtil.coinConverter(
                     edittextUnit, edittextTotal, it
                 )
