@@ -16,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    val coinLiveMarketCoinData = MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?>()
+    val coinLiveMarketCoinData =
+        MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?>()
     var binanceSocketLiveData = MutableLiveData<CoinWebSocketResponse?>()
     fun getAllMarketsCoinData(
         quoteSymbol: String
@@ -35,18 +36,28 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
         return coinLiveMarketCoinData
     }
 
-    fun getPageTickerData(enum: PageTickerTypeEnum): MutableLiveData<List<CoinPageTickerItem>> {
-        val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
-        currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({response->
-                pageTickerLiveData.value = response.filter {
-                    it.symbol?.endsWith(enum.name) == true
+    private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
+
+    companion object {
+        private var pageTickerList = ArrayList<CoinPageTickerItem>()
+    }
+
+    fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>> {
+        if (enum == null) {
+            currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({ response ->
+                    pageTickerList.addAll(response)
+                }, {
+
+                }).let {
+
                 }
-            }, {
-
-            }).let {
-
+        } else {
+            pageTickerLiveData.value = pageTickerList.filter {
+                it.symbol?.endsWith(enum.name) == true && ((it.volume?.toDouble()
+                    ?: 0.0) > 0 && ((it.lastPrice?.toDouble() ?: 0.0) > 0))
             }
+        }
         return pageTickerLiveData
     }
 

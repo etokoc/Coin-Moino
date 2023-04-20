@@ -44,7 +44,7 @@ class CoinPageAdapter(
             val symbol = currentItem.symbol
             val lastPrice = currentItem.lastPrice
 
-            if (symbol != null && lastPrice?.toDouble() != 0.0) {
+            if (symbol != null) {
 
                 val leftOf: String = when {
                     symbol.endsWith("USDT") -> symbol.substring(

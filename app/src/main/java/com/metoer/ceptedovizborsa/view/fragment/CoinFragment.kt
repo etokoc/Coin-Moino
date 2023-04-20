@@ -17,6 +17,7 @@ import com.metoer.ceptedovizborsa.databinding.FragmentCoinBinding
 import com.metoer.ceptedovizborsa.databinding.ItemCoinTabBinding
 import com.metoer.ceptedovizborsa.util.FilterEnum
 import com.metoer.ceptedovizborsa.util.SearchViewUtil
+import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,7 @@ class CoinFragment : Fragment() {
     private val binding
         get() = _binding!!
     private val sharedViewModel: SharedViewModel by viewModels()
+    private val coinPageViewModel: CoinPageViewModel by viewModels()
     val tabItemList = ArrayList<ItemCoinTabBinding>()
 
     override fun onCreateView(
@@ -46,7 +48,7 @@ class CoinFragment : Fragment() {
     }
 
     private fun initListeners() {
-
+        coinPageViewModel.getPageTickerData()
     }
 
     private fun initTabLayout() {
