@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
-import java.util.*
 
 @AndroidEntryPoint
 class CoinBtcFragment : Fragment() {
@@ -22,7 +18,7 @@ class CoinBtcFragment : Fragment() {
     private var _binding: FragmentCoinPageBinding? = null
     private val binding
         get() = _binding!!
-    private var adapter = CoinPageAdapter("BTC")
+    //private var adapter = CoinPageAdapter("BTC")
     private val viewModel: CoinPageViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     private var webSocket: WebSocket? = null
@@ -35,7 +31,7 @@ class CoinBtcFragment : Fragment() {
         return binding.root
     }
 
-    private fun initWebSocket() {
+   /* private fun initWebSocket() {
         viewModel.apply {
             webSocket = getBinanceCoinWebSocket()
         }
@@ -63,7 +59,7 @@ class CoinBtcFragment : Fragment() {
         binding.recylerview.itemAnimator = null
         viewModel.getAllMarketsCoinData("BTC").observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it!! as ArrayList<MarketData>)
+            adapter.setData(it!! as ArrayList<PageTickerItem>)
             coinList.clear()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
@@ -83,10 +79,10 @@ class CoinBtcFragment : Fragment() {
         }
     }
 
-    private var coinList = mutableListOf<MarketData>()
+    private var coinList = mutableListOf<PageTickerItem>()
     private fun filter(text: String) {
         webSocket?.cancel()
-        val filterlist = ArrayList<MarketData>()
+        val filterlist = ArrayList<PageTickerItem>()
         for (item in coinList) {
             if (item.baseSymbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
@@ -119,6 +115,6 @@ class CoinBtcFragment : Fragment() {
         viewModel.clearBinanceSocketLiveData()
         webSocket?.cancel()
         super.onDestroy()
-    }
+    }*/
 
 }

@@ -1,11 +1,8 @@
 package com.metoer.ceptedovizborsa.data.repository
 
 import com.metoer.ceptedovizborsa.data.AppApi
-import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
-import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.webscoket.*
 import com.metoer.ceptedovizborsa.util.Constants
-import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
@@ -27,18 +24,16 @@ class CurrencyRepository @Inject constructor(
         symbol: String,
         interval: String,
         limit: Int = Constants.BINANCE_CHART_LIMIT
-    ): Observable<BinanceRoot> {
-        return appApi.getChartFromBinanceData(symbol, interval, limit)
-    }
+    ) = appApi.getChartFromBinanceData(symbol, interval, limit)
 
     fun getRatesDataFromApi(apiKey: String) = appApi.getAllRatesData(apiKey)
 
     fun getTickerFromBinanceApi(
         symbol: String,
         windowSize: String
-    ): Observable<CoinTickerResponse> {
-        return appApi.getTickerFromBinanceData(symbol, windowSize)
-    }
+    ) = appApi.getTickerFromBinanceData(symbol, windowSize)
+
+    fun getPageTickerDataFromBinanceApi() = appApi.getPageTickerData()
 
     fun getBinanceTickerSocket(
         baseSymbol: String,
@@ -93,5 +88,4 @@ class CurrencyRepository @Inject constructor(
 
     fun getBinanceSocketListener() = providesBinanceWebSocketListener
 
-    fun getPageTickerDataFromBinanceApi ()  = appApi.getPageTickerData()
 }

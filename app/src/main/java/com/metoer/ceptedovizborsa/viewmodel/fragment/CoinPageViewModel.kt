@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
-import com.metoer.ceptedovizborsa.data.response.coin.tickers.PageTickerItem
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    val coinLiveMarketCoinData = MutableLiveData<List<MarketData>?>()
+    val coinLiveMarketCoinData = MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?>()
     var binanceSocketLiveData = MutableLiveData<CoinWebSocketResponse?>()
     fun getAllMarketsCoinData(
         quoteSymbol: String
-    ): MutableLiveData<List<MarketData>?> {
+    ): MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?> {
         currencyRepository.getAllMarketsCoinDataFromApi(CreateApiKeyUtil.getKey(), quoteSymbol)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -34,6 +33,21 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
 
             }
         return coinLiveMarketCoinData
+    }
+
+    fun getPageTickerData(enum: PageTickerTypeEnum): MutableLiveData<List<CoinPageTickerItem>> {
+        val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
+        currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({response->
+                pageTickerLiveData.value = response.filter {
+                    it.symbol?.endsWith(enum.name) == true
+                }
+            }, {
+
+            }).let {
+
+            }
+        return pageTickerLiveData
     }
 
     fun clearAllMarketCoinData() {
@@ -51,22 +65,6 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
     }
 
     fun clearBinanceSocketLiveData() {
-        binanceSocketLiveData?.value = null
+        binanceSocketLiveData.value = null
     }
-
-    fun getPageTickerData(enum: PageTickerTypeEnum): MutableLiveData<List<PageTickerItem>> {
-        val pageTickerLiveData = MutableLiveData<List<PageTickerItem>>()
-        currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({response->
-//                pageTickerLiveData.value = response.tickerItems.filter {
-//                    it.symbol?.endsWith(enum.name) == true
-//                }
-            }, {
-
-            }).let {
-
-            }
-        return pageTickerLiveData
-    }
-
 }

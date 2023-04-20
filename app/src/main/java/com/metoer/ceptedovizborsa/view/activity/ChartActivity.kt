@@ -27,7 +27,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.DepthViewPagerAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.markets.MarketData
+import com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
 import com.metoer.ceptedovizborsa.util.*
@@ -48,7 +48,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private var _binding: ActivityChartBinding? = null
     private val binding
         get() = _binding!!
-    private lateinit var dataMarket: MarketData
+    private lateinit var dataMarket: PageTickerItem
 
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
@@ -57,7 +57,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
-        dataMarket = intent.getSerializableExtra("send") as MarketData
+        dataMarket = intent.getSerializableExtra("send") as PageTickerItem
         moreTimeList = arrayListOf(
             getString(R.string.coin_time_1_minute),
             getString(R.string.coin_time_5_minute),

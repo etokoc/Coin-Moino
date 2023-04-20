@@ -16,7 +16,6 @@ object Constants {
     const val IMAGE_URL2 = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val SPINNER1_STATE_KEY = "mySpinner1"
     const val SPINNER2_STATE_KEY = "mySpinner2"
-    const val COIN_BUNDLE_KEY_STRING = "coinData"
     const val SHARED_PREFENCES_KEY = "coinmoinoSharedPref"
     const val IS_FIRST_OPEN_APP = "is_first_open_app"
     const val FIREBASE_COLLECTION_NAME = "CoinMoinoStarter"

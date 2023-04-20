@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinMarketsResponse(
     @SerializedName("data")
-    var data: List<MarketData>?,
+    var data: List<PageTickerItem>?,
     @SerializedName("timestamp")
     var timestamp: Long
 )

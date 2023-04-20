@@ -4,7 +4,7 @@ package com.metoer.ceptedovizborsa.data.response.coin.markets
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class MarketData(
+data class PageTickerItem(
     @SerializedName("baseId")
     var baseId: String?,
     @SerializedName("baseSymbol")
