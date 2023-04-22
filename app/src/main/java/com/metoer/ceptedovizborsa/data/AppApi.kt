@@ -3,7 +3,6 @@ package com.metoer.ceptedovizborsa.data
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinMarketsResponse
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.data.response.currency.TarihDate
@@ -43,13 +42,6 @@ interface AppApi {
     @QualifiedTypeConverterFactory.Json
     @Headers(AUTHORIZATION)
     suspend fun getAllCoinData(@Query("offset") nextPageNumber: Int): CoinResponse
-
-    @GET("${Constants.COINCAP_BASE_URL}${MARKET_COIN_DATA}")
-    @QualifiedTypeConverterFactory.Json
-    fun getAllMarketsCoinData(
-        @Header(AUTHORIZATIN_HEADER) apiKey: String,
-        @Query(QUERY_QUOTE_SYMBOL) quoteSymbol: String
-    ): Observable<CoinMarketsResponse>
 
     /***
      * Binance Data

@@ -1,7 +1,6 @@
 package com.metoer.ceptedovizborsa.util
 
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
-import com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 

@@ -16,26 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    val coinLiveMarketCoinData =
-        MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?>()
     var binanceSocketLiveData = MutableLiveData<CoinWebSocketResponse?>()
-    fun getAllMarketsCoinData(
-        quoteSymbol: String
-    ): MutableLiveData<List<com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem>?> {
-        currencyRepository.getAllMarketsCoinDataFromApi(CreateApiKeyUtil.getKey(), quoteSymbol)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response ->
-                if (response != null && !response.data.isNullOrEmpty())
-                    coinLiveMarketCoinData.value = response.data
-            }, {
-
-            }).let {
-
-            }
-        return coinLiveMarketCoinData
-    }
-
     private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
 
     companion object {
@@ -60,11 +41,6 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
         }
         return pageTickerLiveData
     }
-
-    fun clearAllMarketCoinData() {
-        coinLiveMarketCoinData.value = null
-    }
-
 
     fun getBinanceCoinWebSocket(): WebSocket {
         return currencyRepository.getBinanceCoinSocket()

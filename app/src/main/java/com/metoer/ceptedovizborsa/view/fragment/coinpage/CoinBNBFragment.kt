@@ -71,13 +71,6 @@ class CoinBNBFragment : Fragment() {
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
         }
-        /*viewModel.getAllMarketsCoinData("BNB").observe(viewLifecycleOwner) {
-            binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it!! as ArrayList<PageTickerItem>)
-            coinList = ArrayList()
-            coinList.addAll(it)
-            binding.recylerview.adapter = adapter
-        }*/
 
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             if (it != null) {

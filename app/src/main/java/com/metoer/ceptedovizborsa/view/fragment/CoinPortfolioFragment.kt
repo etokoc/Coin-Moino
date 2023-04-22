@@ -113,7 +113,11 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                         coinTakedValue,
                         currentValueOfCoin
                     )
-                this.textViewPortfolioDialogCoinchange.text=calculatePercent(coinTakedValue!!,currentValueOfCoin,this.textViewPortfolioDialogCoinchange)
+                this.textViewPortfolioDialogCoinchange.text = calculatePercent(
+                    coinTakedValue!!,
+                    currentValueOfCoin,
+                    this.textViewPortfolioDialogCoinchange
+                )
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
                     coinBuyItemList.removeAt(position)
@@ -128,10 +132,18 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    private fun calculatePercent(firstPrice: Double, currentPrice:Float,textView: TextView): String {
-        val percent = ((currentPrice - firstPrice)/currentPrice) * 100
-        percentBacgroundTint(percent,textView)
-        val result = getString(R.string.coin_exchange_parcent_text,NumberDecimalFormat.numberDecimalFormat(percent.toString(),"0.##"),"%")
+    private fun calculatePercent(
+        firstPrice: Double,
+        currentPrice: Float,
+        textView: TextView
+    ): String {
+        val percent = ((currentPrice - firstPrice) / currentPrice) * 100
+        percentBacgroundTint(percent, textView)
+        val result = getString(
+            R.string.coin_exchange_parcent_text,
+            NumberDecimalFormat.numberDecimalFormat(percent.toString(), "0.##"),
+            "%"
+        )
         return result
     }
 
@@ -171,7 +183,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         val coinData = adapter.itemList[position]
         coinData.apply {
             if (this.coinSymbolQuote == "USD") {
-                val currentValueOfCoin =0f
+                val currentValueOfCoin = 0f
 //                val currentValueOfCoin =
 //                    StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
                 showDialog(
@@ -181,11 +193,21 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     currentValueOfCoin
                 )
             } else {
+                requireContext().showToastShort("binance data= " + " room data" + coinData.coinSymbol)
                 this.coinSymbolQuote?.let {
-                    coinMarketViewModel.getAllMarketsCoinData(it)
+                    val enumSymbol = PageTickerTypeEnum.valueOf(it)
+                    coinMarketViewModel.getPageTickerData(enumSymbol)
                         .observeOnce(viewLifecycleOwner) { value ->
                             val currentValueOfCoin =
-                                value?.find { it.baseSymbol == coinData.coinSymbol }?.priceQuote?.toFloat()
+                                value?.find {
+                                    when {
+                                        it.symbol!!.endsWith("USDT") -> it.symbol!!.substring(
+                                            0,
+                                            it.symbol!!.length - 4
+                                        )
+                                        else -> it.symbol!!.substring(0, it.symbol!!.length - 3)
+                                    } == coinData.coinSymbol
+                                }?.lastPrice?.toFloat()
                             currentValueOfCoin?.let {
                                 showDialog(binding.root, coinData, position, currentValueOfCoin)
                             } ?: kotlin.run {
