@@ -29,7 +29,7 @@ object SearchViewUtil {
                     this.text?.clear()
                     this.clearFocus()
                 } else {
-                    searhLayoutBinding.btnClear.visibility = View.GONE
+                    searhLayoutBinding.btnClear.hide()
                     this.clearFocus()
                 }
             }
@@ -39,10 +39,10 @@ object SearchViewUtil {
     fun searchViewTextChanged(searhLayoutBinding: SearchLayoutBinding) {
         searhLayoutBinding.currencySearchView.apply {
             if (!this.text.isNullOrEmpty()) {
-                searhLayoutBinding.btnClear.visibility = View.VISIBLE
+                searhLayoutBinding.btnClear.show()
                 searhLayoutBinding.btnSearch.setTintColor(R.color.primary_color)
             } else {
-                searhLayoutBinding.btnClear.visibility = View.GONE
+                searhLayoutBinding.btnClear.hide()
                 searhLayoutBinding.btnSearch.setTintColor(R.color.sortgray)
                 this.clearFocus()
             }

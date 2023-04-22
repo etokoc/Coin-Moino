@@ -1,6 +1,5 @@
 package com.metoer.ceptedovizborsa.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
 import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
@@ -55,15 +53,6 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
                     }.png"
                 ).into(moneyImage)
             }
-            /*if (currentItems.symbol!!.trim().lowercase() != "try") {
-                val resId: Int = holder.itemView.resources.getIdentifier(
-                    currentItems.symbol!!.trim().lowercase(),
-                    "string", holder.itemView.context.packageName
-                )
-                moneyNameTextView.text = holder.itemView.context.getString(resId)
-            } else {
-                moneyNameTextView.text = holder.itemView.context.getString(R.string.tr)
-            }*/
         }
     }
 

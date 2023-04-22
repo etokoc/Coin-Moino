@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.trades.CoinTradeData
 import com.metoer.ceptedovizborsa.databinding.CoinRatesItemBinding
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.patternText
 import com.metoer.ceptedovizborsa.util.textColors
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,12 +41,8 @@ class CoinTradeAdapter() : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>
             val sdf = SimpleDateFormat("HH:mm:ss")
             val time = sdf.format(currentItem.eventTime?.let { Date(it) })
             textViewTime.text = time
-            textViewValue.text = currentItem.price?.let {
-                NumberDecimalFormat.numberDecimalFormat(it, "###,###,###,###.######")
-            }
-            textViewQuantity.text = currentItem.quantity?.let {
-                NumberDecimalFormat.numberDecimalFormat(it, "###,###,###,###.######")
-            }
+            textViewValue.patternText(currentItem.price, "###,###,###,###.########")
+            textViewQuantity.patternText(currentItem.quantity, "###,###,###,###.######")
             if (currentItem.buyerMarketMaker == true) {
                 textViewValue.textColors(R.color.coinValueDrop)
             } else {

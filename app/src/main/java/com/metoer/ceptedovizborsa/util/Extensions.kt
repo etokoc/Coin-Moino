@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import java.util.regex.Pattern
 
 fun View.hide() {
     this.visibility = View.GONE
@@ -51,6 +52,12 @@ fun getColorful(context: Context, id: Int): Int {
 
 fun ImageView.setTintColor(@ColorRes color: Int) {
     this.setColorFilter(ContextCompat.getColor(context, color))
+}
+
+fun TextView.patternText(value: String?, pattern: String) {
+    this.text = value?.let {
+        NumberDecimalFormat.numberDecimalFormat(value = it, pattern)
+    }
 }
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {

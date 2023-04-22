@@ -41,11 +41,25 @@
         app:layout_constraintTop_toBottomOf="@+id/coinExchangeSembolText">
 
         <TextView
-            android:id="@+id/coinExchangeNameText"
+            android:id="@+id/coinVolumeExchangeText"
             style="@style/TextColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
+            android:layout_weight="1.5"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeMinTextSize="6sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:text="" />
+        <TextView
+            android:id="@+id/coinPriceChangeText"
+            style="@style/TextLightColor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeMinTextSize="6sp"
@@ -54,24 +68,9 @@
             android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
             android:padding="1dp"
-            android:text=""
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/coinVolumeExchangeText"
-            style="@style/TextColor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1.5"
             android:gravity="end"
-            android:autoSizeMaxTextSize="14sp"
-            android:autoSizeMinTextSize="6sp"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
-            android:maxLines="1"
             android:text="" />
+
     </LinearLayout>
 
 

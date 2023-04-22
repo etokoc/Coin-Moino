@@ -45,6 +45,7 @@ class CoinPageAdapter(
 
             val symbol = currentItem.symbol
             val lastPrice = currentItem.lastPrice
+            val parcent = currentItem.priceChangePercent?.toDouble()
 
             if (symbol != null) {
 
@@ -55,7 +56,7 @@ class CoinPageAdapter(
                     )
                     else -> symbol.substring(0, symbol.length - 3)
                 }
-                coinExchangeNameText.text = currentItem.symbol?.uppercase()
+                coinPriceChangeText.patternText(currentItem.priceChange,"###,###,###,###.########")
                 coinExchangeSembolText.text = leftOf
 
                 Glide.with(this.root).load(
@@ -78,14 +79,8 @@ class CoinPageAdapter(
                                 holder.itemView.context
                             )
                         }
-                coinExchangeValueText.text =
-                    lastPrice?.let {
-                        NumberDecimalFormat.numberDecimalFormat(
-                            it,
-                            "###,###,###,###.######"
-                        )
-                    }
-                val parcent = currentItem.priceChangePercent?.toDouble()
+                coinExchangeValueText.patternText(lastPrice, "###,###,###,###.########")
+
                 if (parcent != null && parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(

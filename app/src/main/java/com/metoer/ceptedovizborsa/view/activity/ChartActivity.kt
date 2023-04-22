@@ -27,7 +27,6 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.adapter.DepthViewPagerAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
-import com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
@@ -163,11 +162,11 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 },
                                 "%"
                             )
-                            coinValueTextView.text = tickerData?.lastPrice?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it, "###,###,###,###.########"
-                                )
-                            }
+                            coinValueTextView.patternText(
+                                tickerData?.lastPrice,
+                                "###,###,###,###.########"
+                            )
+
                             textViewVolume.text = getString(R.string.volume_base_text,
                                 base.uppercase(),
                                 tickerData?.volume?.toDouble()?.let {
@@ -231,11 +230,10 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 },
                                 "%"
                             )
-                            coinValueTextView.text = tickerData?.lastPrice?.let {
-                                NumberDecimalFormat.numberDecimalFormat(
-                                    it, "###,###,###,###.########"
-                                )
-                            }
+                            coinValueTextView.patternText(
+                                tickerData?.lastPrice,
+                                "###,###,###,###.########"
+                            )
                             textViewVolume.text = getString(R.string.volume_base_text,
                                 base.uppercase(),
                                 tickerData?.baseVolume?.toDouble()?.let {

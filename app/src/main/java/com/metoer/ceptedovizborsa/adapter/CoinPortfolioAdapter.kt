@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CoinPortfolioItemBinding
-import com.metoer.ceptedovizborsa.util.DiffUtil
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 import com.metoer.ceptedovizborsa.util.onItemClickListener
+import com.metoer.ceptedovizborsa.util.patternText
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,8 +36,8 @@ class CoinPortfolioAdapter(
                 currentItem.coinSymbolQuote,
                 currentItem.coinTakedValue
             )
-            textViewCoinPortUnit.text = NumberDecimalFormat.numberDecimalFormat(
-                currentItem.coinUnit.toString(),
+            textViewCoinPortUnit.patternText(
+                 currentItem.coinUnit.toString(),
                 "###,###,###,###.######"
             )
             textViewCoinPortDate.text = getDate(currentItem.coinTakedTime!!)

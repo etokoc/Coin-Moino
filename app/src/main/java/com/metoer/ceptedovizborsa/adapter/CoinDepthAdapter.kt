@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.databinding.CoinAsksItemBinding
 import com.metoer.ceptedovizborsa.databinding.CoinBidsItemBinding
 import com.metoer.ceptedovizborsa.util.Constants.MINIMUM_DEPTH_WIDTH
-import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.patternText
 
 class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -48,10 +48,8 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(0)
             val value = _itemList[position].get(1)
-            itemBinding.textViewAsksQuantity.text =
-                NumberDecimalFormat.numberDecimalFormat(quantity, "###,###,###,###.######")
-            itemBinding.textViewAsksValue.text =
-                NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
+            itemBinding.textViewAsksQuantity.patternText(quantity, "###,###,###,###.######")
+            itemBinding.textViewAsksValue.patternText(value, "###,###,###,###.########")
             val displayMetrics = itemBinding.root.resources.displayMetrics
             val screenWidth = displayMetrics.widthPixels
             val viewWidth =
@@ -66,10 +64,8 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(1)
             val value = _itemList[position].get(0)
-            itemBinding.textViewBidsQuantity.text =
-                NumberDecimalFormat.numberDecimalFormat(quantity, "###,###,###,###.######")
-            itemBinding.textViewBidsValue.text =
-                NumberDecimalFormat.numberDecimalFormat(value, "###,###,###,###.######")
+            itemBinding.textViewBidsQuantity.patternText(quantity, "###,###,###,###.######")
+            itemBinding.textViewBidsValue.patternText(value, "###,###,###,###.########")
             val displayMetrics = itemBinding.root.resources.displayMetrics
             val screenWidth = displayMetrics.widthPixels
             val viewWidth =
