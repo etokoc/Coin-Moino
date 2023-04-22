@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.util
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.markets.PageTickerItem
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
+import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 
 class SortListUtil(
 
@@ -31,13 +32,13 @@ class SortListUtil(
     ): List<T> {
         var arrayListForCoin = listOf<T>()
         if (sortedByItem == FilterEnum.NAME)
-            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.symbol else (it as PageTickerItem).baseSymbol  }
+            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.symbol else (it as CoinPageTickerItem).symbol  }
         if (sortedByItem == FilterEnum.VOLUME)
-            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.volumeUsd24Hr?.toDouble() else (it as PageTickerItem).volumeUsd24Hr?.toDouble() }
+            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.volumeUsd24Hr?.toDouble() else (it as CoinPageTickerItem).quoteVolume?.toDouble() }
         if (sortedByItem == FilterEnum.PRICE)
-            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.priceUsd?.toDouble() else (it as PageTickerItem).priceUsd?.toDouble() }
+            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.priceUsd?.toDouble() else (it as CoinPageTickerItem).lastPrice?.toDouble() }
         if (sortedByItem == FilterEnum.HOUR24)
-            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.changePercent24Hr?.toDouble() else (it as PageTickerItem).percentExchangeVolume?.toDouble() }
+            arrayListForCoin = itemlist.sortedBy {if (it is CoinData) it.changePercent24Hr?.toDouble() else (it as CoinPageTickerItem).priceChangePercent?.toDouble() }
 
         if (FilterEnum.ASC == sortedType) {
             arrayListForCoin = arrayListForCoin.reversed()

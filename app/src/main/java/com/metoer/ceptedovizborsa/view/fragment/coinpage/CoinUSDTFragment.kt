@@ -58,13 +58,6 @@ class CoinUSDTFragment : Fragment() {
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
         }
-        /*viewModel.getAllMarketsCoinData("USDT").observe(viewLifecycleOwner) {
-            binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
-            adapter.setData(it!! as ArrayList<MarketData>)
-            coinList = ArrayList()
-            coinList.addAll(it)
-            binding.recylerview.adapter = adapter
-        }*/
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             if (it != null) {
                 adapter.sortList(it.second, it.first)
@@ -94,12 +87,9 @@ class CoinUSDTFragment : Fragment() {
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {
         webSocket?.cancel()
-        //sorun var
         val filterlist = ArrayList<CoinPageTickerItem>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault())) == true
-                || item.symbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
                 filterlist.add(item)
