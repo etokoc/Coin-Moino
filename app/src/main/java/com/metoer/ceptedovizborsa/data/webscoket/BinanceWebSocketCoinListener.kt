@@ -14,7 +14,7 @@ import okhttp3.WebSocketListener
 class BinanceWebSocketCoinListener : WebSocketListener() {
 
     companion object {
-        var data: MutableLiveData<CoinWebSocketResponse?>? = MutableLiveData()
+        var data: MutableLiveData<List<CoinWebSocketResponse>?>? = MutableLiveData()
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -23,14 +23,15 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
          * send kullanımı websocket'e message body göndermek için kullanılır.
          */
 //        webSocket.send("")
-        Log.i("WEBSOCKET", "Websockete bağlandı (coin için)")
+        Log.i("WEBSOCKET BinanceWebSocketCoinListener", "Websockete bağlandı (coin için)")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         writeToLog("Received: $text")
         if (text.isNotEmpty()) {
             val json = JsonParser.parseString(text)
-            data?.postValue(Gson().fromJson(json, CoinWebSocketResponse::class.java))
+            val coinWebSocketResponses = Gson().fromJson(json, Array<CoinWebSocketResponse>::class.java)
+            data?.postValue(coinWebSocketResponses.toList())
         } else {
             writeToLog("Received: text is null")
         }
@@ -46,10 +47,10 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.i("WEBSOCKET", "$text")
+        Log.i("WEBSOCKET BinanceWebSocketCoinListener", "$text")
     }
 
-    fun getData(): MutableLiveData<CoinWebSocketResponse?>? {
+    fun getData(): MutableLiveData<List<CoinWebSocketResponse>?>? {
         return if (data != null) {
             data
         } else

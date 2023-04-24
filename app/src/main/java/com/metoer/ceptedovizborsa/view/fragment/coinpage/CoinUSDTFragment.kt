@@ -69,20 +69,20 @@ class CoinUSDTFragment : Fragment() {
                 filter(it)
             }
         }
-       // connectWebSocket()
+        connectWebSocket()
     }
 
-   /* private fun connectWebSocket() {
+    private fun connectWebSocket() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed mForeach@{ index, item ->
-                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    coinList = adapter.updateData(webSocketData, index)
-                    return@mForeach
-                }
+                coinList = adapter.updateData(webSocketData?.find { response ->
+                    response.symbol == item.symbol
+                }, index)
+                return@mForeach
             }
         }
-    }*/
+    }
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {

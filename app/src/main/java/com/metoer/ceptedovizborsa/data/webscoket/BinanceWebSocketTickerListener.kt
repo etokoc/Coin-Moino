@@ -22,7 +22,7 @@ class BinanceWebSocketTickerListener : WebSocketListener() {
          * send kullanımı websocket'e message body göndermek için kullanılır.
          */
 //        webSocket.send("")
-        Log.i("WEBSOCKET", "Websockete bağlandı ")
+        Log.i("WEBSOCKET BinanceWebSocketTickerListener", "Websockete bağlandı ")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {

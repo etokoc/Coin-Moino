@@ -4,7 +4,7 @@ object Constants {
     const val WEBSOCKET_ID: Int = 1453
     const val BINANCE_CHART_LIMIT = 1000
     const val BINANCE_WEB_SOCKET_BASE_URL = "wss://stream.binance.com:9443/ws/"
-    const val BINANCE_WEB_SOCKET_COIN_BASE_URL = "wss://ws.coincap.io/trades/binance"
+    const val BINANCE_WEB_SOCKET_COIN_BASE_URL = "wss://stream.binance.com:9443/ws/!ticker@arr"
     const val CURRENCY_BASE_URL = "https://www.tcmb.gov.tr/kurlar/"
     const val RATES_BASE_URL = "https://api.coincap.io/v2/rates"
     const val COINCAP_BASE_URL = "https://api.coincap.io/v2/"

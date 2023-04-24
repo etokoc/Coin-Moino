@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    var binanceSocketLiveData = MutableLiveData<CoinWebSocketResponse?>()
+    var binanceSocketLiveData = MutableLiveData<List<CoinWebSocketResponse>?>()
     private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
 
     fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>> {
@@ -38,7 +38,7 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
 
     fun getBinanceCoinWebSocket() = currencyRepository.getBinanceCoinSocket()
 
-    fun getBinanceSocketListener(): MutableLiveData<CoinWebSocketResponse?> {
+    fun getBinanceSocketListener(): MutableLiveData<List<CoinWebSocketResponse>?> {
         binanceSocketLiveData = currencyRepository.getBinanceSocketListener().getData()!!
         return binanceSocketLiveData
     }

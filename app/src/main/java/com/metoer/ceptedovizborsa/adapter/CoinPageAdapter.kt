@@ -56,7 +56,7 @@ class CoinPageAdapter(
                     )
                     else -> symbol.substring(0, symbol.length - 3)
                 }
-                coinPriceChangeText.patternText(currentItem.priceChange,"###,###,###,###.########")
+                coinPriceChangeText.patternText(currentItem.priceChange, "###,###,###,###.########")
                 coinExchangeSembolText.text = leftOf
 
                 Glide.with(this.root).load(
@@ -147,11 +147,16 @@ class CoinPageAdapter(
 
     var oldValue = arrayListOf<Double>()
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<CoinPageTickerItem> {
-        if (index < getFilteredList().size) {
-            getFilteredList()[index].lastPrice = newData?.price.toString()
-            notifyItemChanged(index)
-            itemList.map {
-                oldValue.add(it.lastPrice?.toDouble() ?: 0.0)
+        if (newData != null){
+            if (index < getFilteredList().size) {
+                getFilteredList()[index].lastPrice = newData.lastPrice.toString()
+                getFilteredList()[index].priceChangePercent = newData.priceChangePercent.toString()
+                getFilteredList()[index].quoteVolume = newData.queteVolume.toString()
+                getFilteredList()[index].priceChange = newData.priceChange.toString()
+                itemList.map {
+                    oldValue.add(it.lastPrice?.toDouble() ?: 0.0)
+                }
+                notifyItemChanged(index)
             }
         }
         return itemList
