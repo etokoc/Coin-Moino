@@ -75,20 +75,17 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun baseSymbol(symbol: String): String {
-        val leftOf = when {
+        return when {
             symbol.endsWith("USDT") -> symbol.substring(
                 0,
                 symbol.length - 4
             )
             else -> dataMarket.symbol!!.substring(0, symbol.length - 3)
         }
-        return leftOf
     }
 
     private fun quoteSymbol(symbol: String): String {
-        val rightOf =
-            dataMarket.symbol!!.substring(baseSymbol(symbol).length, dataMarket.symbol!!.length)
-        return rightOf
+        return dataMarket.symbol!!.substring(baseSymbol(symbol).length, dataMarket.symbol!!.length)
     }
 
     override fun onResume() {
