@@ -73,6 +73,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         initTabLayout()
         setContentView(binding.root)
     }
+
     private fun baseSymbol(symbol: String): String {
         return when {
             symbol.endsWith("USDT") -> symbol.substring(
