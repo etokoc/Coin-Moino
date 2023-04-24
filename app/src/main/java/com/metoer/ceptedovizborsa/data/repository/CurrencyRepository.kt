@@ -34,14 +34,13 @@ class CurrencyRepository @Inject constructor(
     fun getPageTickerDataFromBinanceApi() = appApi.getPageTickerData()
 
     fun getBinanceTickerSocket(
-        baseSymbol: String,
-        quoteSymbol: String,
+        symbol: String,
         webSocketType: String,
         param: String = ""
     ): WebSocket {
         val request: Request =
             Request.Builder()
-                .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}$webSocketType$param")
+                .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${symbol.lowercase()}$webSocketType$param")
                 .build()
         return providesOkhttpClient.newWebSocket(
             request,
@@ -52,9 +51,9 @@ class CurrencyRepository @Inject constructor(
     fun getBinanceSocketTickerListener() = providesBinanceWebSocketTickerListener
 
 
-    fun getBinanceDepthSocket(baseSymbol: String, quoteSymbol: String): WebSocket {
+    fun getBinanceDepthSocket(symbol: String): WebSocket {
         val request: Request = Request.Builder()
-            .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}@depth20")
+            .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${symbol.lowercase()}@depth20")
             .build()
         return providesOkhttpClient.newWebSocket(
             request,
@@ -64,9 +63,9 @@ class CurrencyRepository @Inject constructor(
 
     fun getBinanceSocketDepthListener() = providesDepthListener
 
-    fun getBinanceTradeSocket(baseSymbol: String, quoteSymbol: String): WebSocket {
+    fun getBinanceTradeSocket(symbol: String): WebSocket {
         val request: Request = Request.Builder()
-            .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${baseSymbol.lowercase() + quoteSymbol.lowercase()}@trade")
+            .url("${Constants.BINANCE_WEB_SOCKET_BASE_URL}${symbol.lowercase()}@trade")
             .build()
         return providesOkhttpClient.newWebSocket(
             request,

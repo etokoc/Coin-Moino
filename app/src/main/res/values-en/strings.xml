@@ -45,7 +45,7 @@
     <string name="warning_title">Warning</string>
     <string name="your_process_is_success">Your transaction is complate</string>
     <string name="check_inputs">Check entries</string>
-    <string name="coin_taked_value">%1$f -> %2$f</string>
+    <string name="coin_taked_value">%1$s -> %2$s</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
     <string name="coin_profit">Kar %1$s (%2$s)</string>

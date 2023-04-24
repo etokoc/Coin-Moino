@@ -14,10 +14,9 @@ class OrderViewModel @Inject constructor(private val repository: CurrencyReposit
     private var binanceSocketDepthLiveData: MutableLiveData<CoinDepth?>? = null
 
     fun getBinanceDepthWebSocket(
-        baseSymbol: String,
-        quoteSymbol: String
+        symbol: String
     ): WebSocket {
-        return repository.getBinanceDepthSocket(baseSymbol, quoteSymbol)
+        return repository.getBinanceDepthSocket(symbol)
     }
 
     fun getBinanceSocketDepthListener(): MutableLiveData<CoinDepth?>? {

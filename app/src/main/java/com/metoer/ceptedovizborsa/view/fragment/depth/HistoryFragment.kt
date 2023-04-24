@@ -43,22 +43,18 @@ class HistoryFragment : Fragment() {
 
     private fun initistener() {
         val bundle = arguments
-        val baseSymbol = bundle?.getString("baseSymbol")
-        val quotetSymbol = bundle?.getString("quotetSymbol")
-        baseSymbol?.let { base ->
-            quotetSymbol?.let { quote ->
-                val layoutManager = LinearLayoutManager(requireContext())
-                layoutManager.reverseLayout = true
-                binding.recyclerViewHistory.layoutManager = layoutManager
-                binanceTradeSocket = viewModel.getBinanceTradeWebSocket(base, quote)
-                viewModel.getBinanceSocketTradeListener()?.observe(this) { tradeData ->
-                    if (tradeData != null) {
-                        adapter.setData(tradeData)
-                        binding.recyclerViewHistory.adapter = adapter
-                    }
-                }
+        val symbol = bundle?.getString("symbol")
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.reverseLayout = true
+        binding.recyclerViewHistory.layoutManager = layoutManager
+        binanceTradeSocket = symbol?.let { viewModel.getBinanceTradeWebSocket(it) }
+        viewModel.getBinanceSocketTradeListener()?.observe(this) { tradeData ->
+            if (tradeData != null) {
+                adapter.setData(tradeData)
+                binding.recyclerViewHistory.adapter = adapter
             }
         }
+
     }
 
     override fun onPause() {

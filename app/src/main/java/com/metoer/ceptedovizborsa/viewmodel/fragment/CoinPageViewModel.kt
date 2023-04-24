@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
+import com.metoer.ceptedovizborsa.util.CoinTickerPageData
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,32 +20,23 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
     var binanceSocketLiveData = MutableLiveData<CoinWebSocketResponse?>()
     private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
 
-    companion object {
-        private var pageTickerList = ArrayList<CoinPageTickerItem>()
-    }
-
     fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>> {
         if (enum == null) {
             currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ response ->
-                    pageTickerList.addAll(response)
+                    CoinTickerPageData.setPageTickerList(response)
                 }, {
 
                 }).let {
 
                 }
         } else {
-            pageTickerLiveData.value = pageTickerList.filter {
-                it.symbol?.endsWith(enum.name) == true && ((it.volume?.toDouble()
-                    ?: 0.0) > 0 && ((it.lastPrice?.toDouble() ?: 0.0) > 0))
-            }
+            pageTickerLiveData.value = CoinTickerPageData.getPageTickerList(enum)
         }
         return pageTickerLiveData
     }
 
-    fun getBinanceCoinWebSocket(): WebSocket {
-        return currencyRepository.getBinanceCoinSocket()
-    }
+    fun getBinanceCoinWebSocket() = currencyRepository.getBinanceCoinSocket()
 
     fun getBinanceSocketListener(): MutableLiveData<CoinWebSocketResponse?> {
         binanceSocketLiveData = currencyRepository.getBinanceSocketListener().getData()!!

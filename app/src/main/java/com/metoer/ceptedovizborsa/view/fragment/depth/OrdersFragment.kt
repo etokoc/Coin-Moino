@@ -47,20 +47,15 @@ class OrdersFragment : Fragment() {
 
     private fun initlistener() {
         val bundle = arguments
-        val baseSymbol = bundle?.getString("baseSymbol")
-        val quotetSymbol = bundle?.getString("quotetSymbol")
-        baseSymbol?.let { base ->
-            quotetSymbol?.let { quote ->
-                binanceDepthSocket = viewModel.getBinanceDepthWebSocket(base, quote)
-                viewModel.getBinanceSocketDepthListener()
-                    ?.observe(this) { coinDepth ->
-                        if (coinDepth != null) {
-                            bidsAdapter.setData(coinDepth.bids)
-                            asksAdapter.setData(coinDepth.asks)
-                        }
-                    }
+        val symbol = bundle?.getString("symbol")
+        binanceDepthSocket = symbol?.let { viewModel.getBinanceDepthWebSocket(it) }
+        viewModel.getBinanceSocketDepthListener()
+            ?.observe(this) { coinDepth ->
+                if (coinDepth != null) {
+                    bidsAdapter.setData(coinDepth.bids)
+                    asksAdapter.setData(coinDepth.asks)
+                }
             }
-        }
     }
 
     private fun initAdapter() {

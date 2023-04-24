@@ -28,10 +28,9 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
     var chartBinanceLiveData = MutableLiveData<BinanceRoot?>()
     fun getChartFromBinanceData(
         symbol: String,
-        quote: String,
         interval: String
     ) {
-        repository.getChartFromBinanceApi(symbol + quote, interval).subscribeOn(Schedulers.io())
+        repository.getChartFromBinanceApi(symbol, interval).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 chartBinanceLiveData.value = it
@@ -43,10 +42,9 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
     fun getTickerFromBinanceData(
         symbol: String,
-        quote: String,
         windowSize: String,
     ): MutableLiveData<CoinTickerResponse?> {
-        repository.getTickerFromBinanceApi(symbol + quote, windowSize).subscribeOn(Schedulers.io())
+        repository.getTickerFromBinanceApi(symbol, windowSize).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 tickerFromBinanceLiveData.value = it
@@ -63,12 +61,11 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
     }
 
     fun getBinanceTickerWebSocket(
-        baseSymbol: String,
-        quoteSymbol: String,
+        symbol: String,
         webSocketType: String = "@ticker_",
         param: String = "1d"
     ): WebSocket {
-        return repository.getBinanceTickerSocket(baseSymbol, quoteSymbol, webSocketType, param)
+        return repository.getBinanceTickerSocket(symbol, webSocketType, param)
     }
 
     fun getBinanceSocketTickerListener(): MutableLiveData<CoinWebsocketTickerResponse?>? {

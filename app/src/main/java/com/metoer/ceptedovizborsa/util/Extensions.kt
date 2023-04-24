@@ -60,6 +60,10 @@ fun TextView.patternText(value: String?, pattern: String) {
     }
 }
 
+fun TextView.getStringPattern(context: Context, resId: Int, vararg formatArgs: Any) {
+    this.text = context.getString(resId, formatArgs)
+}
+
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
     observe(lifecycleOwner, object : Observer<T> {
         override fun onChanged(t: T) {

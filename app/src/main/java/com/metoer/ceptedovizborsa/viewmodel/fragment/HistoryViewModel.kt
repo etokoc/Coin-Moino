@@ -14,8 +14,8 @@ class HistoryViewModel @Inject constructor(private val repository: CurrencyRepos
 
     private var binanceSocketRatesData: MutableLiveData<CoinTradeData?>? = null
 
-    fun getBinanceTradeWebSocket(baseSymbol: String, quoteSymbol: String): WebSocket {
-        return repository.getBinanceTradeSocket(baseSymbol, quoteSymbol)
+    fun getBinanceTradeWebSocket(symbol:String): WebSocket {
+        return repository.getBinanceTradeSocket(symbol)
     }
 
     fun getBinanceSocketTradeListener(): MutableLiveData<CoinTradeData?>? {

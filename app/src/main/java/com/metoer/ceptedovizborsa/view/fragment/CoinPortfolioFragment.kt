@@ -110,8 +110,14 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                 this.textviewDescription.text =
                     getString(
                         R.string.coin_taked_value,
-                        coinTakedValue,
-                        currentValueOfCoin
+                        NumberDecimalFormat.numberDecimalFormat(
+                            coinTakedValue.toString(),
+                            "###,###,###,###.########"
+                        ),
+                        NumberDecimalFormat.numberDecimalFormat(
+                            currentValueOfCoin.toString(),
+                            "###,###,###,###.########"
+                        )
                     )
                 this.textViewPortfolioDialogCoinchange.text = calculatePercent(
                     coinTakedValue!!,
@@ -193,7 +199,6 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     currentValueOfCoin
                 )
             } else {
-                requireContext().showToastShort("binance data= " + " room data" + coinData.coinSymbol)
                 this.coinSymbolQuote?.let {
                     val enumSymbol = PageTickerTypeEnum.valueOf(it)
                     coinMarketViewModel.getPageTickerData(enumSymbol)

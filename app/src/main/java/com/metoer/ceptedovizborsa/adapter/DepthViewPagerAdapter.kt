@@ -11,8 +11,7 @@ import com.metoer.ceptedovizborsa.view.fragment.depth.OrdersFragment
 
 class DepthViewPagerAdapter(
     chartActivity: ChartActivity,
-    val baseSymbol: String,
-    val quotetSymbol: String
+    val symbol: String
 ) :
     FragmentStateAdapter(chartActivity) {
     override fun getItemCount(): Int {
@@ -35,8 +34,7 @@ class DepthViewPagerAdapter(
 
     private fun bundleData(fragment: Fragment): Fragment {
         val bundle = Bundle()
-        bundle.putString("baseSymbol", baseSymbol)
-        bundle.putString("quotetSymbol", quotetSymbol)
+        bundle.putString("symbol", symbol)
         fragment.arguments = bundle
         return fragment
     }
