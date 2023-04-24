@@ -195,7 +195,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                             })
                     }
                 binanceSocket = viewModel.getBinanceTickerWebSocket(symbol)
-                binanceSocket = viewModel.getBinanceTickerWebSocket(symbol)
+
                 viewModel.getBinanceSocketTickerListener()
                     ?.observe(this@ChartActivity) { tickerData ->
                         val percent = tickerData?.priceChangePercent?.toDouble()
