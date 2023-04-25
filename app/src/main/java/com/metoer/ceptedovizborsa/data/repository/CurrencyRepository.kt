@@ -16,7 +16,6 @@ class CurrencyRepository @Inject constructor(
     val providesDepthListener: BinanceWebSocketDepthListener,
     val providesTradeListener: BinanceWebSocketTradeListener
 ) {
-    fun getCurrencyDataFromApi(timeUnix: String) = appApi.getCurrencyData(timeUnix)
 
     fun getChartFromBinanceApi(
         symbol: String,

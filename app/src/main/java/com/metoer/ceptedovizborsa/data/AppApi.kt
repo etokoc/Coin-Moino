@@ -5,7 +5,6 @@ import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinResponse
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
-import com.metoer.ceptedovizborsa.data.response.currency.TarihDate
 import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.Constants.AUTHORIZATIN_HEADER
 import com.metoer.ceptedovizborsa.util.Constants.AUTHORIZATION
@@ -14,9 +13,7 @@ import com.metoer.ceptedovizborsa.util.Constants.CHART_BINANCE_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.INTERVAL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_100
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_QUERY
-import com.metoer.ceptedovizborsa.util.Constants.MARKET_COIN_DATA
 import com.metoer.ceptedovizborsa.util.Constants.PAGE_TICKER_URL
-import com.metoer.ceptedovizborsa.util.Constants.QUERY_QUOTE_SYMBOL
 import com.metoer.ceptedovizborsa.util.Constants.SYMBOL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_ENDPOINT
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_WINDOWSSIZE
@@ -28,9 +25,6 @@ import retrofit2.http.Query
 
 
 interface AppApi {
-    @GET(Constants.TODAY_XML)
-    @QualifiedTypeConverterFactory.Xml
-    fun getCurrencyData(@Query(Constants.HEADER_DATA) timeUnix: String): Observable<TarihDate>
 
     @GET(Constants.RATES_BASE_URL)
     @QualifiedTypeConverterFactory.Json

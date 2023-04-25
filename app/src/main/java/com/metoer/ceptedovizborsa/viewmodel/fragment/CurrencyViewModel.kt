@@ -3,10 +3,8 @@ package com.metoer.ceptedovizborsa.viewmodel.fragment
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.metoer.ceptedovizborsa.data.CurrencyListSingleton
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
-import com.metoer.ceptedovizborsa.data.response.currency.Currency
 import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,39 +17,13 @@ import javax.inject.Inject
 class CurrencyViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
 
-    var currencyMutableList = MutableLiveData<List<Currency>>()
     var ratesMutableList = MutableLiveData<List<RatesData>>()
-
-    fun getAllCurrencyData(timeUnix: String) {
-        CurrencyListSingleton.clearMemory()
-        currencyRepository.getCurrencyDataFromApi(timeUnix)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                val currencyResponse = it.Currency
-                currencyResponse?.forEachIndexed { index, currency ->
-                    if (currency.CurrencyCode == "XDR")
-                        currencyResponse[index].apply {
-                            this.Isim = "TÜRK LİRASI"
-                            this.CurrencyName = "TÜRK LİRASI"
-                            this.ForexBuying = 1.0
-                            this.CurrencyCode = "TRY"
-                            this.Kod = "TRY"
-                            this.Kod = "TRY"
-                        }
-                }
-                currencyMutableList.postValue(it.Currency)
-            }, {
-
-            }).let {
-
-            }
-    }
 
     fun getAllRatesData(context: Context) {
         val list = ArrayList<RatesData>()
         val prefs = SharedPrefencesUtil(context)
         var language = prefs.getLocal("My_Lang", String)
-        language = if (language.toString().isNullOrEmpty()) {
+        language = if (language.toString().isEmpty()) {
             "tr"
         } else {
             language
