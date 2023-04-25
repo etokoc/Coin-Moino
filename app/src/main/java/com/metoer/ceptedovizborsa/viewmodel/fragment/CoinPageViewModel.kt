@@ -18,9 +18,9 @@ import javax.inject.Inject
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
     var binanceSocketLiveData = MutableLiveData<List<CoinWebSocketResponse>?>()
-    private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>>()
+    private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>?>()
 
-    fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>> {
+    fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>?> {
         if (enum == null) {
             currencyRepository.getPageTickerDataFromBinanceApi().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ response ->
@@ -34,6 +34,10 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
             pageTickerLiveData.value = CoinTickerPageData.getPageTickerList(enum)
         }
         return pageTickerLiveData
+    }
+
+    fun clearPageTickerData() {
+        pageTickerLiveData.value = null
     }
 
     fun getBinanceCoinWebSocket() = currencyRepository.getBinanceCoinSocket()

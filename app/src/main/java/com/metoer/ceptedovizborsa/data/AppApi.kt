@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.util.Constants.LIMIT_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.PAGE_TICKER_URL
 import com.metoer.ceptedovizborsa.util.Constants.SYMBOL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_ENDPOINT
+import com.metoer.ceptedovizborsa.util.Constants.TICKER_TYPE
 import com.metoer.ceptedovizborsa.util.Constants.TICKER_WINDOWSSIZE
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -54,6 +55,7 @@ interface AppApi {
     fun getTickerFromBinanceData(
         @Query(SYMBOL_QUERY) symbol: String,
         @Query(TICKER_WINDOWSSIZE) windowSize: String,
+        @Query(TICKER_TYPE) type: String? = null
     ): Observable<CoinTickerResponse>
 
     @GET("${BINANCE_CHART_BASE_URL}${PAGE_TICKER_URL}")

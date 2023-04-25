@@ -34,6 +34,7 @@ object Constants {
     const val TICKER_ENDPOINT = "api/v3/ticker?"
     const val SYMBOL_QUERY = "symbol"
     const val TICKER_WINDOWSSIZE = "windowSize"
+    const val TICKER_TYPE = "type"
     const val CHART_BINANCE_ENDPOINT = "api/v3/uiKlines?"
 
     const val MINIMUM_DEPTH_WIDTH = 5

@@ -47,6 +47,11 @@ class CoinFragment : Fragment() {
         initSearchView()
     }
 
+    override fun onDestroy() {
+        coinPageViewModel.clearPageTickerData()
+        super.onDestroy()
+    }
+
     private fun initListeners() {
         coinPageViewModel.getPageTickerData()
     }
@@ -232,10 +237,6 @@ class CoinFragment : Fragment() {
                 binding.currencySearchView.currencySearchView.requestFocus()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
 }

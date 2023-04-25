@@ -27,8 +27,9 @@ class CurrencyRepository @Inject constructor(
 
     fun getTickerFromBinanceApi(
         symbol: String,
-        windowSize: String
-    ) = appApi.getTickerFromBinanceData(symbol, windowSize)
+        windowSize: String,
+        type: String? = null
+    ) = appApi.getTickerFromBinanceData(symbol, windowSize, type)
 
     fun getPageTickerDataFromBinanceApi() = appApi.getPageTickerData()
 

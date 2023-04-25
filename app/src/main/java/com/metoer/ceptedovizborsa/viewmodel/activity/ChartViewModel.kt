@@ -1,5 +1,6 @@
 package com.metoer.ceptedovizborsa.viewmodel.activity
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
@@ -43,8 +44,9 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
     fun getTickerFromBinanceData(
         symbol: String,
         windowSize: String,
+        type: String? = null
     ): MutableLiveData<CoinTickerResponse?> {
-        repository.getTickerFromBinanceApi(symbol, windowSize).subscribeOn(Schedulers.io())
+        repository.getTickerFromBinanceApi(symbol, windowSize, type).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 tickerFromBinanceLiveData.value = it
@@ -54,6 +56,11 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
 
             }
         return tickerFromBinanceLiveData
+    }
+
+    fun removeObserver(owner: LifecycleOwner) {
+        tickerFromBinanceLiveData.value = null
+        tickerFromBinanceLiveData.removeObservers(owner)
     }
 
     fun clearGetTickerFromBinanceLiveData() {

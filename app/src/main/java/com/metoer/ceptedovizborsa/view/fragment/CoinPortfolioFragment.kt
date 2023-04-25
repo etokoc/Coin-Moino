@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
     private lateinit var settingAnimation: AnimationDrawable
     private lateinit var settingAnimationClose: AnimationDrawable
     private var adapter = CoinPortfolioAdapter(this)
-    private val coinMarketViewModel: CoinPageViewModel by viewModels()
+    private val chartViewModel: ChartViewModel by viewModels()
     private val binding
         get() = _binding!!
     private var clicked = false
@@ -190,8 +191,6 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         coinData.apply {
             if (this.coinSymbolQuote == "USD") {
                 val currentValueOfCoin = 0f
-//                val currentValueOfCoin =
-//                    StaticCoinList.coinList.find { it.symbol == coinData.coinSymbol }?.priceUsd?.toFloat()
                 showDialog(
                     container = this@CoinPortfolioFragment.binding.root,
                     coinData,
@@ -199,26 +198,16 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     currentValueOfCoin
                 )
             } else {
-                this.coinSymbolQuote?.let {
-                    val enumSymbol = PageTickerTypeEnum.valueOf(it)
-                    coinMarketViewModel.getPageTickerData(enumSymbol)
-                        .observeOnce(viewLifecycleOwner) { value ->
-                            val currentValueOfCoin =
-                                value?.find {
-                                    when {
-                                        it.symbol!!.endsWith("USDT") -> it.symbol!!.substring(
-                                            0,
-                                            it.symbol!!.length - 4
-                                        )
-                                        else -> it.symbol!!.substring(0, it.symbol!!.length - 3)
-                                    } == coinData.coinSymbol
-                                }?.lastPrice?.toFloat()
-                            currentValueOfCoin?.let {
-                                showDialog(binding.root, coinData, position, currentValueOfCoin)
-                            } ?: kotlin.run {
-                                requireContext().showToastShort(requireContext().getString(R.string.is_not_avaible_value))
-                            }
-                        }
+                chartViewModel.getTickerFromBinanceData(
+                    coinSymbol + coinSymbolQuote,
+                    "1d",
+                    "MINI"
+                ).observe(viewLifecycleOwner) { tickerData ->
+                    tickerData?.let { it1 ->
+                        val currentValueOfCoin = it1.lastPrice.toFloat()
+                        showDialog(binding.root, coinData, position, currentValueOfCoin)
+                        chartViewModel.removeObserver(viewLifecycleOwner)
+                    }
                 }
             }
         }
