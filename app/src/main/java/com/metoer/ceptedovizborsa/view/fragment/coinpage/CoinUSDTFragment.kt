@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
+import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,8 +40,8 @@ class CoinUSDTFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        initListener()
         initWebSocket()
+        initListener()
     }
 
     private fun initWebSocket() {
@@ -86,7 +88,6 @@ class CoinUSDTFragment : Fragment() {
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {
-        webSocket?.cancel()
         val filterlist = ArrayList<CoinPageTickerItem>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
@@ -108,18 +109,17 @@ class CoinUSDTFragment : Fragment() {
 
 
     override fun onPause() {
-        super.onPause()
-        webSocket?.cancel()
+        webSocket?.close(WEBSOCKET_CLOSE_NORMAL,"Kullanıcı tarafından kapatıldı")
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.clearFilterStatusLiveData()
         sharedViewModel.clearCoinListLiveData()
         viewModel.clearBinanceSocketLiveData()
+        super.onPause()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        webSocket?.cancel()
         viewModel.clearBinanceSocketLiveData()
+        super.onDestroy()
     }
 }

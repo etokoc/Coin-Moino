@@ -7,6 +7,7 @@ import com.google.gson.JsonParser
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.Constants
+import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -61,7 +62,7 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        webSocket.close(Constants.WEBSOCKET_ID, null)
+        webSocket.close(WEBSOCKET_CLOSE_NORMAL, null)
         writeToLog("Closing: $code $reason")
     }
 

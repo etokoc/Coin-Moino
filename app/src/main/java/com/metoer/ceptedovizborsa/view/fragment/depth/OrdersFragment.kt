@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.metoer.ceptedovizborsa.adapter.CoinDepthAdapter
 import com.metoer.ceptedovizborsa.adapter.DepthEnum
 import com.metoer.ceptedovizborsa.databinding.FragmentOrdersBinding
+import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.viewmodel.fragment.OrderViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
@@ -70,12 +71,11 @@ class OrdersFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.clearBinanceSocketDepthLiveData()
-        binanceDepthSocket?.cancel()
+        binanceDepthSocket?.close(WEBSOCKET_CLOSE_NORMAL,"Order data closed")
     }
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketDepthLiveData()
-        binanceDepthSocket?.cancel()
         super.onDestroy()
     }
 

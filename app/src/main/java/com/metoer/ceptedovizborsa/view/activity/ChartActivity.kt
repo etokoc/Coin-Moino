@@ -31,6 +31,7 @@ import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.ActivityChartBinding
 import com.metoer.ceptedovizborsa.databinding.CustomSpinnerLayoutBinding
 import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.util.EditTextUtil.editTextFilter
 import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
@@ -194,7 +195,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                                 )
                             })
                     }
-                binanceSocket = viewModel.getBinanceTickerWebSocket(symbol)
                 binanceSocket = viewModel.getBinanceTickerWebSocket(symbol)
                 viewModel.getBinanceSocketTickerListener()
                     ?.observe(this@ChartActivity) { tickerData ->
@@ -503,6 +503,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     override fun onPause() {
         viewModel.clearChartBinanceData()
+        binanceSocket.close(WEBSOCKET_CLOSE_NORMAL,"Ticker Data Websocket closed")
         super.onPause()
     }
 
@@ -511,7 +512,6 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         viewModel.clearBinanceSocketChartLiveData()
         viewModel.clearBinanceSocketTickerLiveData()
         viewModel.clearGetTickerFromBinanceLiveData()
-        binanceSocket.cancel()
         super.onDestroy()
         coinPortfolioViewModel.compositeDisposable.clear()
     }

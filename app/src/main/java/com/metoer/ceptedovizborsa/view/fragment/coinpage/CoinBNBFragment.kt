@@ -39,7 +39,7 @@ class CoinBNBFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initListener()
-        initWebSocket()
+      //  initWebSocket()
     }
 
     private fun initWebSocket() {

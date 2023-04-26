@@ -1,7 +1,7 @@
 package com.metoer.ceptedovizborsa.util
 
 object Constants {
-    const val WEBSOCKET_ID: Int = 1453
+    const val WEBSOCKET_CLOSE_NORMAL: Int = 1000
     const val BINANCE_CHART_LIMIT = 1000
     const val BINANCE_WEB_SOCKET_BASE_URL = "wss://stream.binance.com:9443/ws/"
     const val BINANCE_WEB_SOCKET_COIN_BASE_URL = "wss://stream.binance.com:9443/ws/!ticker_1d@arr"

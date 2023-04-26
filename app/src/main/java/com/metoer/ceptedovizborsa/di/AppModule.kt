@@ -103,10 +103,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesBinanceChartSocket() = BinanceWebSocketChartListener()
-
-    @Provides
-    @Singleton
     fun providesBinanceDepthSocket() = BinanceWebSocketDepthListener()
 
     @Provides

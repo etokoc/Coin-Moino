@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinTradeAdapter
 import com.metoer.ceptedovizborsa.databinding.FragmentHistoryBinding
+import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.viewmodel.fragment.HistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
@@ -60,13 +61,11 @@ class HistoryFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.clearBinanceSocketTradeLiveData()
-        binanceTradeSocket?.cancel()
+        binanceTradeSocket?.close(WEBSOCKET_CLOSE_NORMAL,"History data websocket closed")
     }
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketTradeLiveData()
-        binanceTradeSocket?.cancel()
         super.onDestroy()
     }
-
 }

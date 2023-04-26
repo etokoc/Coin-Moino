@@ -37,7 +37,7 @@ class BinanceWebSocketDepthListener : WebSocketListener() {
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        webSocket.close(Constants.WEBSOCKET_ID, null)
+        webSocket.close(Constants.WEBSOCKET_CLOSE_NORMAL, null)
         writeToLog("Closing: $code $reason")
     }
 
@@ -46,7 +46,7 @@ class BinanceWebSocketDepthListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.i("WEBSOCKET", "$text")
+        Log.i("BinanceWebSocketDepthListener", "$text")
     }
 
     fun getData(): MutableLiveData<CoinDepth?>? {
