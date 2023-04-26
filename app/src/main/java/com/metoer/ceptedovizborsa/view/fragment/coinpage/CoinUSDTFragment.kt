@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
 import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
@@ -17,6 +18,7 @@ import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 import java.util.*
 
 @AndroidEntryPoint
@@ -62,7 +64,7 @@ class CoinUSDTFragment : Fragment() {
         }
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
             if (it != null) {
-                adapter.sortList(it.second, it.first)
+                coinList = adapter.sortList(it.second, it.first)
                 binding.recylerview.scrollToPosition(0)
             }
         }
@@ -88,6 +90,7 @@ class CoinUSDTFragment : Fragment() {
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {
+        webSocket?.close(WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         val filterlist = ArrayList<CoinPageTickerItem>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
@@ -109,7 +112,7 @@ class CoinUSDTFragment : Fragment() {
 
 
     override fun onPause() {
-        webSocket?.close(WEBSOCKET_CLOSE_NORMAL,"Kullanıcı tarafından kapatıldı")
+        webSocket?.close(WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.clearFilterStatusLiveData()

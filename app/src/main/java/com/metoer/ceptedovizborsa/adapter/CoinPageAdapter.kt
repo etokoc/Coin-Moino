@@ -147,7 +147,7 @@ class CoinPageAdapter(
 
     var oldValue = arrayListOf<Double>()
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<CoinPageTickerItem> {
-        if (newData != null){
+        if (newData != null) {
             if (index < getFilteredList().size) {
                 getFilteredList()[index].lastPrice = newData.lastPrice.toString()
                 getFilteredList()[index].priceChangePercent = newData.priceChangePercent.toString()
@@ -162,7 +162,7 @@ class CoinPageAdapter(
         return itemList
     }
 
-    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum) {
+    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum): MutableList<CoinPageTickerItem> {
         if (!itemList.isEmpty()) {
             val newList = SortListUtil()
             setData(
@@ -171,6 +171,7 @@ class CoinPageAdapter(
                 ) as MutableList<CoinPageTickerItem>
             )
         }
+        return itemList
     }
 
     private fun getFilteredList() = itemList.filter { it.lastPrice?.toDouble() != 0.0 }
