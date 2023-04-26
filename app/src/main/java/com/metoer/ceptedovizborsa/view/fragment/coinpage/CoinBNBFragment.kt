@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -38,8 +39,8 @@ class CoinBNBFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        initWebSocket()
         initListener()
-      //  initWebSocket()
     }
 
     private fun initWebSocket() {
@@ -49,17 +50,17 @@ class CoinBNBFragment : Fragment() {
     }
 
 
-    /*private fun connectWebSocket() {
+    private fun connectWebSocket() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed mForeach@{ index, item ->
-                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-                    coinList = adapter.updateData(webSocketData, index)
-                    return@mForeach
-                }
+                coinList = adapter.updateData(webSocketData?.find { response ->
+                    response.symbol == item.symbol
+                }, index)
+                return@mForeach
             }
         }
-    }*/
+    }
 
 
     fun initListener() {
@@ -83,17 +84,15 @@ class CoinBNBFragment : Fragment() {
                 filter(it)
             }
         }
-        //connectWebSocket()
+        connectWebSocket()
     }
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         val filterlist = ArrayList<CoinPageTickerItem>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault())) == true
-                || item.symbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
                 filterlist.add(item)
@@ -105,13 +104,13 @@ class CoinBNBFragment : Fragment() {
         } else {
             adapter.filterList(filterlist)
         }
-        if (text == ""){
+        if (text == "") {
             initWebSocket()
         }
     }
 
     override fun onPause() {
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         viewModel.clearBinanceSocketLiveData()
@@ -120,7 +119,7 @@ class CoinBNBFragment : Fragment() {
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         super.onDestroy()
     }
 

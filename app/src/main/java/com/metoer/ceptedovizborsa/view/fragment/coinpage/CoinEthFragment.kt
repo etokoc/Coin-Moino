@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -37,16 +38,16 @@ class CoinEthFragment : Fragment() {
         return binding.root
     }
 
-//    private fun initWebSocket() {
-//        viewModel.apply {
-//            webSocket = getBinanceCoinWebSocket()
-//        }
-//    }
+    private fun initWebSocket() {
+        viewModel.apply {
+            webSocket = getBinanceCoinWebSocket()
+        }
+    }
 
     override fun onResume() {
         super.onResume()
+        initWebSocket()
         initListener()
-//        initWebSocket()
     }
 
 
@@ -55,7 +56,7 @@ class CoinEthFragment : Fragment() {
         viewModel.getPageTickerData(PageTickerTypeEnum.ETH).observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it!! as ArrayList<CoinPageTickerItem>)
-            coinList.clear()
+            coinList = java.util.ArrayList()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
         }
@@ -70,24 +71,24 @@ class CoinEthFragment : Fragment() {
                 filter(it)
             }
         }
-//        connectWebSocket()
+        connectWebSocket()
     }
 
-//    private fun connectWebSocket() {
-//        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
-//            // TODO: Websocket Bağlantısı
-//            coinList.forEachIndexed mForeach@{ index, item ->
-//                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-//                    coinList = adapter.updateData(webSocketData, index)
-//                    return@mForeach
-//                }
-//            }
-//        }
-//    }
+    private fun connectWebSocket() {
+        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
+            // TODO: Websocket Bağlantısı
+            coinList.forEachIndexed mForeach@{ index, item ->
+                coinList = adapter.updateData(webSocketData?.find { response ->
+                    response.symbol == item.symbol
+                }, index)
+                return@mForeach
+            }
+        }
+    }
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
     private fun filter(text: String) {
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         val filterlist = ArrayList<CoinPageTickerItem>()
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
@@ -105,12 +106,12 @@ class CoinEthFragment : Fragment() {
             adapter.filterList(filterlist)
         }
         if (text == "") {
-//            initWebSocket()
+            initWebSocket()
         }
     }
 
     override fun onPause() {
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         viewModel.clearBinanceSocketLiveData()
@@ -119,7 +120,6 @@ class CoinEthFragment : Fragment() {
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
-        webSocket?.cancel()
         super.onDestroy()
     }
 }

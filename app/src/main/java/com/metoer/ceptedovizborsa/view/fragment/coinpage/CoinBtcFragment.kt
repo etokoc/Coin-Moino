@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
@@ -46,31 +47,30 @@ class CoinBtcFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        initListener()
         initWebSocket()
+        initListener()
     }
 
-//    private fun connectWebSocket() {
-//        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
-//            // TODO: Websocket Bağlantısı
-//            coinList.forEachIndexed mForeach@{ index, item ->
-//                if (item.baseId == webSocketData?.base && item.quoteId == webSocketData?.quote) {
-//                    coinList = adapter.updateData(webSocketData, index)
-//                    return@mForeach
-//                }
-//            }
-//        }
-//    }
+    private fun connectWebSocket() {
+        viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
+            // TODO: Websocket Bağlantısı
+            coinList.forEachIndexed mForeach@{ index, item ->
+                coinList = adapter.updateData(webSocketData?.find { response ->
+                    response.symbol == item.symbol
+                }, index)
+                return@mForeach
+            }
+        }
+    }
 
     fun initListener() {
         binding.recylerview.itemAnimator = null
         viewModel.getPageTickerData(PageTickerTypeEnum.BTC).observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
             adapter.setData(it!! as ArrayList<CoinPageTickerItem>)
-            coinList.clear()
+            coinList = java.util.ArrayList()
             coinList.addAll(it)
             binding.recylerview.adapter = adapter
-//            connectWebSocket()
         }
 
         sharedViewModel.filterStatus?.observe(viewLifecycleOwner) {
@@ -84,6 +84,7 @@ class CoinBtcFragment : Fragment() {
                 filter(it)
             }
         }
+        connectWebSocket()
     }
 
     private var coinList = mutableListOf<CoinPageTickerItem>()
@@ -93,9 +94,7 @@ class CoinBtcFragment : Fragment() {
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
-                || item.symbol?.lowercase(Locale.getDefault())
-                    ?.contains(text.lowercase(Locale.getDefault())) == true
-            ) {
+               ) {
                 filterlist.add(item)
             }
         }
@@ -111,16 +110,17 @@ class CoinBtcFragment : Fragment() {
     }
 
     override fun onPause() {
-        webSocket?.cancel()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
+        sharedViewModel.clearFilterStatusLiveData()
+        sharedViewModel.clearCoinListLiveData()
         viewModel.clearBinanceSocketLiveData()
         super.onPause()
     }
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
-        webSocket?.cancel()
         super.onDestroy()
     }
 
