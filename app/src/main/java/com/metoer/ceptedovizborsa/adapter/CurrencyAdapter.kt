@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
@@ -51,7 +53,8 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
                             Locale.ENGLISH
                         )
                     }.png"
-                ).into(moneyImage)
+                ).diskCacheStrategy(DiskCacheStrategy.ALL).encodeQuality(50)
+                    .format(DecodeFormat.PREFER_RGB_565).into(moneyImage)
             }
         }
     }

@@ -11,6 +11,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.manager.Lifecycle
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
@@ -51,7 +53,8 @@ class CoinAdapter(
                         Locale.ENGLISH
                     )
                 }@2x.png"
-            ).into(coinImageView)
+            ).diskCacheStrategy(DiskCacheStrategy.ALL).encodeQuality(50)
+                .format(DecodeFormat.PREFER_RGB_565).into(coinImageView)
             val value = currentItem.priceUsd
             coinExchangeValueText.text =
                 holder.itemView.context.getString(

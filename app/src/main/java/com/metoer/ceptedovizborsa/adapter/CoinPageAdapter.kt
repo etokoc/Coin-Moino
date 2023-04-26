@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
@@ -65,7 +67,8 @@ class CoinPageAdapter(
                             Locale.ENGLISH
                         )
                     }@2x.png"
-                ).into(coinMarketImageView)
+                ).diskCacheStrategy(DiskCacheStrategy.ALL).encodeQuality(50)
+                    .format(DecodeFormat.PREFER_RGB_565).into(coinMarketImageView)
 
                 coinQuoteSembolText.text = holder.itemView.context.getString(
                     R.string.quote_symbol,
@@ -162,7 +165,10 @@ class CoinPageAdapter(
         return itemList
     }
 
-    fun sortList(listSortType: FilterEnum, listSortItem: FilterEnum): MutableList<CoinPageTickerItem> {
+    fun sortList(
+        listSortType: FilterEnum,
+        listSortItem: FilterEnum
+    ): MutableList<CoinPageTickerItem> {
         if (!itemList.isEmpty()) {
             val newList = SortListUtil()
             setData(
