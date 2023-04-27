@@ -1,6 +1,7 @@
 package com.metoer.ceptedovizborsa.adapter
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -120,7 +121,11 @@ class CoinPageAdapter(
                 }
             }
 
-            if (oldValue.size > 0) {
+            /*if (oldValue.size > 0) {
+                coinExchangeValueText.setTextColor(colorList[position])
+            }*/
+
+           /* if (oldValue.size > 0) {
                 if ((lastPrice?.toDouble() ?: 0.0) > oldValue[position]) {
                     coinExchangeValueText.textColors(R.color.coinValueRise)
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -135,7 +140,7 @@ class CoinPageAdapter(
                     coinExchangeValueText.setTextAppearance(R.style.TextColor)
                 }
                 oldValue[position] = lastPrice?.toDouble() ?: 0.0
-            }
+            }*/
         }
     }
 
@@ -145,25 +150,49 @@ class CoinPageAdapter(
         itemList = arrayListOf()
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
-        notifyItemRangeChanged(0, getListSize())
+        //notifyItemRangeChanged(0, getListSize())
     }
 
-    var oldValue = arrayListOf<Double>()
+   // private var oldValue = mutableListOf<Double>()
+    /*private var colorList = mutableListOf<Int>()
+
+    init {
+        // itemList'in boyutu kadar colorList'i oluştur
+        for (i in itemList.indices) {
+            colorList.add(Color.BLACK) // Varsayılan renk siyah olsun
+        }
+    }*/
+
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<CoinPageTickerItem> {
         if (newData != null) {
-            if (index < getFilteredList().size) {
-                getFilteredList()[index].lastPrice = newData.lastPrice.toString()
-                getFilteredList()[index].priceChangePercent = newData.priceChangePercent.toString()
-                getFilteredList()[index].quoteVolume = newData.queteVolume.toString()
-                getFilteredList()[index].priceChange = newData.priceChange.toString()
+            if (index < itemList.size) {
+                itemList[index].lastPrice = newData.lastPrice.toString()
+                itemList[index].priceChangePercent = newData.priceChangePercent.toString()
+                itemList[index].quoteVolume = newData.queteVolume.toString()
+                itemList[index].priceChange = newData.priceChange.toString()
+
+                //updateColorList()
+
+                /*oldValue.clear()
                 itemList.map {
                     oldValue.add(it.lastPrice?.toDouble() ?: 0.0)
-                }
+                }*/
                 notifyItemChanged(index)
             }
         }
         return itemList
     }
+
+   /* private fun updateColorList() {
+        // Önceki değerlerle karşılaştır ve renkleri belirle
+        itemList.mapIndexed { i, it ->
+            val currentValue = it.lastPrice?.toDouble() ?: 0.0
+            val previousValue = if (i < oldValue.size) oldValue[i] else 0.0
+            val color = if (currentValue > previousValue) Color.GREEN else Color.RED
+            colorList[i] = color
+            oldValue[i] = currentValue
+        }
+    }*/
 
     fun sortList(
         listSortType: FilterEnum,
@@ -173,15 +202,14 @@ class CoinPageAdapter(
             val newList = SortListUtil()
             setData(
                 newList.sortedForCoinList(
-                    getFilteredList(), listSortType, listSortItem
+                    itemList, listSortType, listSortItem
                 ) as MutableList<CoinPageTickerItem>
             )
         }
         return itemList
     }
 
-    private fun getFilteredList() = itemList.filter { it.lastPrice?.toDouble() != 0.0 }
-    private fun getListSize() = getFilteredList().size
+    private fun getListSize() = itemList.size
 
     override fun getItemCount(): Int {
         return getListSize()
