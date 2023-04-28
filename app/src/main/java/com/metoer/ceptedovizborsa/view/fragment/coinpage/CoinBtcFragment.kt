@@ -55,7 +55,7 @@ class CoinBtcFragment : Fragment() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed mForeach@{ index, item ->
-                coinList = adapter.updateData(webSocketData?.find { response ->
+                adapter.updateData(webSocketData?.find { response ->
                     response.symbol == item.symbol
                 }, index)
                 return@mForeach
@@ -94,7 +94,7 @@ class CoinBtcFragment : Fragment() {
         for (item in coinList) {
             if (item.symbol?.lowercase(Locale.getDefault())
                     ?.contains(text.lowercase(Locale.getDefault())) == true
-               ) {
+            ) {
                 filterlist.add(item)
             }
         }

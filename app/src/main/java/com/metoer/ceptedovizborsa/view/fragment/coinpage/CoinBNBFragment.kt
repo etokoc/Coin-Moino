@@ -54,7 +54,7 @@ class CoinBNBFragment : Fragment() {
         viewModel.getBinanceSocketListener().observe(viewLifecycleOwner) { webSocketData ->
             // TODO: Websocket Bağlantısı
             coinList.forEachIndexed mForeach@{ index, item ->
-                coinList = adapter.updateData(webSocketData?.find { response ->
+                adapter.updateData(webSocketData?.find { response ->
                     response.symbol == item.symbol
                 }, index)
                 return@mForeach
