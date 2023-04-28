@@ -30,7 +30,6 @@ class CoinPortfolioAdapter(
         val currentItem = itemList[position]
         holder.binding.apply {
             textViewCoinPortSymbol.text = currentItem.coinSymbol
-            textViewCoinPortName.text = currentItem.coinName
             textViewCoinPortPrice.text = holder.itemView.context.getString(
                 R.string.coin_portfolio_price_str,
                 currentItem.coinSymbolQuote,

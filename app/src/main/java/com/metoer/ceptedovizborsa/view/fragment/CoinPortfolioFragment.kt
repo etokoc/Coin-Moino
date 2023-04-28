@@ -104,27 +104,23 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     isSuccessDialog = false
                 )
             (customDialogUtil.getView() as CustomPortfolioDetailDialogBinding).apply {
-                this.textViewPortfolioDialogCoinname.text = coinName
                 val value = (currentValueOfCoin!! - coinTakedValue!!) * coinUnit!!
                 this.textViewPortfolioDialogCoinprofit.text =
                     calculatePrice(value, coinSymbolQuote!!)
-                this.textviewDescription.text =
-                    getString(
-                        R.string.coin_taked_value,
-                        NumberDecimalFormat.numberDecimalFormat(
-                            coinTakedValue.toString(),
-                            "###,###,###,###.########"
-                        ),
-                        NumberDecimalFormat.numberDecimalFormat(
-                            currentValueOfCoin.toString(),
-                            "###,###,###,###.########"
-                        )
-                    )
+                this.textviewPurcasedValue.patternText(
+                    coinTakedValue.toString(),
+                    "###,###,###,###.########"
+                )
+                this.textviewCurrentValue.patternText(
+                    currentValueOfCoin.toString(),
+                    "###,###,###,###.########"
+                )
                 this.textViewPortfolioDialogCoinchange.text = calculatePercent(
                     coinTakedValue!!,
                     currentValueOfCoin,
                     this.textViewPortfolioDialogCoinchange
                 )
+                
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
                     coinBuyItemList.removeAt(position)
