@@ -1,7 +1,6 @@
 package com.metoer.ceptedovizborsa.adapter
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -18,6 +17,8 @@ import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
 import com.metoer.ceptedovizborsa.util.*
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.*
 
 
@@ -75,16 +76,6 @@ class CoinPageAdapter(
                     R.string.quote_symbol,
                     coinPageTickerTypeEnum
                 )
-                coinVolumeExchangeText.text =
-                    currentItem.quoteVolume?.toDouble()
-                        ?.let {
-                            MoneyCalculateUtil.volumeShortConverter(
-                                it,
-                                holder.itemView.context
-                            )
-                        }
-                coinExchangeValueText.patternText(lastPrice, "###,###,###,###.########")
-
                 if (parcent != null && parcent > 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
@@ -120,27 +111,34 @@ class CoinPageAdapter(
                     context.startActivity(intent)
                 }
             }
-
-            /*if (oldValue.size > 0) {
-                coinExchangeValueText.setTextColor(colorList[position])
-            }*/
-
-           /* if (oldValue.size > 0) {
-                if ((lastPrice?.toDouble() ?: 0.0) > oldValue[position]) {
-                    coinExchangeValueText.textColors(R.color.coinValueRise)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        coinExchangeValueText.setTextAppearance(R.style.TextColor)
-                    }, 2000)
-                } else if ((lastPrice?.toDouble() ?: 0.0) < oldValue[position]) {
-                    coinExchangeValueText.textColors(R.color.coinValueDrop)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        coinExchangeValueText.setTextAppearance(R.style.TextColor)
-                    }, 2000)
-                } else {
+            /**
+             * Buradaki kod textviewdaki virgüllü sayının decimale uygun olmaması yüzünden yapıldı
+             * */
+            val result: Double =
+                MoneyCalculateUtil.doubleConverter(coinExchangeValueText.text.toString())
+            if ((lastPrice?.toDouble() ?: 0.0) > result) {
+                coinExchangeValueText.textColors(R.color.coinValueRise)
+                Handler(Looper.getMainLooper()).postDelayed({
                     coinExchangeValueText.setTextAppearance(R.style.TextColor)
-                }
-                oldValue[position] = lastPrice?.toDouble() ?: 0.0
-            }*/
+                }, 2000)
+            } else if ((lastPrice?.toDouble() ?: 0.0) < result) {
+                coinExchangeValueText.textColors(R.color.coinValueDrop)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    coinExchangeValueText.setTextAppearance(R.style.TextColor)
+                }, 2000)
+            } else {
+                coinExchangeValueText.setTextAppearance(R.style.TextColor)
+            }
+            coinVolumeExchangeText.text =
+                currentItem.quoteVolume?.toDouble()
+                    ?.let {
+                        MoneyCalculateUtil.volumeShortConverter(
+                            it,
+                            holder.itemView.context
+                        )
+                    }
+            coinExchangeValueText.patternText(lastPrice, "###,###,###,###.########")
+
         }
     }
 
@@ -150,18 +148,8 @@ class CoinPageAdapter(
         itemList = arrayListOf()
         itemList = newItemList
         diffResult.dispatchUpdatesTo(this)
-        //notifyItemRangeChanged(0, getListSize())
+        notifyItemRangeChanged(0, getListSize())
     }
-
-   // private var oldValue = mutableListOf<Double>()
-    /*private var colorList = mutableListOf<Int>()
-
-    init {
-        // itemList'in boyutu kadar colorList'i oluştur
-        for (i in itemList.indices) {
-            colorList.add(Color.BLACK) // Varsayılan renk siyah olsun
-        }
-    }*/
 
     fun updateData(newData: CoinWebSocketResponse?, index: Int): MutableList<CoinPageTickerItem> {
         if (newData != null) {
@@ -170,29 +158,11 @@ class CoinPageAdapter(
                 itemList[index].priceChangePercent = newData.priceChangePercent.toString()
                 itemList[index].quoteVolume = newData.queteVolume.toString()
                 itemList[index].priceChange = newData.priceChange.toString()
-
-                //updateColorList()
-
-                /*oldValue.clear()
-                itemList.map {
-                    oldValue.add(it.lastPrice?.toDouble() ?: 0.0)
-                }*/
                 notifyItemChanged(index)
             }
         }
         return itemList
     }
-
-   /* private fun updateColorList() {
-        // Önceki değerlerle karşılaştır ve renkleri belirle
-        itemList.mapIndexed { i, it ->
-            val currentValue = it.lastPrice?.toDouble() ?: 0.0
-            val previousValue = if (i < oldValue.size) oldValue[i] else 0.0
-            val color = if (currentValue > previousValue) Color.GREEN else Color.RED
-            colorList[i] = color
-            oldValue[i] = currentValue
-        }
-    }*/
 
     fun sortList(
         listSortType: FilterEnum,
