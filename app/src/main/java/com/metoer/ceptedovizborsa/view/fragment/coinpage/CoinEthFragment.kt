@@ -66,7 +66,7 @@ class CoinEthFragment : Fragment() {
                 binding.recylerview.scrollToPosition(0)
             }
         }
-        sharedViewModel.coinList?.observe(viewLifecycleOwner) {
+        sharedViewModel.listenCoinList()?.observe(viewLifecycleOwner) {
             if (it != null) {
                 filter(it)
             }
@@ -105,21 +105,22 @@ class CoinEthFragment : Fragment() {
         } else {
             adapter.filterList(filterlist)
         }
-        if (text == "") {
+        if (text == "" && !viewModel.getWebsocketIsRunnig()) {
             initWebSocket()
         }
     }
 
     override fun onPause() {
         webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
-        sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
         viewModel.clearBinanceSocketLiveData()
+        sharedViewModel.clearCoinListLiveData()
         super.onPause()
     }
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         super.onDestroy()
     }
 }

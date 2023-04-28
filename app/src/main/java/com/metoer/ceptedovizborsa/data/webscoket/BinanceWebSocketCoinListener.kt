@@ -20,6 +20,7 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
 
     companion object {
         var data: MutableLiveData<List<CoinWebSocketResponse>?>? = MutableLiveData()
+        var isRunning = false
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -32,11 +33,14 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
+        isRunning = true
         writeToLog("Received: $text")
         if (text.isNotEmpty()) {
             val compressedData = compressData(text)
-            val json = JsonParser.parseString(GZIPInputStream(ByteArrayInputStream(compressedData)).reader(Charsets.UTF_8).use { it.readText() })
-            val coinWebSocketResponses  =
+            val json = JsonParser.parseString(
+                GZIPInputStream(ByteArrayInputStream(compressedData)).reader(Charsets.UTF_8)
+                    .use { it.readText() })
+            val coinWebSocketResponses =
                 Gson().fromJson(json, Array<CoinWebSocketResponse>::class.java)
             val chunkedData = coinWebSocketResponses.chunked(1)
 
@@ -61,9 +65,12 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
         return outputStream.toByteArray()
     }
 
+    fun getIsrunning() = isRunning
+
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         webSocket.close(WEBSOCKET_CLOSE_NORMAL, null)
         writeToLog("Closing: $code $reason")
+        isRunning = false
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -79,5 +86,10 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
             data
         } else
             null
+    }
+
+    override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+        super.onClosed(webSocket, code, reason)
+        isRunning = false
     }
 }

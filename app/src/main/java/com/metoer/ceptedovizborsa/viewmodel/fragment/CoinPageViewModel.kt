@@ -47,6 +47,8 @@ class CoinPageViewModel @Inject constructor(private val currencyRepository: Curr
         return binanceSocketLiveData
     }
 
+    fun getWebsocketIsRunnig () = currencyRepository.getBinanceSocketListener().getIsrunning()
+
     fun clearBinanceSocketLiveData() {
         binanceSocketLiveData.value = null
     }

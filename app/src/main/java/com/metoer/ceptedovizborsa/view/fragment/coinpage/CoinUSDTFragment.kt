@@ -11,6 +11,7 @@ import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
+import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import com.metoer.ceptedovizborsa.util.showToastShort
@@ -68,7 +69,7 @@ class CoinUSDTFragment : Fragment() {
                 binding.recylerview.scrollToPosition(0)
             }
         }
-        sharedViewModel.coinList?.observe(viewLifecycleOwner) {
+        sharedViewModel.listenCoinList()?.observe(viewLifecycleOwner) {
             if (it != null) {
                 filter(it)
             }
@@ -105,7 +106,7 @@ class CoinUSDTFragment : Fragment() {
         } else {
             adapter.filterList(filterlist)
         }
-        if (text == "") {
+        if (text == "" && !viewModel.getWebsocketIsRunnig()) {
             initWebSocket()
         }
     }
@@ -114,7 +115,6 @@ class CoinUSDTFragment : Fragment() {
     override fun onPause() {
         webSocket?.close(WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         sharedViewModel.filterStatus?.removeObservers(viewLifecycleOwner)
-        sharedViewModel.coinList?.removeObservers(viewLifecycleOwner)
         sharedViewModel.clearFilterStatusLiveData()
         sharedViewModel.clearCoinListLiveData()
         viewModel.clearBinanceSocketLiveData()
@@ -123,6 +123,7 @@ class CoinUSDTFragment : Fragment() {
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
+        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         super.onDestroy()
     }
 }
