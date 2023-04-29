@@ -57,6 +57,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var moreTimeList = arrayListOf<String>()
     lateinit var binanceSocket: WebSocket
+    private var isLineChart = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityChartBinding.inflate(layoutInflater)
@@ -303,7 +304,12 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun fillCandleData() {
         binding.apply {
             viewModel.chartBinanceLiveData.observe(this@ChartActivity) {
-                it?.let { it1 -> setCandelStickChart(it1) }
+                it?.let { it1 ->
+                    if (isLineChart)
+                        setLineChart(it1)
+                    else
+                        setCandelStickChart(it1)
+                }
             }
         }
     }
@@ -335,7 +341,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     private fun initSpinner() {
         bindingSearchDialog?.listview?.setOnItemClickListener { _, _, position, _ ->
-            binding.tabLayout.getTabAt(4)?.text = moreTimeList.get(position)
+            isLineChart = false
+            binding.tabLayout.getTabAt(5)?.text = moreTimeList.get(position)
             spinner?.prompt = moreTimeList.get(position)
             val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
             interval = moreTimeList[position]
@@ -372,6 +379,10 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         setTabWidth(binding.tabLayout, 1, 1.5f)
         setTabWidth(binding.tabLayout, 5, 1.5f)
 
+        /*
+        İlk olarak 2. index seçili gelsin diye yaptık.
+        * */
+        tab2.select()
         binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -406,26 +417,32 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun selectedTab(tab: TabLayout.Tab?) {
         when (tab?.position) {
             0 -> {
+                isLineChart = true
                 interval = "4h"
             }
             1 -> {
+                isLineChart = false
                 interval = "15m"
             }
             2 -> {
+                isLineChart = false
                 interval = "1h"
             }
             3 -> {
+                isLineChart = false
                 interval = "4h"
             }
             4 -> {
+                isLineChart = false
                 interval = "1d"
             }
             5 -> {
+                isLineChart = false
                 interval = "1m"
                 searchDialog(binding.tabLayout, moreTimeList)
             }
         }
-        if (tab?.position != 4) {
+        if (tab?.position != 5) {
             bindingSearchDialog?.listview?.onItemClickListener = null
         }
         progressBar.show()
@@ -445,6 +462,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun setCandelStickChart(binanceRoot: Any) {
+        binding.lineChart.hide()
+        binding.coinDataChart.show()
         var sayac = 0f
         val candlestickentry = ArrayList<CandleEntry>()
         val areaCount = ArrayList<String>()
@@ -511,6 +530,15 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun setLineChart(binanceRoot: Any) {
+        binding.lineChart.show()
+        binding.coinDataChart.hide()
+        progressBar.hide()
+        val typedValue = TypedValue()
+        val theme: Resources.Theme = this.theme
+        theme.resolveAttribute(
+            androidx.constraintlayout.widget.R.attr.textFillColor, typedValue, true
+        )
+        @ColorInt val color = typedValue.data
         val linekentry = ArrayList<Entry>()
         var sayac2 = 0f
         if (binanceRoot is BinanceRoot) {
