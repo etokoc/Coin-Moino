@@ -2,6 +2,7 @@ package com.metoer.ceptedovizborsa.data
 
 import com.metoer.ceptedovizborsa.data.response.coin.Ticker.CoinTickerResponse
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinResponse
+import com.metoer.ceptedovizborsa.data.response.coin.avarage.CoinCurrentAvaragePriceItem
 import com.metoer.ceptedovizborsa.data.response.coin.candles.BinanceRoot
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
@@ -10,6 +11,7 @@ import com.metoer.ceptedovizborsa.util.Constants.AUTHORIZATIN_HEADER
 import com.metoer.ceptedovizborsa.util.Constants.AUTHORIZATION
 import com.metoer.ceptedovizborsa.util.Constants.BINANCE_CHART_BASE_URL
 import com.metoer.ceptedovizborsa.util.Constants.CHART_BINANCE_ENDPOINT
+import com.metoer.ceptedovizborsa.util.Constants.CURRENT_AVARAGE_PRICE
 import com.metoer.ceptedovizborsa.util.Constants.INTERVAL_QUERY
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_100
 import com.metoer.ceptedovizborsa.util.Constants.LIMIT_QUERY
@@ -61,5 +63,9 @@ interface AppApi {
     @GET("${BINANCE_CHART_BASE_URL}${PAGE_TICKER_URL}")
     @QualifiedTypeConverterFactory.Json
     fun getPageTickerData(): Observable<List<CoinPageTickerItem>>
+
+    @GET("${BINANCE_CHART_BASE_URL}${CURRENT_AVARAGE_PRICE}")
+    @QualifiedTypeConverterFactory.Json
+    fun getCurrentAvaragePriceData(@Query(SYMBOL_QUERY) symbol: String): Observable<CoinCurrentAvaragePriceItem>
 
 }

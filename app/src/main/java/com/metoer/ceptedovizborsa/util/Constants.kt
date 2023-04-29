@@ -10,6 +10,7 @@ object Constants {
     const val BINANCE_CHART_BASE_URL = "https://api.binance.com/"
     const val COIN_MARKET_URL = "https://api.coincap.io/v2/assets"
     const val PAGE_TICKER_URL = "api/v3/ticker/24hr"
+    const val CURRENT_AVARAGE_PRICE = "api/v3/avgPrice"
     const val HEADER_DATA = "_"
     const val IMAGE_URL = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val SPINNER1_STATE_KEY = "mySpinner1"

@@ -15,9 +15,10 @@ import com.metoer.ceptedovizborsa.adapter.CoinPortfolioAdapter
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
-import com.metoer.ceptedovizborsa.util.*
-import com.metoer.ceptedovizborsa.viewmodel.activity.ChartViewModel
-import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
+import com.metoer.ceptedovizborsa.util.CustomDialogUtil
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.onItemClickListener
+import com.metoer.ceptedovizborsa.util.patternText
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPortfolioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,6 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
     private lateinit var settingAnimation: AnimationDrawable
     private lateinit var settingAnimationClose: AnimationDrawable
     private var adapter = CoinPortfolioAdapter(this)
-    private val chartViewModel: ChartViewModel by viewModels()
     private val binding
         get() = _binding!!
     private var clicked = false
@@ -120,7 +120,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
                     currentValueOfCoin,
                     this.textViewPortfolioDialogCoinchange
                 )
-                
+
                 this.buttonDelete.setOnClickListener {
                     viewModel.delete(coinBuyItem)
                     coinBuyItemList.removeAt(position)
@@ -186,26 +186,34 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         val coinData = adapter.itemList[position]
         coinData.apply {
             if (this.coinSymbolQuote == "USD") {
-                val currentValueOfCoin = 0f
-                showDialog(
-                    container = this@CoinPortfolioFragment.binding.root,
-                    coinData,
-                    position,
-                    currentValueOfCoin
-                )
+                setAvaragePrice(this.coinSymbol!!, position, coinData, 0.93f, "USDT")
             } else {
-                chartViewModel.getTickerFromBinanceData(
-                    coinSymbol + coinSymbolQuote,
-                    "1d",
-                    "MINI"
-                ).observe(viewLifecycleOwner) { tickerData ->
-                    tickerData?.let { it1 ->
-                        val currentValueOfCoin = it1.lastPrice.toFloat()
-                        showDialog(binding.root, coinData, position, currentValueOfCoin)
-                        chartViewModel.removeObserver(viewLifecycleOwner)
-                    }
-                }
+                setAvaragePrice(
+                    this.coinSymbol!!,
+                    position,
+                    coinData,
+                    1f,
+                    this.coinSymbolQuote.toString()
+                )
             }
         }
+    }
+
+    fun setAvaragePrice(
+        coinSymbol: String,
+        position: Int,
+        coinData: CoinBuyItem,
+        avarage: Float,
+        coinQuoteSymbol: String
+    ) {
+        /**
+         * USDTYE göre isteğini attık. USD yoktu o yüzden yaptık
+         */
+        viewModel.getCurrentAvaragePriceData(coinSymbol + coinQuoteSymbol)
+            .observe(viewLifecycleOwner) {
+                val currentValueOfCoin = it.price.toFloat() * avarage
+                showDialog(binding.root, coinData, position, currentValueOfCoin)
+                viewModel.removeObserver(viewLifecycleOwner)
+            }
     }
 }

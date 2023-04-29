@@ -33,6 +33,8 @@ class CurrencyRepository @Inject constructor(
 
     fun getPageTickerDataFromBinanceApi() = appApi.getPageTickerData()
 
+    fun getCurrentAvaragePriceDataFromApi(symbol: String) = appApi.getCurrentAvaragePriceData(symbol)
+
     fun getBinanceTickerSocket(
         symbol: String,
         webSocketType: String,

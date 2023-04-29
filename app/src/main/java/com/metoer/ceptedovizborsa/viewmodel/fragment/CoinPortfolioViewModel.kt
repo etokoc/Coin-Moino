@@ -1,9 +1,12 @@
 package com.metoer.ceptedovizborsa.viewmodel.fragment
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
+import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.repository.RoomRepository
+import com.metoer.ceptedovizborsa.data.response.coin.avarage.CoinCurrentAvaragePriceItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,12 +14,15 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRepository):ViewModel() {
-      val compositeDisposable = CompositeDisposable()
-
+class CoinPortfolioViewModel @Inject constructor(
+    private val roomRepository: RoomRepository,
+    private val currencyRepository: CurrencyRepository
+) : ViewModel() {
+    val compositeDisposable = CompositeDisposable()
+    var currentAvaragePriceLiveData: MutableLiveData<CoinCurrentAvaragePriceItem>? = null
     fun gelAllCoinBuyData(): MutableLiveData<List<CoinBuyItem>> {
         val data = MutableLiveData<List<CoinBuyItem>>()
-        repository.getAllCoinItems().subscribeOn(Schedulers.io())
+        roomRepository.getAllCoinItems().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 if (!it.isNullOrEmpty()) {
@@ -30,8 +36,21 @@ class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRep
         return data
     }
 
+    fun getCurrentAvaragePriceData(symbol: String): MutableLiveData<CoinCurrentAvaragePriceItem> {
+        currentAvaragePriceLiveData = MutableLiveData<CoinCurrentAvaragePriceItem>()
+        currencyRepository.getCurrentAvaragePriceDataFromApi(symbol).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                currentAvaragePriceLiveData!!.value = it
+            }, {
+
+            }).let {
+                compositeDisposable.add(it)
+            }
+        return currentAvaragePriceLiveData!!
+    }
+
     fun upsertCoinBuyItem(item: CoinBuyItem) {
-        repository.updateAdd(item).subscribeOn(Schedulers.io())
+        roomRepository.updateAdd(item).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
 
             }, {
@@ -41,8 +60,8 @@ class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRep
             }
     }
 
-    fun delete(item: CoinBuyItem){
-        repository.delete(item).subscribeOn(Schedulers.io())
+    fun delete(item: CoinBuyItem) {
+        roomRepository.delete(item).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
 
             }, {
@@ -50,5 +69,10 @@ class CoinPortfolioViewModel @Inject constructor(private val repository: RoomRep
             }).let {
                 compositeDisposable.add(it)
             }
+    }
+
+    fun removeObserver(viewLifecycleOwner: LifecycleOwner) {
+        currentAvaragePriceLiveData!!.value = null
+        currentAvaragePriceLiveData!!.removeObservers(viewLifecycleOwner)
     }
 }
