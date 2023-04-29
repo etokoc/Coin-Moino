@@ -4,7 +4,9 @@ import android.app.ActionBar
 import android.app.Dialog
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -16,10 +18,10 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.CandleData
-import com.github.mikephil.charting.data.CandleDataSet
-import com.github.mikephil.charting.data.CandleEntry
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -353,11 +355,23 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     var interval = "15m"
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
+        val tab1 = binding.tabLayout.newTab()
+        val tab2 = binding.tabLayout.newTab()
+        val tab3 = binding.tabLayout.newTab()
+        val tab4 = binding.tabLayout.newTab()
+        val tab5 = binding.tabLayout.newTab()
+
+        binding.tabLayout.addTab(tab1.setText(getString(R.string.line)))
+        binding.tabLayout.addTab(tab2.setText(getString(R.string.coin_time_15_minute)))
+        binding.tabLayout.addTab(tab3.setText(getString(R.string.coin_time_1_hour)))
+        binding.tabLayout.addTab(tab4.setText(getString(R.string.coin_time_4_hour)))
+        binding.tabLayout.addTab(tab5.setText(getString(R.string.coin_time_1_day)))
         binding.tabLayout.addTab(tab.setText(moreTimeList[0] + "+"))
-        val layout = (binding.tabLayout.getChildAt(0) as LinearLayout).getChildAt(4) as LinearLayout
-        val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
-        layoutParams.weight = 1.5f
-        layout.layoutParams = layoutParams
+
+        setTabWidth(binding.tabLayout, 0, 1.5f)
+        setTabWidth(binding.tabLayout, 1, 1.5f)
+        setTabWidth(binding.tabLayout, 5, 1.5f)
+
         binding.apply {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -392,18 +406,21 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun selectedTab(tab: TabLayout.Tab?) {
         when (tab?.position) {
             0 -> {
-                interval = "15m"
-            }
-            1 -> {
-                interval = "1h"
-            }
-            2 -> {
                 interval = "4h"
             }
+            1 -> {
+                interval = "15m"
+            }
+            2 -> {
+                interval = "1h"
+            }
             3 -> {
-                interval = "1d"
+                interval = "4h"
             }
             4 -> {
+                interval = "1d"
+            }
+            5 -> {
                 interval = "1m"
                 searchDialog(binding.tabLayout, moreTimeList)
             }
@@ -418,7 +435,13 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 it, interval
             )
         }
+    }
 
+    private fun setTabWidth(tabLayout: TabLayout, position: Int, weight: Float) {
+        val layout = (tabLayout.getChildAt(0) as LinearLayout).getChildAt(position) as LinearLayout
+        val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+        layoutParams.weight = weight
+        layout.layoutParams = layoutParams
     }
 
     private fun setCandelStickChart(binanceRoot: Any) {
@@ -464,19 +487,98 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 androidx.constraintlayout.widget.R.attr.textFillColor, typedValue, true
             )
             @ColorInt val color = typedValue.data
-            axisLeft.textColor = color
+            axisLeft.textColor = Color.TRANSPARENT
+            axisLeft.setDrawAxisLine(false)
+            axisLeft.isEnabled = true
+            axisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+
+            axisRight.isEnabled = true // right line and value remove
+            axisRight.textColor = color
+            axisRight.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+
             this.isAutoScaleMinMaxEnabled = true
             xval.textColor = color
             xval.position = XAxis.XAxisPosition.BOTTOM
             xval.setDrawGridLines(true)
             xval.valueFormatter = IndexAxisValueFormatter(areaCount)
+            xval.setDrawAxisLine(false)  // x line removed
+
             bacgroundColour(R.color.transparent)
-            axisLeft.setDrawAxisLine(false)
-            axisRight.isEnabled = false // right line and value remove
-            xAxis.setDrawAxisLine(false)  // x line removed
             animateXY(1000, 1000)
             setVisibleXRangeMaximum(65F) //max item range
             moveViewToX(candlestickentry.size.toFloat()) //last item than view
+        }
+    }
+
+    private fun setLineChart(binanceRoot: Any) {
+        val linekentry = ArrayList<Entry>()
+        var sayac2 = 0f
+        if (binanceRoot is BinanceRoot) {
+            binanceRoot.forEach { candleData ->
+                linekentry.add(
+                    Entry(
+                        sayac2,
+                        candleData.get(2).toString().toFloat(),
+                    )
+                )
+                sayac2++
+            }
+        }
+        // veri seti oluşturma
+        val dataSet = LineDataSet(linekentry, "Veri Seti Adı")
+
+        // çizgi özelliklerini ayarlama
+        dataSet.apply {
+            val startColor = ContextCompat.getColor(this@ChartActivity, R.color.light_blue2)
+            val endColor = ContextCompat.getColor(this@ChartActivity, R.color.transparent)
+            val gradient = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(startColor, endColor)
+            )
+            gradient.alpha = 234
+            gradient.cornerRadius = 0f
+            setDrawIcons(false)
+            this.color = Color.BLUE
+            lineWidth = 1f
+            setDrawCircles(false)
+            setDrawCircleHole(false)
+            valueTextSize = 9f
+            setDrawFilled(true)
+            fillDrawable = gradient
+            mode = LineDataSet.Mode.LINEAR
+        }
+        // grafiğin özelliklerini ayarlama
+        val data = LineData(dataSet)
+        binding.lineChart.apply {
+            clear()
+            this.data = data
+            data.setDrawValues(false)
+            legend.isEnabled = false
+            description.isEnabled = false
+            isAutoScaleMinMaxEnabled = true
+            setGridBackgroundColor(Color.TRANSPARENT)
+            setViewPortOffsets(0f, 0f, 50f, 0f)
+            animateXY(1000, 1000)
+            setVisibleXRangeMaximum(60F)
+            moveViewToX(linekentry.size.toFloat())
+
+            xAxis.setDrawGridLines(false)
+            xAxis.isEnabled = false
+
+            val lefT = axisLeft
+            lefT.setDrawGridLines(false)
+            lefT.isEnabled = true
+            lefT.textColor = Color.TRANSPARENT
+            lefT.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+
+            val rightAxis = axisRight
+            rightAxis.setDrawGridLines(false)
+            rightAxis.isEnabled = true
+            rightAxis.textColor = color
+            rightAxis.setDrawLabels(true)
+            rightAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+
+            invalidate()
         }
     }
 
@@ -503,7 +605,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
 
     override fun onPause() {
         viewModel.clearChartBinanceData()
-        binanceSocket.close(WEBSOCKET_CLOSE_NORMAL,"Ticker Data Websocket closed")
+        binanceSocket.close(WEBSOCKET_CLOSE_NORMAL, "Ticker Data Websocket closed")
         super.onPause()
     }
 

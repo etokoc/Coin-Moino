@@ -6,6 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="primary_color">#147DC7</color>
+    <color name="primary_color1">#1089DF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="backgrounBlack">#1F1F22</color>
@@ -14,6 +15,7 @@
     <color name="appGray">#A8A8A8</color>
     <color name="lightGray">#DAD6D6</color>
     <color name="light_blue">#008EFA</color>
+    <color name="light_blue2">#BC0D7FC9</color> <!--005b96-->
     <color name="seceondPageColor">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="cardShapeUnderColor">#F2AA4C</color> <!--#E94B3C--> <!--#F2AA4C-->

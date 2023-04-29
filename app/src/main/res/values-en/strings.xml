@@ -82,4 +82,5 @@ The masterminds of CoinMoino</string>
     <string name="history">History</string>
     <string name="zaman">Time</string>
     <string name="quantity">Miktar</string>
+    <string name="line">Line</string>
 </resources>
