@@ -19,6 +19,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
 import com.metoer.ceptedovizborsa.databinding.CustomAboutDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
+import com.metoer.ceptedovizborsa.databinding.CustomFontsizeDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastShort
@@ -69,9 +70,15 @@ class MainActivity : BaseActivity() {
                     R.id.setting_menu -> {
                         languageDialog()
                     }
+
+                    R.id.fontsize_menu -> {
+                        fontSizeDialog()
+                    }
+
                     R.id.about_menu -> {
                         aboutDialog()
                     }
+
                     R.id.instagram_menu -> {
                         fallowDialog(
                             "https://www.instagram.com/omerseyfettinyavuzyigit/",
@@ -81,6 +88,7 @@ class MainActivity : BaseActivity() {
                             R.drawable.instagram_icon
                         )
                     }
+
                     R.id.twitter_menu -> {
                         fallowDialog(
                             "https://twitter.com/yavuzyigit_omer",
@@ -90,6 +98,7 @@ class MainActivity : BaseActivity() {
                             R.drawable.twitter_icon
                         )
                     }
+
                     R.id.linkedin_menu -> {
                         fallowDialog(
                             "https://www.linkedin.com/in/%C3%B6mer-yavuzyi%C4%9Fit-12a079223/",
@@ -116,6 +125,76 @@ class MainActivity : BaseActivity() {
         } else {
             prefs.addLocal("night", false)
         }
+    }
+
+    private var secili: Boolean = false
+    private fun fontSizeDialog() {
+        val dialog = Dialog(this)
+        val bindingDialog = CustomFontsizeDialogBinding.inflate(layoutInflater, binding.root, false)
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        val window = dialog.window
+        window?.attributes!!.windowAnimations = R.style.DialogAnimation
+        bindingDialog.apply {
+            when (getFontScale()) {
+                0f -> radioButtonDefault.isChecked = true
+                0.9f -> radioButtonSmall.isChecked = true
+                1.0f -> radioButtonMid.isChecked = true
+                1.1f -> radioButtonLarge.isChecked = true
+            }
+            fontsizeConfirmButton.setOnClickListener {
+                val selectedRadioButtonId = fontsizeRadioGroup.checkedRadioButtonId
+                when (selectedRadioButtonId) {
+                    radioButtonDefault.id -> {
+                        secili = false
+                        updateFontScale(resources.configuration.fontScale, true)
+                        recreate()
+                    }
+
+                    radioButtonSmall.id -> {
+                        secili = true
+                        updateFontScale(0.9f)
+                        recreate()
+                    }
+
+                    radioButtonMid.id -> {
+                        secili = true
+                        updateFontScale(1.0f)
+                        recreate()
+                    }
+
+                    radioButtonLarge.id -> {
+                        secili = true
+                        updateFontScale(1.1f)
+                        recreate()
+                    }
+
+                    else -> {}
+                }
+                dialog.dismiss()
+            }
+        }
+        window.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putFloat("fontScale", resources.configuration.fontScale)
+        outState.putBoolean("secili", secili)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val fontScale = savedInstanceState.getFloat("fontScale")
+        val secili = savedInstanceState.getBoolean("secili")
+        if (secili == false)
+            updateFontScale(resources.configuration.fontScale, true)
+        else
+            updateFontScale(fontScale)
     }
 
     private fun fallowDialog(
@@ -231,6 +310,23 @@ class MainActivity : BaseActivity() {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         dialog.show()
+    }
+
+    private fun getFontScale(): Float {
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val fontSize = prefs.getLocal("Font_Size", Float)
+        return fontSize as Float
+    }
+
+    private fun updateFontScale(scale: Float, ifDefault: Boolean? = false) {
+        val sharedPref = SharedPrefencesUtil(applicationContext)
+        val configuration = resources.configuration
+        configuration.fontScale = scale
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        if (ifDefault == true)
+            sharedPref.addLocal("Font_Size", 0f)
+        else
+            sharedPref.addLocal("Font_Size", scale)
     }
 
     private fun setLocale(language: String) {

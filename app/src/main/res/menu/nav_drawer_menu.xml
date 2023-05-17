@@ -13,6 +13,11 @@
                 app:actionLayout="@layout/custom_drawer_switch"
                 android:icon="@drawable/dark_mode"
                 android:title="@string/tema" />
+            <item
+                android:id="@+id/fontsize_menu"
+                android:title="Yazı Boyutu"
+                android:icon="@drawable/text_size"
+                />
         </menu>
     </item>
 

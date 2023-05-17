@@ -32,11 +32,23 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
     override fun attachBaseContext(newBase: Context?) {
-
-        val newOverride = Configuration(newBase?.resources?.configuration)
-        newOverride.fontScale = 1.0f
-        applyOverrideConfiguration(newOverride)
-
         super.attachBaseContext(newBase)
+
+        val configuration = Configuration(newBase?.resources?.configuration)
+        val fontScale = configuration.fontScale
+
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val fontSize = prefs.getLocal("Font_Size", Float)
+
+        if (fontSize == 0f){
+            if (fontScale > 1.0f) {
+                configuration.fontScale = 1.0f
+                applyOverrideConfiguration(configuration)
+            }
+        }
+        else{
+            configuration.fontScale = fontSize as Float
+            applyOverrideConfiguration(configuration)
+        }
     }
 }

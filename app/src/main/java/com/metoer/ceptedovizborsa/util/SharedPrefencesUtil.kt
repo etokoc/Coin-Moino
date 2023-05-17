@@ -23,6 +23,9 @@ class SharedPrefencesUtil(context: Context) {
                 is Int -> {
                     this.putInt(key, data)
                 }
+                is Float -> {
+                    this.putFloat(key, data)
+                }
                 else -> {
                     Log.e("SHARED_PREFENCES_ERROR", "your shared data is not avaible")
                 }
@@ -40,6 +43,9 @@ class SharedPrefencesUtil(context: Context) {
             }
             Int -> {
                 local.getInt(key, 0)
+            }
+            Float -> {
+                local.getFloat(key, 0f)
             }
             else -> {
                 Log.e("SHARED_PREFENCES_ERROR", "your shared data is not avaible")

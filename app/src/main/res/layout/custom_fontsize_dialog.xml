@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        style="@style/CustomDialogBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/portfolio_detail_dialog">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:backgroundTint="@color/transparent">
+
+            <TextView
+                android:id="@+id/fontsize_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/yazi_boyutu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/fontsizeRadioGroup"
+                android:checkedButton="@id/radio_button_default"
+                app:layout_constraintTop_toBottomOf="@+id/fontsize_title">
+
+                    <RadioButton
+                        android:layout_weight="1"
+                        android:id="@+id/radio_button_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Ag"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:textSize="26sp" />
+
+
+                    <RadioButton
+                        android:layout_weight="1"
+                        android:id="@+id/radio_button_small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Ag"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:textSize="22sp" />
+
+                    <RadioButton
+                        android:layout_weight="1"
+                        android:id="@+id/radio_button_mid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Ag"
+                        style="@style/TextColor"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:textSize="26sp" />
+
+                    <RadioButton
+                        android:layout_weight="1"
+                        android:id="@+id/radio_button_large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Ag"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:textSize="30sp" />
+
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/fontsizeRadioGroup"
+                tools:layout_editor_absoluteX="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/varsayilan"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_view_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/kucuk"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_view_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/orta"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/text_view_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/buyuk"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fontsizeConfirmButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                android:text="@string/onayla"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

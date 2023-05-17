@@ -83,4 +83,9 @@ The masterminds of CoinMoino</string>
     <string name="zaman">Time</string>
     <string name="quantity">Miktar</string>
     <string name="line">Line</string>
+    <string name="yazi_boyutu">Font Size</string>
+    <string name="varsayilan">Default</string>
+    <string name="kucuk">Small</string>
+    <string name="orta">Middle</string>
+    <string name="buyuk">Large</string>
 </resources>

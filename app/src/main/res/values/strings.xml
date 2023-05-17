@@ -81,4 +81,9 @@ CoinMoino Fikir Babaları</string>
     <string name="zaman">Zaman</string>
     <string name="quantity">Miktar</string>
     <string name="line">Çizgi</string>
+    <string name="yazi_boyutu">Yazı Boyutu</string>
+    <string name="varsayilan">Varsayılan</string>
+    <string name="kucuk">Küçük</string>
+    <string name="orta">Orta</string>
+    <string name="buyuk">Büyük</string>
 </resources>
