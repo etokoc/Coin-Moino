@@ -128,6 +128,7 @@ class MainActivity : BaseActivity() {
     }
 
     private var secili: Boolean = false
+    private var secili2: Boolean = false
     private fun fontSizeDialog() {
         val dialog = Dialog(this)
         val bindingDialog = CustomFontsizeDialogBinding.inflate(layoutInflater, binding.root, false)
@@ -143,6 +144,7 @@ class MainActivity : BaseActivity() {
                 1.1f -> radioButtonLarge.isChecked = true
             }
             fontsizeConfirmButton.setOnClickListener {
+                secili2=true
                 val selectedRadioButtonId = fontsizeRadioGroup.checkedRadioButtonId
                 when (selectedRadioButtonId) {
                     radioButtonDefault.id -> {
@@ -183,18 +185,22 @@ class MainActivity : BaseActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putFloat("fontScale", resources.configuration.fontScale)
-        outState.putBoolean("secili", secili)
+        if (secili2 == true) {
+            outState.putFloat("fontScale", resources.configuration.fontScale)
+            outState.putBoolean("secili", secili)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val fontScale = savedInstanceState.getFloat("fontScale")
-        val secili = savedInstanceState.getBoolean("secili")
-        if (secili == false)
-            updateFontScale(resources.configuration.fontScale, true)
-        else
-            updateFontScale(fontScale)
+        if (secili == true) {
+            val fontScale = savedInstanceState.getFloat("fontScale")
+            val secili = savedInstanceState.getBoolean("secili")
+            if (secili == false)
+                updateFontScale(resources.configuration.fontScale, true)
+            else
+                updateFontScale(fontScale)
+        }
     }
 
     private fun fallowDialog(

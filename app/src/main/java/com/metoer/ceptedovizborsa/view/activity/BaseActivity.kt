@@ -43,12 +43,16 @@ open class BaseActivity : AppCompatActivity() {
         if (fontSize == 0f){
             if (fontScale > 1.0f) {
                 configuration.fontScale = 1.0f
-                applyOverrideConfiguration(configuration)
+                baseContext.resources.updateConfiguration(
+                    configuration, baseContext.resources.displayMetrics
+                )
             }
         }
         else{
             configuration.fontScale = fontSize as Float
-            applyOverrideConfiguration(configuration)
+            baseContext.resources.updateConfiguration(
+                configuration, baseContext.resources.displayMetrics
+            )
         }
     }
 }
