@@ -84,6 +84,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 0,
                 symbol.length - 4
             )
+
             else -> dataMarket.symbol!!.substring(0, symbol.length - 3)
         }
     }
@@ -144,12 +145,16 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         val percent = tickerData?.priceChangePercent?.toDouble()
                         if (percent != null) {
                             if (percent > 0) {
-                                textViewPercent.textColors(
-                                    R.color.coinValueRise
+                                textViewPercent.appliedTheme(
+                                    GlobalThemeUtil.getTheme(
+                                        applicationContext
+                                    ).first
                                 )
                             } else if (percent < 0) {
-                                textViewPercent.textColors(
-                                    R.color.coinValueDrop
+                                textViewPercent.appliedTheme(
+                                    GlobalThemeUtil.getTheme(
+                                        applicationContext
+                                    ).second
                                 )
                             } else {
                                 textViewPercent.textColors(
@@ -205,11 +210,19 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         if (changeValueController < (tickerData?.lastPrice?.toDouble()
                                 ?: 0.0)
                         ) {
-                            coinValueTextView.textColors(R.color.coinValueRise)
+                            coinValueTextView.appliedTheme(
+                                GlobalThemeUtil.getTheme(
+                                    applicationContext
+                                ).first
+                            )
                         } else if (changeValueController > (tickerData?.lastPrice?.toDouble()
                                 ?: 0.0)
                         ) {
-                            coinValueTextView.textColors(R.color.coinValueDrop)
+                            coinValueTextView.appliedTheme(
+                                GlobalThemeUtil.getTheme(
+                                    applicationContext
+                                ).second
+                            )
                         } else {
                             coinValueTextView.textColors(R.color.appGray)
                         }
@@ -217,9 +230,17 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                         changeValueController = tickerData?.lastPrice?.toDouble() ?: 0.0
                         if (percent != null) {
                             if (percent > 0) {
-                                textViewPercent.textColors(R.color.coinValueRise)
+                                textViewPercent.appliedTheme(
+                                    GlobalThemeUtil.getTheme(
+                                        applicationContext
+                                    ).first
+                                )
                             } else if (percent < 0) {
-                                textViewPercent.textColors(R.color.coinValueDrop)
+                                textViewPercent.appliedTheme(
+                                    GlobalThemeUtil.getTheme(
+                                        applicationContext
+                                    ).second
+                                )
                             } else {
                                 textViewPercent.textColors(R.color.appGray)
                             }
@@ -420,22 +441,27 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 isLineChart = true
                 interval = "4h"
             }
+
             1 -> {
                 isLineChart = false
                 interval = "15m"
             }
+
             2 -> {
                 isLineChart = false
                 interval = "1h"
             }
+
             3 -> {
                 isLineChart = false
                 interval = "4h"
             }
+
             4 -> {
                 isLineChart = false
                 interval = "1d"
             }
+
             5 -> {
                 isLineChart = false
                 interval = "1m"
@@ -488,9 +514,12 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             shadowColor = getColorful(this@ChartActivity, R.color.green)
             shadowWidth = 1f
             setDrawValues(false)
-            decreasingColor = getColorful(this@ChartActivity, R.color.coinValueDrop)
+            decreasingColor = getColorful(
+                this@ChartActivity,
+                GlobalThemeUtil.getThemeColor(applicationContext, true)
+            )
             decreasingPaintStyle = Paint.Style.FILL
-            increasingColor = getColorful(this@ChartActivity, R.color.coinValueRise)
+            increasingColor = getColorful(this@ChartActivity,GlobalThemeUtil.getThemeColor(applicationContext, false))
             increasingPaintStyle = Paint.Style.FILL
         }
 

@@ -16,6 +16,7 @@ import com.metoer.ceptedovizborsa.data.db.CoinBuyItem
 import com.metoer.ceptedovizborsa.databinding.CustomPortfolioDetailDialogBinding
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPortfolioBinding
 import com.metoer.ceptedovizborsa.util.CustomDialogUtil
+import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
 import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
 import com.metoer.ceptedovizborsa.util.onItemClickListener
 import com.metoer.ceptedovizborsa.util.patternText
@@ -155,14 +156,14 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             textView.background.setTint(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.coinValueRise
+                    GlobalThemeUtil.getThemeColor(textView.context, false)
                 )
             )
         } else if (parcent < 0) {
             textView.background.setTint(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.coinValueDrop
+                    GlobalThemeUtil.getThemeColor(textView.context, true)
                 )
             )
         } else {

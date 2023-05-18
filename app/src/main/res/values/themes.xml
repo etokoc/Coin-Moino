@@ -158,6 +158,7 @@
         <item name="selectableItemBackground">@color/transparent</item>
         <item name="tabTextAppearance">@style/DepthTextAppearance</item>
     </style>
+
     <style name="DepthTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">14sp</item> <!-- Burada yazı boyutunu ayarlayabilirsiniz -->
@@ -194,5 +195,30 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+
+
+    <style name="DefaultRiseColorsTheme">
+        <item name="android:textColor">@color/coinValueRise</item>
+    </style>
+
+    <style name="DefaultDropColorsTheme">
+        <item name="android:textColor">@color/coinValueDrop</item>
+    </style>
+
+    <style name="ClassicRiseColorsTheme">
+        <item name="android:textColor">@color/classicRiseColor</item>
+    </style>
+
+    <style name="ClassicDropColorsTheme">
+        <item name="android:textColor">@color/classicDropColor</item>
+    </style>
+
+    <style name="ColorBlindRiseColorsTheme">
+        <item name="android:textColor">@color/colorBlindRiseColor</item>
+    </style>
+
+    <style name="ColorBlindDropColorsTheme">
+        <item name="android:textColor">@color/colorBlindDropColor</item>
     </style>
 </resources>

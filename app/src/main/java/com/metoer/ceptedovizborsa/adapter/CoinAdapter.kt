@@ -89,14 +89,14 @@ class CoinAdapter(
             textView.background.setTint(
                 ContextCompat.getColor(
                     context,
-                    R.color.coinValueRise
+                    GlobalThemeUtil.getThemeColor(context, false)
                 )
             )
         } else if (parcent < 0) {
             textView.background.setTint(
                 ContextCompat.getColor(
                     context,
-                    R.color.coinValueDrop
+                    GlobalThemeUtil.getThemeColor(context, true)
                 )
             )
         } else {

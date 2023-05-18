@@ -58,6 +58,7 @@ class CoinPageAdapter(
                         0,
                         symbol.length - 4
                     )
+
                     else -> symbol.substring(0, symbol.length - 3)
                 }
                 coinPriceChangeText.patternText(currentItem.priceChange, "###,###,###,###.########")
@@ -80,14 +81,14 @@ class CoinPageAdapter(
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
-                            R.color.coinValueRise
+                            GlobalThemeUtil.getThemeColor(holder.itemView.context, false)
                         )
                     )
                 } else if (parcent != null && parcent < 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
-                            R.color.coinValueDrop
+                            GlobalThemeUtil.getThemeColor(holder.itemView.context, true)
                         )
                     )
                 } else {
@@ -117,12 +118,12 @@ class CoinPageAdapter(
             val result: Double =
                 MoneyCalculateUtil.doubleConverter(coinExchangeValueText.text.toString())
             if ((lastPrice?.toDouble() ?: 0.0) > result) {
-                coinExchangeValueText.textColors(R.color.coinValueRise)
+                coinExchangeValueText.appliedTheme(GlobalThemeUtil.getTheme(holder.binding.root.context).first)
                 Handler(Looper.getMainLooper()).postDelayed({
                     coinExchangeValueText.setTextAppearance(R.style.TextColor)
                 }, 2000)
             } else if ((lastPrice?.toDouble() ?: 0.0) < result) {
-                coinExchangeValueText.textColors(R.color.coinValueDrop)
+                coinExchangeValueText.appliedTheme(GlobalThemeUtil.getTheme(holder.binding.root.context).second)
                 Handler(Looper.getMainLooper()).postDelayed({
                     coinExchangeValueText.setTextAppearance(R.style.TextColor)
                 }, 2000)

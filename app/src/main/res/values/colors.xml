@@ -32,4 +32,8 @@
     <color name="customDialogEditTextColor">#999999</color>
     <color name="coinValueBind">#402FA681</color>
     <color name="coinValueAsks">#40B8293D</color>
+    <color name="classicRiseColor">#23E810</color>
+    <color name="classicDropColor">#FF1E00</color>
+    <color name="colorBlindRiseColor">#1E88E5</color>
+    <color name="colorBlindDropColor">#F7B614</color>
 </resources>

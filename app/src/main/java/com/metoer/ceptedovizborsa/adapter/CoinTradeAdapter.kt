@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.trades.CoinTradeData
 import com.metoer.ceptedovizborsa.databinding.CoinRatesItemBinding
+import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
+import com.metoer.ceptedovizborsa.util.appliedTheme
 import com.metoer.ceptedovizborsa.util.patternText
 import com.metoer.ceptedovizborsa.util.textColors
 import java.text.SimpleDateFormat
@@ -44,9 +46,9 @@ class CoinTradeAdapter() : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>
             textViewValue.patternText(currentItem.price, "###,###,###,###.########")
             textViewQuantity.patternText(currentItem.quantity, "###,###,###,###.######")
             if (currentItem.buyerMarketMaker == true) {
-                textViewValue.textColors(R.color.coinValueDrop)
+                textViewValue.appliedTheme(GlobalThemeUtil.getTheme(holder.binding.root.context).second)
             } else {
-                textViewValue.textColors(R.color.coinValueRise)
+                textViewValue.appliedTheme(GlobalThemeUtil.getTheme(holder.binding.root.context).first)
             }
         }
     }

@@ -23,6 +23,8 @@ import com.metoer.ceptedovizborsa.databinding.CustomColorSettingsDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFontsizeDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
+import com.metoer.ceptedovizborsa.util.GlobalThemeEnum
+import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
@@ -41,6 +43,7 @@ class MainActivity : BaseActivity() {
         loadLocale()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        GlobalThemeUtil.getTheme(applicationContext)
         binding.apply {
             val navController = findNavController(R.id.home_fragment)
             bottomMenuBar.setupWithNavController(navController)
@@ -122,7 +125,8 @@ class MainActivity : BaseActivity() {
 
     private fun colorBlindDialog() {
         val dialog = Dialog(this)
-        val bindingDialog = CustomColorSettingsDialogBinding.inflate(layoutInflater, binding.root, false)
+        val bindingDialog =
+            CustomColorSettingsDialogBinding.inflate(layoutInflater, binding.root, false)
         dialog.setContentView(bindingDialog.root)
         dialog.window?.setBackgroundDrawableResource(R.color.transparent)
         val window = dialog.window
@@ -136,11 +140,13 @@ class MainActivity : BaseActivity() {
                         textViewClass.setTextAppearance(R.style.TextColor)
                         textViewColorBlind.setTextAppearance(R.style.TextColor)
                     }
+
                     radioButtonClass.id -> {
                         textViewClass.textColors(R.color.primary_color)
                         textViewDefault.setTextAppearance(R.style.TextColor)
                         textViewColorBlind.setTextAppearance(R.style.TextColor)
                     }
+
                     radioButtonColorBlind.id -> {
                         textViewColorBlind.textColors(R.color.primary_color)
                         textViewClass.setTextAppearance(R.style.TextColor)
@@ -148,30 +154,39 @@ class MainActivity : BaseActivity() {
                     }
                 }
             }
-            /*when (getFontScale()) {
-                0f -> radioButtonDefault.isChecked = true
-                0.85f -> radioButtonSmall.isChecked = true
-                1.0f -> radioButtonMid.isChecked = true
-                1.15f -> radioButtonLarge.isChecked = true
-            }*/
+            when (getSelectedColorTheme()) {
+                0 -> radioButtonDefault.isChecked = true
+                2 -> radioButtonClass.isChecked = true
+                1 -> radioButtonColorBlind.isChecked = true
+            }
             colorSettingsConfirmButton.setOnClickListener {
                 val selectedRadioButtonId = colorSettingRadioGroup.checkedRadioButtonId
                 when (selectedRadioButtonId) {
                     radioButtonDefault.id -> {
-
+                        GlobalThemeUtil.changeTheme(
+                            applicationContext,
+                            GlobalThemeEnum.DEFAULT_THEME
+                        )
                     }
 
                     radioButtonClass.id -> {
-
+                        GlobalThemeUtil.changeTheme(
+                            applicationContext,
+                            GlobalThemeEnum.CLASSIC_THEME
+                        )
                     }
 
                     radioButtonColorBlind.id -> {
-
+                        GlobalThemeUtil.changeTheme(
+                            applicationContext,
+                            GlobalThemeEnum.COLOR_BLIND_THEME
+                        )
                     }
 
                     else -> {}
                 }
                 dialog.dismiss()
+                recreate()
             }
         }
         window.setLayout(
@@ -392,6 +407,12 @@ class MainActivity : BaseActivity() {
         val prefs = SharedPrefencesUtil(applicationContext)
         val fontSize = prefs.getLocal("Font_Size", Float)
         return fontSize as Float
+    }
+
+    private fun getSelectedColorTheme(): Int {
+        val prefs = SharedPrefencesUtil(applicationContext)
+        val colorId = prefs.getLocal("app_saved_theme", Int)
+        return colorId as Int
     }
 
     private fun updateFontScale(scale: Float, ifDefault: Boolean? = false) {

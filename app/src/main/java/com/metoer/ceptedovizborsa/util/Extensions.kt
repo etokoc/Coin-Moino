@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import java.util.regex.Pattern
 
 fun View.hide() {
     this.visibility = View.GONE
@@ -62,6 +61,10 @@ fun TextView.patternText(value: String?, pattern: String) {
 
 fun TextView.getStringPattern(context: Context, resId: Int, vararg formatArgs: Any) {
     this.text = context.getString(resId, formatArgs)
+}
+
+fun TextView.appliedTheme(style: Int) {
+    this.setTextAppearance(style)
 }
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {

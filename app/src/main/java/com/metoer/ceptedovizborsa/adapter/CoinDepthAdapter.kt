@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.metoer.ceptedovizborsa.databinding.CoinAsksItemBinding
 import com.metoer.ceptedovizborsa.databinding.CoinBidsItemBinding
 import com.metoer.ceptedovizborsa.util.Constants.MINIMUM_DEPTH_WIDTH
+import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
+import com.metoer.ceptedovizborsa.util.appliedTheme
 import com.metoer.ceptedovizborsa.util.patternText
 
 class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -48,6 +50,7 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(0)
             val value = _itemList[position].get(1)
+            itemBinding.textViewAsksQuantity.appliedTheme(GlobalThemeUtil.getTheme(itemBinding.root.context).second)
             itemBinding.textViewAsksQuantity.patternText(quantity, "###,###,###,###.######")
             itemBinding.textViewAsksValue.patternText(value, "###,###,###,###.########")
             val displayMetrics = itemBinding.root.resources.displayMetrics
@@ -64,6 +67,7 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         fun bind(position: Int) {
             val quantity = _itemList[position].get(1)
             val value = _itemList[position].get(0)
+            itemBinding.textViewBidsValue.appliedTheme(GlobalThemeUtil.getTheme(itemBinding.root.context).first)
             itemBinding.textViewBidsQuantity.patternText(quantity, "###,###,###,###.######")
             itemBinding.textViewBidsValue.patternText(value, "###,###,###,###.########")
             val displayMetrics = itemBinding.root.resources.displayMetrics
