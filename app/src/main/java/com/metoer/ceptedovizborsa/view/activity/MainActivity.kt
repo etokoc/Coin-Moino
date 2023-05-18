@@ -3,16 +3,13 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.RadioButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
@@ -31,7 +28,6 @@ import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.util.textColors
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 
 @AndroidEntryPoint
