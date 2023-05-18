@@ -23,6 +23,7 @@ import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFontsizeDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
+import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -146,7 +147,7 @@ class MainActivity : BaseActivity() {
                 1.15f -> radioButtonLarge.isChecked = true
             }
             fontsizeConfirmButton.setOnClickListener {
-                secili2=true
+                secili2 = true
                 val selectedRadioButtonId = fontsizeRadioGroup.checkedRadioButtonId
                 when (selectedRadioButtonId) {
                     radioButtonDefault.id -> {
@@ -169,6 +170,7 @@ class MainActivity : BaseActivity() {
 
                     radioButtonLarge.id -> {
                         secili = true
+                        showToastLong(getString(R.string.warningmessagefontsize))
                         updateFontScale(1.15f)
                         recreate()
                     }

@@ -86,4 +86,5 @@ CoinMoino Fikir Babaları</string>
     <string name="kucuk">Küçük</string>
     <string name="orta">Orta</string>
     <string name="buyuk">Büyük</string>
+    <string name="warningmessagefontsize">Görünüm sorunlarına yol açabilir!</string>
 </resources>

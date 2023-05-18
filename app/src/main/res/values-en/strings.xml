@@ -88,4 +88,5 @@ The masterminds of CoinMoino</string>
     <string name="kucuk">Small</string>
     <string name="orta">Middle</string>
     <string name="buyuk">Large</string>
+    <string name="warningmessagefontsize">May cause visual problems!</string>
 </resources>
