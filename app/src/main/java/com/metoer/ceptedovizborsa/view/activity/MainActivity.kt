@@ -13,6 +13,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -26,6 +27,7 @@ import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.GlobalThemeEnum
 import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
+import com.metoer.ceptedovizborsa.util.setDrawables
 import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.util.textColors
@@ -139,18 +141,27 @@ class MainActivity : BaseActivity() {
                         textViewDefault.textColors(R.color.primary_color)
                         textViewClass.setTextAppearance(R.style.TextColor)
                         textViewColorBlind.setTextAppearance(R.style.TextColor)
+
+                        radioButtonRiseDrop.setDrawables(R.drawable.up_down_rise_drop)
+                        radioButtonDropRise.setDrawables(R.drawable.up_down_drop_rise)
                     }
 
                     radioButtonClass.id -> {
                         textViewClass.textColors(R.color.primary_color)
                         textViewDefault.setTextAppearance(R.style.TextColor)
                         textViewColorBlind.setTextAppearance(R.style.TextColor)
+
+                        radioButtonRiseDrop.setDrawables(R.drawable.up_down_green_red)
+                        radioButtonDropRise.setDrawables(R.drawable.up_down_red_green)
                     }
 
                     radioButtonColorBlind.id -> {
                         textViewColorBlind.textColors(R.color.primary_color)
                         textViewClass.setTextAppearance(R.style.TextColor)
                         textViewDefault.setTextAppearance(R.style.TextColor)
+
+                        radioButtonRiseDrop.setDrawables(R.drawable.up_down_blue_orange)
+                        radioButtonDropRise.setDrawables(R.drawable.up_down_orange_blue)
                     }
                 }
             }

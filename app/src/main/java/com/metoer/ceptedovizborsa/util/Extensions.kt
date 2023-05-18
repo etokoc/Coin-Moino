@@ -1,17 +1,22 @@
 package com.metoer.ceptedovizborsa.util
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.method.DigitsKeyListener
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.metoer.ceptedovizborsa.R
+import java.util.regex.Pattern
 
 fun View.hide() {
     this.visibility = View.GONE
@@ -61,6 +66,14 @@ fun TextView.patternText(value: String?, pattern: String) {
 
 fun TextView.getStringPattern(context: Context, resId: Int, vararg formatArgs: Any) {
     this.text = context.getString(resId, formatArgs)
+}
+
+fun RadioButton.setDrawables(leftDrawable: Int? = null,topDrawable: Int? = null,rightDrawable: Int? = null,bottomDrawable: Int? = null) {
+    val newLeftDrawable = leftDrawable?.let { ResourcesCompat.getDrawable(resources, it, null) }
+    val newTopDrawable = topDrawable?.let { ResourcesCompat.getDrawable(resources, it, null) }
+    val newRightDrawable = rightDrawable?.let { ResourcesCompat.getDrawable(resources, it, null) }
+    val newBottomDrawable = bottomDrawable?.let { ResourcesCompat.getDrawable(resources, it, null) }
+    this.setCompoundDrawablesWithIntrinsicBounds(newLeftDrawable,newTopDrawable,newRightDrawable,newBottomDrawable)
 }
 
 fun TextView.appliedTheme(style: Int) {
