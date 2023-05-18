@@ -90,4 +90,6 @@ CoinMoino Fikir Babaları</string>
     <string name="renk_ayarlari">Renk Ayarları</string>
     <string name="renk_koru">Renk Körü</string>
     <string name="klasik">Klasik</string>
+    <string name="k_rm_z_yukar_ye_il_a_a">Kırmızı Yukarı/Yeşil Aşağı</string>
+    <string name="ye_il_yukar_k_rm_z_a_a">Yeşil Yukarı/Kırmızı Aşağı</string>
 </resources>

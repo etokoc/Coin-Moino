@@ -170,7 +170,17 @@ class MainActivity : BaseActivity() {
                 2 -> radioButtonClass.isChecked = true
                 1 -> radioButtonColorBlind.isChecked = true
             }
+            if (SharedPrefencesUtil(applicationContext).getLocal(
+                    "app_saved_theme_direction",
+                    Boolean
+                ) == false
+            ) {
+                radioButtonRiseDrop.isChecked = true
+            } else
+                radioButtonDropRise.isChecked = true
             colorSettingsConfirmButton.setOnClickListener {
+                val directionRadioIsChecked = bindingDialog.radioButtonRiseDrop.isChecked
+                GlobalThemeUtil.setDirection(applicationContext, !directionRadioIsChecked)
                 val selectedRadioButtonId = colorSettingRadioGroup.checkedRadioButtonId
                 when (selectedRadioButtonId) {
                     radioButtonDefault.id -> {

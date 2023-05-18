@@ -92,4 +92,6 @@ The masterminds of CoinMoino</string>
     <string name="renk_ayarlari">Color Settings</string>
     <string name="renk_koru">Color Blind</string>
     <string name="klasik">Classic</string>
+    <string name="k_rm_z_yukar_ye_il_a_a">Red Up/Green Down</string>
+    <string name="ye_il_yukar_k_rm_z_a_a">Green Up/Red Down</string>
 </resources>
