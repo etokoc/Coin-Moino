@@ -18,6 +18,11 @@
                 android:title="Yazı Boyutu"
                 android:icon="@drawable/text_size"
                 />
+            <item
+                android:id="@+id/color_blind_menu"
+                android:title="@string/renk_ayarlari"
+                android:icon="@drawable/palette"
+                />
         </menu>
     </item>
 

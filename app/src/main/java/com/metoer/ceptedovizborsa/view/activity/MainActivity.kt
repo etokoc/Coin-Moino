@@ -3,13 +3,16 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.widget.RadioButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
@@ -19,12 +22,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.ActivityMainBinding
 import com.metoer.ceptedovizborsa.databinding.CustomAboutDialogBinding
+import com.metoer.ceptedovizborsa.databinding.CustomColorSettingsDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFallowDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomFontsizeDialogBinding
 import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastLong
 import com.metoer.ceptedovizborsa.util.showToastShort
+import com.metoer.ceptedovizborsa.util.textColors
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -82,6 +87,10 @@ class MainActivity : BaseActivity() {
                         aboutDialog()
                     }
 
+                    R.id.color_blind_menu -> {
+                        colorBlindDialog()
+                    }
+
                     R.id.instagram_menu -> {
                         fallowDialog(
                             "https://www.instagram.com/omerseyfettinyavuzyigit/",
@@ -113,6 +122,67 @@ class MainActivity : BaseActivity() {
                 true
             }
         }
+    }
+
+    private fun colorBlindDialog() {
+        val dialog = Dialog(this)
+        val bindingDialog = CustomColorSettingsDialogBinding.inflate(layoutInflater, binding.root, false)
+        dialog.setContentView(bindingDialog.root)
+        dialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        val window = dialog.window
+        window?.attributes!!.windowAnimations = R.style.DialogAnimation
+        bindingDialog.apply {
+            textViewDefault.textColors(R.color.primary_color)
+            colorSettingRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    radioButtonDefault.id -> {
+                        textViewDefault.textColors(R.color.primary_color)
+                        textViewClass.setTextAppearance(R.style.TextColor)
+                        textViewColorBlind.setTextAppearance(R.style.TextColor)
+                    }
+                    radioButtonClass.id -> {
+                        textViewClass.textColors(R.color.primary_color)
+                        textViewDefault.setTextAppearance(R.style.TextColor)
+                        textViewColorBlind.setTextAppearance(R.style.TextColor)
+                    }
+                    radioButtonColorBlind.id -> {
+                        textViewColorBlind.textColors(R.color.primary_color)
+                        textViewClass.setTextAppearance(R.style.TextColor)
+                        textViewDefault.setTextAppearance(R.style.TextColor)
+                    }
+                }
+            }
+            /*when (getFontScale()) {
+                0f -> radioButtonDefault.isChecked = true
+                0.85f -> radioButtonSmall.isChecked = true
+                1.0f -> radioButtonMid.isChecked = true
+                1.15f -> radioButtonLarge.isChecked = true
+            }*/
+            colorSettingsConfirmButton.setOnClickListener {
+                val selectedRadioButtonId = colorSettingRadioGroup.checkedRadioButtonId
+                when (selectedRadioButtonId) {
+                    radioButtonDefault.id -> {
+
+                    }
+
+                    radioButtonClass.id -> {
+
+                    }
+
+                    radioButtonColorBlind.id -> {
+
+                    }
+
+                    else -> {}
+                }
+                dialog.dismiss()
+            }
+        }
+        window.setLayout(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     private fun getDarkAndLightThema(switchCompat: SwitchCompat) {

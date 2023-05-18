@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
+        android:paddingBottom="10dp"
         android:background="@drawable/portfolio_detail_dialog">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -139,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/onayla"
                 android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />

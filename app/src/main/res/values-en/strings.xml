@@ -89,4 +89,7 @@ The masterminds of CoinMoino</string>
     <string name="orta">Middle</string>
     <string name="buyuk">Large</string>
     <string name="warningmessagefontsize">May cause visual problems!</string>
+    <string name="renk_ayarlari">Color Settings</string>
+    <string name="renk_koru">Color Blind</string>
+    <string name="klasik">Classic</string>
 </resources>

@@ -87,4 +87,7 @@ CoinMoino Fikir Babaları</string>
     <string name="orta">Orta</string>
     <string name="buyuk">Büyük</string>
     <string name="warningmessagefontsize">Görünüm sorunlarına yol açabilir!</string>
+    <string name="renk_ayarlari">Renk Ayarları</string>
+    <string name="renk_koru">Renk Körü</string>
+    <string name="klasik">Klasik</string>
 </resources>
