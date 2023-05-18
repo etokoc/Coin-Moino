@@ -3,6 +3,7 @@ package com.metoer.ceptedovizborsa.view.activity
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,7 @@ import com.metoer.ceptedovizborsa.databinding.CustomLanguageDialogBinding
 import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import com.metoer.ceptedovizborsa.util.showToastShort
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -139,9 +141,9 @@ class MainActivity : BaseActivity() {
         bindingDialog.apply {
             when (getFontScale()) {
                 0f -> radioButtonDefault.isChecked = true
-                0.9f -> radioButtonSmall.isChecked = true
+                0.85f -> radioButtonSmall.isChecked = true
                 1.0f -> radioButtonMid.isChecked = true
-                1.1f -> radioButtonLarge.isChecked = true
+                1.15f -> radioButtonLarge.isChecked = true
             }
             fontsizeConfirmButton.setOnClickListener {
                 secili2=true
@@ -149,13 +151,13 @@ class MainActivity : BaseActivity() {
                 when (selectedRadioButtonId) {
                     radioButtonDefault.id -> {
                         secili = false
-                        updateFontScale(resources.configuration.fontScale, true)
+                        updateFontScale(Resources.getSystem().configuration.fontScale, true)
                         recreate()
                     }
 
                     radioButtonSmall.id -> {
                         secili = true
-                        updateFontScale(0.9f)
+                        updateFontScale(0.85f)
                         recreate()
                     }
 
@@ -167,7 +169,7 @@ class MainActivity : BaseActivity() {
 
                     radioButtonLarge.id -> {
                         secili = true
-                        updateFontScale(1.1f)
+                        updateFontScale(1.15f)
                         recreate()
                     }
 
