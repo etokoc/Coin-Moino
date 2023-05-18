@@ -19,7 +19,10 @@ open class BaseActivity : AppCompatActivity() {
     }
     private fun getSharedLanguage(): String {
         val prefs = SharedPrefencesUtil(applicationContext)
-        val language = prefs.getLocal("My_Lang", String)
+        var language = prefs.getLocal("My_Lang", String)
+        if (language == "") {
+            language = "en"
+        }
         return language.toString()
     }
     fun supportThema(){

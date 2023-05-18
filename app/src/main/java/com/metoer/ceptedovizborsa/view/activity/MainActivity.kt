@@ -296,7 +296,7 @@ class MainActivity : BaseActivity() {
         val window = dialog.window
         window?.attributes!!.windowAnimations = R.style.DialogAnimation
         bindingDialog.apply {
-            if (loadLocaleString() == "tr" || loadLocaleString() == "") {
+            if (loadLocaleString() == "tr" || Resources.getSystem().configuration.locale.language == "tr") {
                 radioButtonTurkish.isChecked = true
             } else {
                 radioButtonEnglish.isChecked = true
