@@ -10,6 +10,7 @@ import com.metoer.ceptedovizborsa.util.appliedTheme
 import com.metoer.ceptedovizborsa.util.patternText
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class CoinTradeAdapter : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>() {
 
@@ -37,7 +38,7 @@ class CoinTradeAdapter : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>()
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = _itemList[position]
         holder.binding.apply {
-            val sdf = SimpleDateFormat("HH:mm:ss")
+            val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
             val time = currentItem.eventTime?.let { Date(it) }?.let { sdf.format(it) }
             textViewTime.text = time
             textViewValue.patternText(currentItem.price, "###,###,###,###.########")
