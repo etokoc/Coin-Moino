@@ -63,7 +63,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         }
     }
 
-    fun sortList(
+    private fun sortList(
         listSortType: FilterEnum,
         listSortItem: FilterEnum
     ) {
@@ -90,7 +90,7 @@ class CoinAllFragment : Fragment(), onItemClickListener {
             }
         }
         /**
-         * paging ile alınan verilerin static olarak diğer coin sayfalarına aktarmak için [loadStateFlow] kullandık.
+         * paging ile alınan verilerin static olarak diğer coin sayfalarına aktarmak için loadStateFlow kullandık.
          * Çünkü adapter.submitData() asenkron bir işlem. Ne zaman adapter'e veri geldiğini ancak bu şekilde yakaladık.
          */
         lifecycleScope.launch {
@@ -169,10 +169,10 @@ class CoinAllFragment : Fragment(), onItemClickListener {
                     CustomDialogUtil(
                         requireContext(),
                         container,
-                        false,
-                        false,
-                        true,
-                        true
+                        attachToParent = false,
+                        forForcedUpdate = false,
+                        isSuccessDialog = true,
+                        setCancelable = true
                     ).showDialog()
                 } else {
                     requireContext().showToastShort(getString(R.string.check_inputs))
@@ -221,7 +221,4 @@ class CoinAllFragment : Fragment(), onItemClickListener {
         sharedViewModel.clearCoinListLiveData()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

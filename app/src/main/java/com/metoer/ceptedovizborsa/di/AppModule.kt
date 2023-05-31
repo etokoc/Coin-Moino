@@ -63,7 +63,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providesRetrofit(providesOkHttpClient: OkHttpClient.Builder): Retrofit {
-        val retrofit = Retrofit
+        return Retrofit
             .Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(
@@ -75,8 +75,6 @@ object AppModule {
             .baseUrl(Constants.CURRENCY_BASE_URL)
             .client(providesOkHttpClient.build())
             .build()
-
-        return retrofit
     }
 
     @Provides

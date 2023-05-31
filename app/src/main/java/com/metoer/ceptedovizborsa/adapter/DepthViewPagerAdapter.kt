@@ -2,8 +2,6 @@ package com.metoer.ceptedovizborsa.adapter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
 import com.metoer.ceptedovizborsa.view.fragment.depth.HistoryFragment

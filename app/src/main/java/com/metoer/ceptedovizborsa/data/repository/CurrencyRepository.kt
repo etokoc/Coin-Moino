@@ -1,7 +1,10 @@
 package com.metoer.ceptedovizborsa.data.repository
 
 import com.metoer.ceptedovizborsa.data.AppApi
-import com.metoer.ceptedovizborsa.data.webscoket.*
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketDepthListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTickerListener
+import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketTradeListener
 import com.metoer.ceptedovizborsa.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -9,12 +12,12 @@ import okhttp3.WebSocket
 import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor(
-    val appApi: AppApi,
+    private val appApi: AppApi,
     private val providesOkhttpClient: OkHttpClient,
-    val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
-    val providesBinanceWebSocketListener: BinanceWebSocketCoinListener,
-    val providesDepthListener: BinanceWebSocketDepthListener,
-    val providesTradeListener: BinanceWebSocketTradeListener
+    private val providesBinanceWebSocketTickerListener: BinanceWebSocketTickerListener,
+    private val providesBinanceWebSocketListener: BinanceWebSocketCoinListener,
+    private val providesDepthListener: BinanceWebSocketDepthListener,
+    private val providesTradeListener: BinanceWebSocketTradeListener
 ) {
 
     fun getChartFromBinanceApi(

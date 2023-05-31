@@ -13,7 +13,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -135,7 +134,7 @@ class MainActivity : BaseActivity() {
         window?.attributes!!.windowAnimations = R.style.DialogAnimation
         bindingDialog.apply {
             textViewDefault.textColors(R.color.primary_color)
-            colorSettingRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            colorSettingRadioGroup.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
                     radioButtonDefault.id -> {
                         textViewDefault.textColors(R.color.primary_color)
@@ -181,8 +180,7 @@ class MainActivity : BaseActivity() {
             colorSettingsConfirmButton.setOnClickListener {
                 val directionRadioIsChecked = bindingDialog.radioButtonRiseDrop.isChecked
                 GlobalThemeUtil.setDirection(applicationContext, !directionRadioIsChecked)
-                val selectedRadioButtonId = colorSettingRadioGroup.checkedRadioButtonId
-                when (selectedRadioButtonId) {
+                when (colorSettingRadioGroup.checkedRadioButtonId) {
                     radioButtonDefault.id -> {
                         GlobalThemeUtil.changeTheme(
                             applicationContext,
@@ -250,8 +248,7 @@ class MainActivity : BaseActivity() {
             }
             fontsizeConfirmButton.setOnClickListener {
                 secili2 = true
-                val selectedRadioButtonId = fontsizeRadioGroup.checkedRadioButtonId
-                when (selectedRadioButtonId) {
+                when (fontsizeRadioGroup.checkedRadioButtonId) {
                     radioButtonDefault.id -> {
                         secili = false
                         updateFontScale(Resources.getSystem().configuration.fontScale, true)
@@ -291,7 +288,7 @@ class MainActivity : BaseActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (secili2 == true) {
+        if (secili2) {
             outState.putFloat("fontScale", resources.configuration.fontScale)
             outState.putBoolean("secili", secili)
         }
@@ -299,10 +296,10 @@ class MainActivity : BaseActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (secili == true) {
+        if (secili) {
             val fontScale = savedInstanceState.getFloat("fontScale")
             val secili = savedInstanceState.getBoolean("secili")
-            if (secili == false)
+            if (!secili)
                 updateFontScale(resources.configuration.fontScale, true)
             else
                 updateFontScale(fontScale)
@@ -398,7 +395,7 @@ class MainActivity : BaseActivity() {
         val window = dialog.window
         window?.attributes!!.windowAnimations = R.style.DialogAnimation
         bindingDialog.apply {
-            if (loadLocaleString() == "tr" || Resources.getSystem().configuration.locale.language == "tr") {
+            if (loadLocaleString() == "tr" || loadLocaleString() == "" && Resources.getSystem().configuration.locale.language == "tr") {
                 radioButtonTurkish.isChecked = true
             } else {
                 radioButtonEnglish.isChecked = true
@@ -409,7 +406,7 @@ class MainActivity : BaseActivity() {
                     setLocale("tr")
                     recreate()
                 } else {
-                    showToastShort("İngilizce")
+                    showToastShort("English")
                     setLocale("en")
                     recreate()
                 }

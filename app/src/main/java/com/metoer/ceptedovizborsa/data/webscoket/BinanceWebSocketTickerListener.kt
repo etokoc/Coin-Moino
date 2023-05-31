@@ -45,7 +45,7 @@ class BinanceWebSocketTickerListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.i("WEBSOCKET BinanceWebSocketTickerListener", "$text")
+        Log.i("WEBSOCKET BinanceWebSocketTickerListener", text)
     }
 
     fun getData(): MutableLiveData<CoinWebsocketTickerResponse?>? {

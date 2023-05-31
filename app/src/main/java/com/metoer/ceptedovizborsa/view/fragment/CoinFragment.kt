@@ -105,10 +105,10 @@ class CoinFragment : Fragment() {
                     getString(R.string.fiyat),
                     getString(R.string._24s_de_i_im)
                 )
-                headerList.forEach {
+                headerList.forEach { _ ->
                     this.addTab(this.newTab())
                 }
-                headerList.forEachIndexed { index, s ->
+                headerList.forEachIndexed { index, _ ->
                     val tabItem = ItemCoinTabBinding.inflate(LayoutInflater.from(requireContext()))
                     tabItem.tvTabItem.text = headerList[index]
                     tabItem.tvTabItem.textSize = 12f

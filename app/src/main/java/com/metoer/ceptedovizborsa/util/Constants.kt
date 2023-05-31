@@ -11,7 +11,6 @@ object Constants {
     const val COIN_MARKET_URL = "https://api.coincap.io/v2/assets"
     const val PAGE_TICKER_URL = "api/v3/ticker/24hr"
     const val CURRENT_AVARAGE_PRICE = "api/v3/avgPrice"
-    const val HEADER_DATA = "_"
     const val IMAGE_URL = "https://wise.com/public-resources/assets/flags/rectangle/"
     const val SPINNER1_STATE_KEY = "mySpinner1"
     const val SPINNER2_STATE_KEY = "mySpinner2"
@@ -26,7 +25,6 @@ object Constants {
     const val API_KEY5 = "d471d0e3-c049-44bf-bdc9-dbd4bd590896"
 
 
-    const val TODAY_XML = "today.xml"
     const val LIMIT_100 = "?limit=100"
     const val AUTHORIZATION = "Authorization: 9be33ccd-1b0b-4009-ac01-0aed7af968f6"
     const val AUTHORIZATIN_HEADER = "Authorization"

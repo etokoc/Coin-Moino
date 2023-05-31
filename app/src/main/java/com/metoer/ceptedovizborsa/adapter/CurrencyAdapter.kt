@@ -10,9 +10,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.databinding.CurrencyItemListBinding
-import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.util.Constants
+import com.metoer.ceptedovizborsa.util.DiffUtil
+import com.metoer.ceptedovizborsa.util.ListSortEnum
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.SortListUtil
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CurrencyViewModel
-import java.util.*
+import java.util.Locale
 
 class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
 
@@ -42,19 +46,23 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
                 R.string.money_value,
                 NumberDecimalFormat.numberDecimalFormat(result.toString(), "0.####")
             )
-            if (currentItems.symbol == "XAU") {
-                moneyImage.setImageResource(R.drawable.ingot)
-            } else if (currentItems.symbol == "XAG") {
-                moneyImage.setImageResource(R.drawable.silver)
-            } else {
-                Glide.with(this.root).load(
-                    Constants.IMAGE_URL + "${
-                        currentItems.symbol?.lowercase(
-                            Locale.ENGLISH
-                        )
-                    }.png"
-                ).diskCacheStrategy(DiskCacheStrategy.ALL).encodeQuality(50)
-                    .format(DecodeFormat.PREFER_RGB_565).into(moneyImage)
+            when (currentItems.symbol) {
+                "XAU" -> {
+                    moneyImage.setImageResource(R.drawable.ingot)
+                }
+                "XAG" -> {
+                    moneyImage.setImageResource(R.drawable.silver)
+                }
+                else -> {
+                    Glide.with(this.root).load(
+                        Constants.IMAGE_URL + "${
+                            currentItems.symbol?.lowercase(
+                                Locale.ENGLISH
+                            )
+                        }.png"
+                    ).diskCacheStrategy(DiskCacheStrategy.ALL).encodeQuality(50)
+                        .format(DecodeFormat.PREFER_RGB_565).into(moneyImage)
+                }
             }
         }
     }

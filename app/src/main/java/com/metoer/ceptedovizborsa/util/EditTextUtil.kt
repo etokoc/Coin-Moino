@@ -5,11 +5,11 @@ import android.text.InputFilter
 import android.widget.EditText
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
 
 object EditTextUtil {
     fun editTextFilter(): Array<out InputFilter> {
-        val inputFilter = InputFilter { source, start, end, dest, dstart, dend ->
+        val inputFilter = InputFilter { source, _, _, _, _, _ ->
             source.toString().replace('.', ',')
             return@InputFilter source
         }

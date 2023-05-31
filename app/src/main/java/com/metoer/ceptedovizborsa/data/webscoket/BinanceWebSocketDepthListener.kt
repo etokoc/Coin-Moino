@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.metoer.ceptedovizborsa.data.response.coin.depth.CoinDepth
-import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
 import com.metoer.ceptedovizborsa.util.Constants
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -46,7 +45,7 @@ class BinanceWebSocketDepthListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.i("BinanceWebSocketDepthListener", "$text")
+        Log.i("BinanceWebSocketDepthListener", text)
     }
 
     fun getData(): MutableLiveData<CoinDepth?>? {

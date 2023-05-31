@@ -92,7 +92,7 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty() && !moneyValueEditText1.text.toString()
+                    if (!p0.isNullOrEmpty() && !moneyValueEditText1.text.toString()
                             .startsWith(',')
                     ) {
                         if (editControl && !editControl2 && spinner2SelectedItem != null && spinner1SelectedItem != null) {
@@ -128,7 +128,7 @@ class CallculationCurrencyFragment : Fragment(), onItemClickListener {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0 != null && p0.isNotEmpty() && !moneyValueEditText2.text.toString()
+                    if (!p0.isNullOrEmpty() && !moneyValueEditText2.text.toString()
                             .startsWith(',')
                     ) {
                         if (editControl2 && !editControl && spinner2SelectedItem != null && spinner1SelectedItem != null) {

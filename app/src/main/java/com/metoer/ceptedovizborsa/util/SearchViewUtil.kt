@@ -1,7 +1,5 @@
 package com.metoer.ceptedovizborsa.util
 
-import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.databinding.SearchLayoutBinding

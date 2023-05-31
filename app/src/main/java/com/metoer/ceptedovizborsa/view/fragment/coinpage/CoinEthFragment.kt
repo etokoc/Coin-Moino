@@ -51,7 +51,7 @@ class CoinEthFragment : Fragment() {
     }
 
 
-    fun initListener() {
+    private fun initListener() {
         binding.recylerview.itemAnimator = null
         viewModel.getPageTickerData(PageTickerTypeEnum.ETH).observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())

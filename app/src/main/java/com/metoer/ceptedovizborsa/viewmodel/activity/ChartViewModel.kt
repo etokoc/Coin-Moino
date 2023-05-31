@@ -19,7 +19,7 @@ class ChartViewModel @Inject constructor(private val repository: CurrencyReposit
     private var binanceSocketTickerLiveData: MutableLiveData<CoinWebsocketTickerResponse?>? = null
     private val tickerFromBinanceLiveData = MutableLiveData<CoinTickerResponse?>()
 
-    var binanceSocketChartLiveData: MutableLiveData<BinanceWebSocketCandleRoot?>? = null
+    private var binanceSocketChartLiveData: MutableLiveData<BinanceWebSocketCandleRoot?>? = null
 
     fun clearChartBinanceData() {
         chartBinanceLiveData.value = null

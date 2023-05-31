@@ -9,18 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.metoer.ceptedovizborsa.adapter.CoinPageAdapter
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
-import com.metoer.ceptedovizborsa.data.webscoket.BinanceWebSocketCoinListener
 import com.metoer.ceptedovizborsa.databinding.FragmentCoinPageBinding
-import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
-import com.metoer.ceptedovizborsa.util.showToastShort
 import com.metoer.ceptedovizborsa.viewmodel.fragment.CoinPageViewModel
 import com.metoer.ceptedovizborsa.viewmodel.fragment.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import java.util.*
+import java.util.Locale
 
 @AndroidEntryPoint
 class CoinUSDTFragment : Fragment() {
@@ -54,7 +50,7 @@ class CoinUSDTFragment : Fragment() {
     }
 
 
-    fun initListener() {
+    private fun initListener() {
         binding.recylerview.itemAnimator = null
         viewModel.getPageTickerData(PageTickerTypeEnum.USDT).observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())
@@ -123,7 +119,7 @@ class CoinUSDTFragment : Fragment() {
 
     override fun onDestroy() {
         viewModel.clearBinanceSocketLiveData()
-        webSocket?.close(Constants.WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
+        webSocket?.close(WEBSOCKET_CLOSE_NORMAL, "Kullanıcı tarafından kapatıldı")
         super.onDestroy()
     }
 }

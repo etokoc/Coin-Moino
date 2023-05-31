@@ -56,7 +56,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private val viewModel: ChartViewModel by viewModels()
     private val coinPortfolioViewModel: CoinPortfolioViewModel by viewModels()
     private var moreTimeList = arrayListOf<String>()
-    lateinit var binanceSocket: WebSocket
+    private lateinit var binanceSocket: WebSocket
     private var isLineChart = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +134,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         setLocale(loadLocaleString())
     }
 
-    var changeValueController: Double = 0.0
+    private var changeValueController: Double = 0.0
     private fun initListeners() {
         binding.apply {
             fillCandleData()
@@ -363,8 +363,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
     private fun initSpinner() {
         bindingSearchDialog?.listview?.setOnItemClickListener { _, _, position, _ ->
             isLineChart = false
-            binding.tabLayout.getTabAt(5)?.text = moreTimeList.get(position)
-            spinner?.prompt = moreTimeList.get(position)
+            binding.tabLayout.getTabAt(5)?.text = moreTimeList[position]
+            spinner?.prompt = moreTimeList[position]
             val intervalList = arrayListOf("1m", "5m", "30m", "2h", "8h", "12h", "1w", "1M")
             interval = moreTimeList[position]
 
@@ -379,8 +379,8 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
         }
     }
 
-    var spinner: Spinner? = null
-    var interval = "15m"
+    private var spinner: Spinner? = null
+    private var interval = "15m"
     private fun initTabLayout() {
         val tab = binding.tabLayout.newTab()
         val tab1 = binding.tabLayout.newTab()
@@ -500,10 +500,10 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 candlestickentry.add(
                     CandleEntry(
                         sayac,
-                        candleData.get(2).toString().toFloat(),
-                        candleData.get(3).toString().toFloat(),
-                        candleData.get(1).toString().toFloat(),
-                        candleData.get(4).toString().toFloat()
+                        candleData[2].toString().toFloat(),
+                        candleData[3].toString().toFloat(),
+                        candleData[1].toString().toFloat(),
+                        candleData[4].toString().toFloat()
                     )
                 )
                 sayac++
@@ -516,10 +516,10 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
             setDrawValues(false)
             decreasingColor = getColorful(
                 this@ChartActivity,
-                GlobalThemeUtil.getThemeColor(applicationContext, true)
+                GlobalThemeUtil.getThemeColor(true)
             )
             decreasingPaintStyle = Paint.Style.FILL
-            increasingColor = getColorful(this@ChartActivity,GlobalThemeUtil.getThemeColor(applicationContext, false))
+            increasingColor = getColorful(this@ChartActivity,GlobalThemeUtil.getThemeColor(false))
             increasingPaintStyle = Paint.Style.FILL
         }
 
@@ -575,7 +575,7 @@ class ChartActivity : BaseActivity(), AdapterView.OnItemClickListener {
                 linekentry.add(
                     Entry(
                         sayac2,
-                        candleData.get(2).toString().toFloat(),
+                        candleData[2].toString().toFloat(),
                     )
                 )
                 sayac2++

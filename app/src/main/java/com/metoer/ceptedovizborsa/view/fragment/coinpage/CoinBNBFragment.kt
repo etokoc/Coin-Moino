@@ -63,7 +63,7 @@ class CoinBNBFragment : Fragment() {
     }
 
 
-    fun initListener() {
+    private fun initListener() {
         binding.recylerview.itemAnimator = null
         viewModel.getPageTickerData(PageTickerTypeEnum.BNB).observe(viewLifecycleOwner) {
             binding.recylerview.layoutManager = LinearLayoutManager(requireContext())

@@ -23,13 +23,10 @@ class OnBoardingFragment : Fragment() {
     val binding get() = _binding!!
     private var tabPosition = 0
     private lateinit var onBoardingList: ArrayList<OnBoardingItem>
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOnBoardingBinding.inflate(LayoutInflater.from(context))
         return binding.root
     }
@@ -138,7 +135,7 @@ class OnBoardingFragment : Fragment() {
             onBoardingList
         )
         binding.viewpagerOnboarding.adapter = onBoardingAdapter
-        TabLayoutMediator(binding.tabDots, binding.viewpagerOnboarding) { tab, position ->
+        TabLayoutMediator(binding.tabDots, binding.viewpagerOnboarding) { _, _ ->
         }.attach()
     }
 
@@ -147,7 +144,4 @@ class OnBoardingFragment : Fragment() {
         onBoardingAdapter = OnBoardingAdapter()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 }

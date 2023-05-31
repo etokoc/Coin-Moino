@@ -19,7 +19,7 @@ class CoinPortfolioViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : ViewModel() {
     val compositeDisposable = CompositeDisposable()
-    var currentAvaragePriceLiveData: MutableLiveData<CoinCurrentAvaragePriceItem>? = null
+    private var currentAvaragePriceLiveData: MutableLiveData<CoinCurrentAvaragePriceItem>? = null
     fun gelAllCoinBuyData(): MutableLiveData<List<CoinBuyItem>> {
         val data = MutableLiveData<List<CoinBuyItem>>()
         roomRepository.getAllCoinItems().subscribeOn(Schedulers.io())

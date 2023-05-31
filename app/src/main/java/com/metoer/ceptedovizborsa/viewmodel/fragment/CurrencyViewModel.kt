@@ -10,7 +10,8 @@ import com.metoer.ceptedovizborsa.util.SharedPrefencesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import java.util.Currency
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +41,7 @@ class CurrencyViewModel @Inject constructor(private val currencyRepository: Curr
                         && ratesData.symbol != "VES" && ratesData.symbol != "ZWL" && ratesData.symbol != "SSB"
                         && ratesData.symbol != "SSP" && ratesData.symbol != "XPD"
                     ) {
-                        val currency = java.util.Currency.getInstance(ratesData.symbol)
+                        val currency = Currency.getInstance(ratesData.symbol)
                         it.data[index].apply {
                             this.id = currency.getDisplayName(uk)
                         }

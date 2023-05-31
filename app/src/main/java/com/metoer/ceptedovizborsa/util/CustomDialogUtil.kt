@@ -24,17 +24,17 @@ class CustomDialogUtil(
     private var dialog: Dialog? = null
 
     init {
-        if (forForcedUpdate)
-            bindingDialog = CustomUpdateAlertDialogBinding.inflate(
+        bindingDialog = if (forForcedUpdate)
+            CustomUpdateAlertDialogBinding.inflate(
                 LayoutInflater.from(container.context), container, attachToParent
             ) else if (isSuccessDialog) {
-            bindingDialog = SuccessDialogBinding.inflate(
+            SuccessDialogBinding.inflate(
                 LayoutInflater.from(container.context),
                 container,
                 attachToParent
             )
         } else
-            bindingDialog = CustomPortfolioDetailDialogBinding.inflate(
+            CustomPortfolioDetailDialogBinding.inflate(
                 LayoutInflater.from(container.context), container, attachToParent
             )
         dialog = Dialog(context)

@@ -79,7 +79,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    var coinBuyItemList = ArrayList<CoinBuyItem>()
+    private var coinBuyItemList = ArrayList<CoinBuyItem>()
     private fun initListeners() {
         viewModel.gelAllCoinBuyData().observe(viewLifecycleOwner) {
             binding.recylerViewCoinPortfolio.layoutManager =
@@ -143,12 +143,11 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
     ): String {
         val percent = ((currentPrice - firstPrice) / currentPrice) * 100
         percentBacgroundTint(percent, textView)
-        val result = getString(
+        return getString(
             R.string.coin_exchange_parcent_text,
             NumberDecimalFormat.numberDecimalFormat(percent.toString(), "0.##"),
             "%"
         )
-        return result
     }
 
     private fun percentBacgroundTint(parcent: Double, textView: TextView) {
@@ -156,14 +155,14 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
             textView.background.setTint(
                 ContextCompat.getColor(
                     requireContext(),
-                    GlobalThemeUtil.getThemeColor(textView.context, false)
+                    GlobalThemeUtil.getThemeColor(false)
                 )
             )
         } else if (parcent < 0) {
             textView.background.setTint(
                 ContextCompat.getColor(
                     requireContext(),
-                    GlobalThemeUtil.getThemeColor(textView.context, true)
+                    GlobalThemeUtil.getThemeColor(true)
                 )
             )
         } else {
@@ -176,7 +175,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    fun calculatePrice(value: Double, priceQuote: String): String {
+    private fun calculatePrice(value: Double, priceQuote: String): String {
         val result = NumberDecimalFormat.numberDecimalFormat(
             value.toString(), "###,###,###,###.######"
         )
@@ -200,7 +199,7 @@ class CoinPortfolioFragment : Fragment(), onItemClickListener {
         }
     }
 
-    fun setAvaragePrice(
+    private fun setAvaragePrice(
         coinSymbol: String,
         position: Int,
         coinData: CoinBuyItem,

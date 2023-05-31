@@ -15,11 +15,17 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.databinding.CoinMarketsblockchainItemBinding
-import com.metoer.ceptedovizborsa.util.*
+import com.metoer.ceptedovizborsa.util.DiffUtil
+import com.metoer.ceptedovizborsa.util.FilterEnum
+import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
+import com.metoer.ceptedovizborsa.util.MoneyCalculateUtil
+import com.metoer.ceptedovizborsa.util.NumberDecimalFormat
+import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
+import com.metoer.ceptedovizborsa.util.SortListUtil
+import com.metoer.ceptedovizborsa.util.appliedTheme
+import com.metoer.ceptedovizborsa.util.patternText
 import com.metoer.ceptedovizborsa.view.activity.ChartActivity
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
 
 
 class CoinPageAdapter(
@@ -81,14 +87,14 @@ class CoinPageAdapter(
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
-                            GlobalThemeUtil.getThemeColor(holder.itemView.context, false)
+                            GlobalThemeUtil.getThemeColor(false)
                         )
                     )
                 } else if (parcent != null && parcent < 0) {
                     coinExchangeParcentText.background.setTint(
                         ContextCompat.getColor(
                             holder.itemView.context,
-                            GlobalThemeUtil.getThemeColor(holder.itemView.context, true)
+                            GlobalThemeUtil.getThemeColor(true)
                         )
                     )
                 } else {

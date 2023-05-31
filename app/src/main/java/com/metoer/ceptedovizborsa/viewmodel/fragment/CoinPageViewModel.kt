@@ -6,18 +6,16 @@ import com.metoer.ceptedovizborsa.data.repository.CurrencyRepository
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 import com.metoer.ceptedovizborsa.util.CoinTickerPageData
-import com.metoer.ceptedovizborsa.util.CreateApiKeyUtil
 import com.metoer.ceptedovizborsa.util.PageTickerTypeEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.WebSocket
 import javax.inject.Inject
 
 @HiltViewModel
 class CoinPageViewModel @Inject constructor(private val currencyRepository: CurrencyRepository) :
     ViewModel() {
-    var binanceSocketLiveData = MutableLiveData<List<CoinWebSocketResponse>?>()
+    private var binanceSocketLiveData = MutableLiveData<List<CoinWebSocketResponse>?>()
     private val pageTickerLiveData = MutableLiveData<List<CoinPageTickerItem>?>()
 
     fun getPageTickerData(enum: PageTickerTypeEnum? = null): MutableLiveData<List<CoinPageTickerItem>?> {

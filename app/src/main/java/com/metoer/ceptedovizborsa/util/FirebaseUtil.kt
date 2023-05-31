@@ -14,7 +14,7 @@ class FirebaseUtil {
     }
 
     fun readData(collectionName: String): LiveData<Boolean> {
-        var liveData = MutableLiveData<Boolean>()
+        val liveData = MutableLiveData<Boolean>()
         db?.collection(collectionName)?.get()?.addOnCompleteListener { task ->
             when {
                 task.isSuccessful -> {

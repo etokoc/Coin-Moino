@@ -14,30 +14,30 @@ object GlobalThemeUtil {
             GlobalThemeEnum.DEFAULT_THEME.id -> {
                 theme = GlobalThemeEnum.DEFAULT_THEME
                 if (!themeDirection) {
-                    Pair<Int, Int>(R.style.DefaultRiseColorsTheme, R.style.DefaultDropColorsTheme)
+                    Pair(R.style.DefaultRiseColorsTheme, R.style.DefaultDropColorsTheme)
                 } else {
-                    Pair<Int, Int>(R.style.DefaultDropColorsTheme, R.style.DefaultRiseColorsTheme)
+                    Pair(R.style.DefaultDropColorsTheme, R.style.DefaultRiseColorsTheme)
                 }
             }
 
             GlobalThemeEnum.CLASSIC_THEME.id -> {
                 theme = GlobalThemeEnum.CLASSIC_THEME
                 if (!themeDirection) {
-                    Pair<Int, Int>(R.style.ClassicRiseColorsTheme, R.style.ClassicDropColorsTheme)
+                    Pair(R.style.ClassicRiseColorsTheme, R.style.ClassicDropColorsTheme)
                 } else {
-                    Pair<Int, Int>(R.style.ClassicDropColorsTheme, R.style.ClassicRiseColorsTheme)
+                    Pair(R.style.ClassicDropColorsTheme, R.style.ClassicRiseColorsTheme)
                 }
             }
 
             GlobalThemeEnum.COLOR_BLIND_THEME.id -> {
                 theme = GlobalThemeEnum.COLOR_BLIND_THEME
                 if (!themeDirection) {
-                    Pair<Int, Int>(
+                    Pair(
                         R.style.ColorBlindRiseColorsTheme,
                         R.style.ColorBlindDropColorsTheme
                     )
                 } else {
-                    Pair<Int, Int>(
+                    Pair(
                         R.style.ColorBlindDropColorsTheme,
                         R.style.ColorBlindRiseColorsTheme
                     )
@@ -50,7 +50,7 @@ object GlobalThemeUtil {
         }
     }
 
-    fun getThemeColor(context: Context, colorIsDrop: Boolean): Int {
+    fun getThemeColor(colorIsDrop: Boolean): Int {
         var colorId: Int = R.color.black
         when (theme) {
             GlobalThemeEnum.DEFAULT_THEME -> {

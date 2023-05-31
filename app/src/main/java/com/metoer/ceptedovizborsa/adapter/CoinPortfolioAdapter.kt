@@ -10,10 +10,11 @@ import com.metoer.ceptedovizborsa.util.onItemClickListener
 import com.metoer.ceptedovizborsa.util.patternText
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class CoinPortfolioAdapter(
-    val listener: onItemClickListener
+    private val listener: onItemClickListener
 ) : RecyclerView.Adapter<CoinPortfolioAdapter.ListViewHolder>() {
     class ListViewHolder(val binding: CoinPortfolioItemBinding) :
         RecyclerView.ViewHolder(binding.root)

@@ -13,7 +13,7 @@ import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
 import com.metoer.ceptedovizborsa.util.appliedTheme
 import com.metoer.ceptedovizborsa.util.patternText
 
-class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CoinDepthAdapter(private var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var askQuantityList = ArrayList<Double>()
     private var bidsQuantityList = ArrayList<Double>()
@@ -45,11 +45,11 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    inner class LayoutOneViewHolder(val itemBinding: CoinAsksItemBinding) :
+    inner class LayoutOneViewHolder(private val itemBinding: CoinAsksItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(position: Int) {
-            val quantity = _itemList[position].get(0)
-            val value = _itemList[position].get(1)
+            val quantity = _itemList[position][0]
+            val value = _itemList[position][1]
             itemBinding.textViewAsksQuantity.appliedTheme(GlobalThemeUtil.getTheme(itemBinding.root.context).second)
             itemBinding.textViewAsksQuantity.patternText(quantity, "###,###,###,###.######")
             itemBinding.textViewAsksValue.patternText(value, "###,###,###,###.########")
@@ -62,11 +62,11 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    inner class LayoutTwoViewHolder(val itemBinding: CoinBidsItemBinding) :
+    inner class LayoutTwoViewHolder(private val itemBinding: CoinBidsItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(position: Int) {
-            val quantity = _itemList[position].get(1)
-            val value = _itemList[position].get(0)
+            val quantity = _itemList[position][1]
+            val value = _itemList[position][0]
             itemBinding.textViewBidsValue.appliedTheme(GlobalThemeUtil.getTheme(itemBinding.root.context).first)
             itemBinding.textViewBidsQuantity.patternText(quantity, "###,###,###,###.######")
             itemBinding.textViewBidsValue.patternText(value, "###,###,###,###.########")
@@ -85,12 +85,10 @@ class CoinDepthAdapter(var enum: DepthEnum) : RecyclerView.Adapter<RecyclerView.
         val binding = when (enum) {
             DepthEnum.ASKS -> CoinAsksItemBinding.inflate(inflater, parent, false)
             DepthEnum.BIDS -> CoinBidsItemBinding.inflate(inflater, parent, false)
-            else -> throw IllegalArgumentException("Invalid view type")
         }
         return when (enum) {
             DepthEnum.ASKS -> LayoutOneViewHolder(binding as CoinAsksItemBinding)
             DepthEnum.BIDS -> LayoutTwoViewHolder(binding as CoinBidsItemBinding)
-            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 

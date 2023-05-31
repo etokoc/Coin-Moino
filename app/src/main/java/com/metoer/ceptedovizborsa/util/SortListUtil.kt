@@ -4,10 +4,8 @@ import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinPageTickerItem
 
-class SortListUtil(
-
-) {
-    var arrayListForCurrency = listOf<RatesData>()
+class SortListUtil {
+    private var arrayListForCurrency = listOf<RatesData>()
     fun sortedForCurrencyList(
         itemlist: List<RatesData>,
         sortedType: ListSortEnum,

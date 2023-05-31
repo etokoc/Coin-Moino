@@ -8,7 +8,7 @@ import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.rates.RatesData
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 
 object MoneyCalculateUtil {
 
@@ -27,7 +27,7 @@ object MoneyCalculateUtil {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0 != null && p0.isNotEmpty() && !edittextUnit.text.toString()
+                if (!p0.isNullOrEmpty() && !edittextUnit.text.toString()
                         .startsWith(',')
                 ) {
                     if (editControl && !editControl2) {
@@ -61,7 +61,7 @@ object MoneyCalculateUtil {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0 != null && p0.isNotEmpty() && !edittextTotal.text.toString()
+                if (!p0.isNullOrEmpty() && !edittextTotal.text.toString()
                         .startsWith(',')
                 ) {
                     if (editControl2 && !editControl) {
@@ -98,15 +98,13 @@ object MoneyCalculateUtil {
     fun doubleConverter(p0: CharSequence): Double {
         val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
         val number: Number = format.parse(p0.toString()) as Number
-        val d = number.toDouble()
-        return d
+        return number.toDouble()
     }
 
     fun doubleConverter(p0: String): Double {
         val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
         val number: Number = format.parse(p0) as Number
-        val d = number.toDouble()
-        return d
+        return number.toDouble()
     }
 
     fun volumeShortConverter(value: Double, context: Context): String {

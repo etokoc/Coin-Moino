@@ -6,14 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.paging.AsyncPagingDataDiffer
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.manager.Lifecycle
 import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.assets.CoinData
 import com.metoer.ceptedovizborsa.databinding.CoinBlockchainItemBinding
@@ -89,14 +87,14 @@ class CoinAdapter(
             textView.background.setTint(
                 ContextCompat.getColor(
                     context,
-                    GlobalThemeUtil.getThemeColor(context, false)
+                    GlobalThemeUtil.getThemeColor(false)
                 )
             )
         } else if (parcent < 0) {
             textView.background.setTint(
                 ContextCompat.getColor(
                     context,
-                    GlobalThemeUtil.getThemeColor(context, true)
+                    GlobalThemeUtil.getThemeColor(true)
                 )
             )
         } else {

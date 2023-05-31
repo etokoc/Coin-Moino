@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.metoer.ceptedovizborsa.data.response.coin.markets.CoinWebSocketResponse
-import com.metoer.ceptedovizborsa.data.response.coin.tickers.CoinWebsocketTickerResponse
-import com.metoer.ceptedovizborsa.util.Constants
 import com.metoer.ceptedovizborsa.util.Constants.WEBSOCKET_CLOSE_NORMAL
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -53,7 +51,7 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
         }
     }
 
-    inline fun <reified T> Array<T>.chunked(size: Int): List<List<T>> {
+    private inline fun <reified T> Array<T>.chunked(size: Int): List<List<T>> {
         return this.toList().chunked(size)
     }
 
@@ -78,7 +76,7 @@ class BinanceWebSocketCoinListener : WebSocketListener() {
     }
 
     private fun writeToLog(text: String) {
-        Log.i("WEBSOCKET BinanceWebSocketCoinListener", "$text")
+        Log.i("WEBSOCKET BinanceWebSocketCoinListener", text)
     }
 
     fun getData(): MutableLiveData<List<CoinWebSocketResponse>?>? {

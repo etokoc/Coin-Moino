@@ -1,20 +1,17 @@
 package com.metoer.ceptedovizborsa.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.metoer.ceptedovizborsa.R
 import com.metoer.ceptedovizborsa.data.response.coin.trades.CoinTradeData
 import com.metoer.ceptedovizborsa.databinding.CoinRatesItemBinding
 import com.metoer.ceptedovizborsa.util.GlobalThemeUtil
 import com.metoer.ceptedovizborsa.util.appliedTheme
 import com.metoer.ceptedovizborsa.util.patternText
-import com.metoer.ceptedovizborsa.util.textColors
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
-class CoinTradeAdapter() : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>() {
+class CoinTradeAdapter : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>() {
 
     private var _itemList = mutableListOf<CoinTradeData>()
 
@@ -41,7 +38,7 @@ class CoinTradeAdapter() : RecyclerView.Adapter<CoinTradeAdapter.ListViewHolder>
         val currentItem = _itemList[position]
         holder.binding.apply {
             val sdf = SimpleDateFormat("HH:mm:ss")
-            val time = sdf.format(currentItem.eventTime?.let { Date(it) })
+            val time = currentItem.eventTime?.let { Date(it) }?.let { sdf.format(it) }
             textViewTime.text = time
             textViewValue.patternText(currentItem.price, "###,###,###,###.########")
             textViewQuantity.patternText(currentItem.quantity, "###,###,###,###.######")

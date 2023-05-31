@@ -30,13 +30,13 @@ class CurrencyFragment : Fragment(), OnClickListener {
     private var adapter = CurrencyAdapter()
     private val viewModel: CurrencyViewModel by hiltNavGraphViewModels(R.id.my_navigation)
     private var _binding: FragmentCurrencyBinding? = null
-    val rotateDesc: Animation by lazy {
+    private val rotateDesc: Animation by lazy {
         AnimationUtils.loadAnimation(
             context,
             R.anim.rotate_descending
         )
     }
-    val rotateAsc: Animation by lazy {
+    private val rotateAsc: Animation by lazy {
         AnimationUtils.loadAnimation(
             context,
             R.anim.rotate_ascending
@@ -134,7 +134,7 @@ class CurrencyFragment : Fragment(), OnClickListener {
         }
     }
 
-    var sortListItem: ListSortEnum? = null
+    private var sortListItem: ListSortEnum? = null
 
     //OnclickListener for all views in layout
     override fun onClick(v: View?) {

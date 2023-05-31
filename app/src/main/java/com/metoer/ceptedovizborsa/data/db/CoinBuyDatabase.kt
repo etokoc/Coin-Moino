@@ -7,6 +7,6 @@ import androidx.room.RoomDatabase
     entities = [CoinBuyItem::class],
     version = 1
 )
-abstract class CoinBuyDatabase() : RoomDatabase() {
+abstract class CoinBuyDatabase : RoomDatabase() {
     abstract fun getCoinBuyDao(): CoinBuyDao
 }
